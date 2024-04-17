@@ -11,11 +11,14 @@ public class Switcher {
      *
      * @param p The container to put what loads from the FXML.
      * @param fxmlPath  Path to the FXML file.
+     * @param clear should this method remove the contents of the container?
      */
-    public static void switchContent (Pane p, String fxmlPath) {
+    public static void switchContent (Pane p, String fxmlPath, boolean clear) {
         try {
             FXMLLoader loader = new FXMLLoader(Switcher.class.getResource(fxmlPath));
-            p.getChildren().clear();
+            if (clear) {
+                p.getChildren().clear();
+            }
             p.getChildren().add(loader.load());
         }
         catch (Exception ex) {

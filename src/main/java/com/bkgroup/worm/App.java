@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
@@ -27,8 +28,15 @@ public class App extends Application {
         stage.show();
 
         // test of the switcher.
-        Switcher.switchContent(content, "/test1.fxml");
-        Switcher.switchContent(content, "/test2.fxml");
+        VBox vbox = new VBox();
+        content.getChildren().add(vbox);
+        Card.getCard(vbox, "something");
+
+        //Card.getCard(vbox, "another thingo");
+//        Switcher.switchContent(content, "/test1.fxml");
+//        Switcher.switchContent(content, "/test2.fxml");
+
+
     }
 
     public static void main(String[] args) {
