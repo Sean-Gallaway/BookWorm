@@ -4,36 +4,38 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane fx:id="base" prefHeight="${size/1.5}" prefWidth="${size}" xmlns="http://javafx.com/javafx/19"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bkgroup.worm.Card" style = "-fx-padding: 0, 0, 0, 0; -fx-spacing: 0;">
-   <StackPane prefHeight="${size/1.5}" prefWidth="${size}" style = "-fx-padding: 0, 0, 0, 0; -fx-spacing: 0;">
-      <HBox prefHeight="${size/6}" prefWidth="${size/3}" style = "-fx-padding: 0, 0, 0, 0; -fx-spacing: 0;">
-         <VBox prefHeight="${size/3}" prefWidth="${size/6}" style = "-fx-padding: -1, -1, -1, -1; -fx-spacing: -1;">
-            <ImageView fx:id="book"
+<AnchorPane
+            fx:id="base" xmlns="http://javafx.com/javafx/19"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bkgroup.worm.Card"
+            style = "-fx-padding: 0, 0, 0, 0; -fx-spacing: 0; -fx-background-color: black"
+            minHeight="${size/2}" minWidth="${size}">
+      <HBox  VBox.vgrow = "ALWAYS"  HBox.hgrow="ALWAYS" style = "-fx-padding: 0, 0, 0, 0; -fx-spacing: -1;"
+             AnchorPane.topAnchor = "0.0"
+             AnchorPane.bottomAnchor = "0.0"
+             AnchorPane.rightAnchor = "0.0"
+             AnchorPane.leftAnchor = "0.0">
+         <VBox  VBox.vgrow = "ALWAYS" style = "-fx-padding: 0, 0, 0, 0; -fx-spacing: -1px;">
+            <ImageView VBox.vgrow = "ALWAYS" HBox.hgrow="ALWAYS"
+                       fx:id="book"
                        fitHeight="${size/2 + 1}" fitWidth="${size/2 + 1}"
                        pickOnBounds="true"
                        preserveRatio="true"/>
-            <HBox fx:id="starbox"
-                  maxHeight="${size/12+1}" maxWidth="${size/2+1}"
+            <HBox VBox.vgrow = "ALWAYS"  HBox.hgrow="ALWAYS"
+                  fx:id="starbox"
                   minHeight="${size/12+1}" minWidth="${size/2+1}"
-                  prefHeight="${size/12+1}" prefWidth="${size/2+1}"
-                  style="-fx-background-color: black;"/>
+                  style="-fx-background-color: blue;"/>
          </VBox>
-         <VBox prefHeight="${size/3}" prefWidth="${size/6}">
-            <FlowPane fx:id="title"
-                      maxHeight="${size/12}" maxWidth="${size/2}"
+         <VBox VBox.vgrow = "ALWAYS"  HBox.hgrow="ALWAYS" prefHeight="${size/3}" prefWidth="${size/6}">
+            <FlowPane VBox.vgrow = "ALWAYS"  HBox.hgrow="ALWAYS"
+                      fx:id="title"
                       minHeight="${size/12}" minWidth="${size/2}"
-                      prefHeight="${size/12}" prefWidth="${size/2}"
                       style="-fx-background-color: ce34f2; -fx-padding: 0, 0, 0, 0; -fx-spacing: 0"/>
-            <FlowPane fx:id="description"
-                      maxHeight="${size/2}" maxWidth="${size/2}"
+            <FlowPane VBox.vgrow = "ALWAYS"  HBox.hgrow="ALWAYS"
+                      fx:id="description"
                       minHeight="${size/2}" minWidth="${size/2}"
-                      prefHeight="${size/2}" prefWidth="${size/2}"
-                      style="-fx-background-color: e12e12; -fx-padding: 0, 0, 0, 0; -fx-spacing: 0"/>
+                      style="-fx-background-color: e75e12; -fx-padding: 0, 0, 0, 0; -fx-spacing: 0"/>
          </VBox>
       </HBox>
-   </StackPane>
 </AnchorPane>

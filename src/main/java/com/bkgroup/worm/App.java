@@ -1,12 +1,16 @@
 package com.bkgroup.worm;
 
 import javafx.application.Application;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+
+import static java.lang.Double.NaN;
 
 public class App extends Application {
     // size of the application window
@@ -19,6 +23,16 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) {
+        // resize window listeners.
+        stage.widthProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue.doubleValue() > screenX) {
+                Card.resize(newValue.doubleValue()/oldValue.doubleValue());
+            }
+        });
+        stage.heightProperty().addListener((observable, oldValue, newValue) -> {
+            stage.setWidth(stage.getWidth() * (newValue.doubleValue()/oldValue.doubleValue()));
+
+        });
         window.setPrefSize(screenX, screenY);
 
         // necessary code to make window.
@@ -31,12 +45,8 @@ public class App extends Application {
         VBox vbox = new VBox();
         content.getChildren().add(vbox);
         Card.getCard(vbox, "something");
-
-        //Card.getCard(vbox, "another thingo");
-//        Switcher.switchContent(content, "/test1.fxml");
-//        Switcher.switchContent(content, "/test2.fxml");
-
-
+        Card.getCard(vbox, "second card!");
+        //Card.resize(3);
     }
 
     public static void main(String[] args) {

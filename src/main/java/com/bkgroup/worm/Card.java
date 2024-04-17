@@ -15,7 +15,6 @@ public class Card {
     // potential future use.
     public static ArrayList<Card> cards = new ArrayList<>();
 
-
     @FXML
     private FlowPane title;
     @FXML
@@ -53,13 +52,41 @@ public class Card {
             cardController.book.setImage(new Image(Objects.requireNonNull(Card.class.getResourceAsStream("/img.png"))));
             cardController.populateDescription(str);
             cards.add(cardController);
+            unbindMin(cardController.base);
+            unbindMin(cardController.title);
+            unbindMin(cardController.starbox);
+            unbindMin(cardController.description);
+            cardController.book.fitHeightProperty().unbind();
+            cardController.book.fitWidthProperty().unbind();
+            cardController.base.setStyle("-fx-border-color: black; -fx-border-width: 3");
         }
         catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
     }
 
-    public static void resize () {
+    /**
+     * Unbinds the min properties of a Pane object. this allows for messing with the size outside of the FXML.
+     * @param n a given pane object
+     */
+    private static void unbindMin (Pane n) {
+        n.minWidthProperty().unbind();
+        n.minHeightProperty().unbind();
+    }
 
+    /**
+     * percentage to be multiplied with size
+     * @param ratio a ratio from 0 < 1 (original size) < #
+     */
+    public static void resize (double ratio) {
+        for (Card c : cards) {
+            if (c.base.getMinWidth() * ratio < size) {
+                return;
+            }
+            c.base.setMinSize(c.base.getMinWidth() * ratio, c.base.getMinHeight() * ratio);
+            c.title.setMinSize(c.title.getMinWidth() * ratio, c.title.getMinHeight() * ratio);
+            c.book.setFitWidth(c.book.getFitWidth() * ratio);
+            c.book.setFitHeight(c.book.getFitHeight() * ratio);
+        }
     }
 }
