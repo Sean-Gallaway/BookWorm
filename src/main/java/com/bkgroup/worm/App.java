@@ -10,8 +10,6 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
-import static java.lang.Double.NaN;
-
 public class App extends Application {
     // size of the application window
     static double screenX = Screen.getPrimary().getBounds().getWidth()*.7;
@@ -26,13 +24,10 @@ public class App extends Application {
         // resize window listeners.
         stage.widthProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue.doubleValue() > screenX) {
-                Card.resize(newValue.doubleValue()/oldValue.doubleValue());
+                Card.resize(stage.getWidth()/screenX);
             }
         });
-        stage.heightProperty().addListener((observable, oldValue, newValue) -> {
-            stage.setWidth(stage.getWidth() * (newValue.doubleValue()/oldValue.doubleValue()));
-
-        });
+        stage.heightProperty().addListener((observable, oldValue, newValue) -> stage.setWidth(stage.getWidth() * (newValue.doubleValue()/oldValue.doubleValue())));
         window.setPrefSize(screenX, screenY);
 
         // necessary code to make window.
@@ -43,6 +38,7 @@ public class App extends Application {
 
         // test of the switcher.
         VBox vbox = new VBox();
+        vbox.setSpacing(screenX/30);
         content.getChildren().add(vbox);
         Card.getCard(vbox, "something");
         Card.getCard(vbox, "second card!");

@@ -45,13 +45,18 @@ public class Card {
      */
     public static void getCard (Pane p, String str) {
         try {
+            // load the card
             FXMLLoader loader = new FXMLLoader(Switcher.class.getResource("/card.fxml"));
             loader.getNamespace().put("size", size);
             p.getChildren().add(loader.load());
             Card cardController = loader.getController();
+
+            // data setting
             cardController.book.setImage(new Image(Objects.requireNonNull(Card.class.getResourceAsStream("/img.png"))));
             cardController.populateDescription(str);
             cards.add(cardController);
+
+            // unbind the fxml elements we exposed
             unbindMin(cardController.base);
             unbindMin(cardController.title);
             unbindMin(cardController.starbox);
@@ -83,10 +88,10 @@ public class Card {
             if (c.base.getMinWidth() * ratio < size) {
                 return;
             }
-            c.base.setMinSize(c.base.getMinWidth() * ratio, c.base.getMinHeight() * ratio);
-            c.title.setMinSize(c.title.getMinWidth() * ratio, c.title.getMinHeight() * ratio);
-            c.book.setFitWidth(c.book.getFitWidth() * ratio);
-            c.book.setFitHeight(c.book.getFitHeight() * ratio);
+            c.base.setMinSize(size * ratio, (size/2) * ratio);
+            c.title.setMinSize((size/2) * ratio, (size/12) * ratio);
+            c.book.setFitWidth((size/2) * ratio);
+            c.book.setFitHeight((size/2) * ratio);
         }
     }
 }
