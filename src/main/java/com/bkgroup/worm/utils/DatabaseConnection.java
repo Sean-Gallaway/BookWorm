@@ -14,9 +14,9 @@ public class DatabaseConnection {
     /**
      * Do NOT push the changes to the URL, username or password. these should be different for each member of the group!
      */
-    String url = "jdbc:mysql://localhost:3306/bookworm";
-    String username = "root";
-    String password = "97868675a!A";
+    String url = "";
+    String username = "";
+    String password = "";
 
     /**
      * creates an instance of the connection to the database.
