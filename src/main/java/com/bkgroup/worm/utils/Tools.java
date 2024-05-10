@@ -1,5 +1,6 @@
 package com.bkgroup.worm.utils;
 
+import com.bkgroup.worm.App;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
@@ -17,7 +18,9 @@ public class Tools {
     public static void switchContent (Pane p, String fxmlPath, boolean clear) {
         try {
             FXMLLoader loader = new FXMLLoader(Tools.class.getResource(fxmlPath));
-            loader.getNamespace().put("size", 100);
+            loader.getNamespace().put("sizeX", App.screenX);
+            loader.getNamespace().put("sizeY", App.screenY);
+
             if (clear) {
                 p.getChildren().clear();
             }

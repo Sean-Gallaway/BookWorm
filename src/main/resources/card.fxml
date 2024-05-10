@@ -10,7 +10,7 @@
             fx:id="base" xmlns="http://javafx.com/javafx/19"
             xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bkgroup.worm.Card"
             style = "-fx-padding: 0, 0, 0, 0; -fx-spacing: 0; -fx-background-color: black"
-            minHeight="${size/2}" minWidth="${size}">
+            minHeight="${sizeX/8}" minWidth="${sizeX/4}">
       <HBox  VBox.vgrow = "ALWAYS"  HBox.hgrow="ALWAYS" style = "-fx-padding: 0, 0, 0, 0; -fx-spacing: -1;"
              AnchorPane.topAnchor = "0.0"
              AnchorPane.bottomAnchor = "0.0"
@@ -19,22 +19,22 @@
          <VBox  VBox.vgrow = "ALWAYS" style = "-fx-padding: 0, 0, 0, 0; -fx-spacing: -1px;">
             <ImageView VBox.vgrow = "ALWAYS" HBox.hgrow="ALWAYS"
                        fx:id="book"
-                       fitHeight="${size/2 + 1}" fitWidth="${size/2 + 1}"
+                       fitHeight="${sizeX/8 + 1}" fitWidth="${sizeX/8 + 1}"
                        pickOnBounds="true"
                        preserveRatio="true"/>
             <HBox VBox.vgrow = "ALWAYS"  HBox.hgrow="ALWAYS"
                   fx:id="starbox"
-                  minHeight="${size/12+1}" minWidth="${size/2+1}"
+                  minHeight="${sizeX/48+1}" minWidth="${sizeX/8+1}"
                   style="-fx-background-color: blue;"/>
          </VBox>
-         <VBox VBox.vgrow = "ALWAYS"  HBox.hgrow="ALWAYS" prefHeight="${size/3}" prefWidth="${size/6}">
+         <VBox VBox.vgrow = "ALWAYS"  HBox.hgrow="ALWAYS" prefHeight="${sizeX/12}" prefWidth="${sizeX/24}">
             <FlowPane VBox.vgrow = "ALWAYS"  HBox.hgrow="ALWAYS"
                       fx:id="title"
-                      minHeight="${size/12}" minWidth="${size/2}"
+                      minHeight="${sizeX/48}" minWidth="${sizeX/8}"
                       style="-fx-background-color: ce34f2; -fx-padding: 0, 0, 0, 0; -fx-spacing: 0"/>
             <FlowPane VBox.vgrow = "ALWAYS"  HBox.hgrow="ALWAYS"
                       fx:id="description"
-                      minHeight="${size/2}" minWidth="${size/2}"
+                      minHeight="${sizeX/8}" minWidth="${sizeX/8}"
                       style="-fx-background-color: e75e12; -fx-padding: 0, 0, 0, 0; -fx-spacing: 0"/>
          </VBox>
       </HBox>

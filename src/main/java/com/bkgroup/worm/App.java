@@ -11,8 +11,8 @@ import javafx.stage.Stage;
 
 public class App extends Application {
     // size of the application window
-    static double screenX = Screen.getPrimary().getBounds().getWidth()*.7;
-    static double screenY = Screen.getPrimary().getBounds().getHeight()*.7;
+    public static double screenX = Screen.getPrimary().getBounds().getWidth()*.7;
+    public static double screenY = Screen.getPrimary().getBounds().getHeight()*.7;
 
     // it is useful for some classes to be able to access the Stage globally.
     public static Stage stage;
