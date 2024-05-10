@@ -1,4 +1,5 @@
 package com.bkgroup.worm;
+import com.bkgroup.worm.utils.Tools;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.image.Image;
@@ -46,7 +47,7 @@ public class Card {
     public static void getCard (Pane p, String str) {
         try {
             // load the card
-            FXMLLoader loader = new FXMLLoader(Switcher.class.getResource("/card.fxml"));
+            FXMLLoader loader = new FXMLLoader(Tools.class.getResource("/card.fxml"));
             loader.getNamespace().put("size", size);
             p.getChildren().add(loader.load());
             Card cardController = loader.getController();
