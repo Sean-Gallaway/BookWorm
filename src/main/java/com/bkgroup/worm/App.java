@@ -3,11 +3,14 @@ package com.bkgroup.worm;
 import com.bkgroup.worm.utils.DatabaseConnection;
 import com.bkgroup.worm.utils.Tools;
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+
+import java.io.IOException;
 
 public class App extends Application {
     // size of the application window
@@ -45,7 +48,6 @@ public class App extends Application {
         window.getChildren().add(vbox);
 
         DatabaseConnection.db();
-
     }
 
     public static void main(String[] args) {
