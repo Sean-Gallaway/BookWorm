@@ -2,6 +2,7 @@ package com.bkgroup.worm.utils;
 
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
@@ -9,14 +10,14 @@ import static com.bkgroup.worm.utils.DatabaseConnection.db;
 
 public class Query {
     // do not make an instance of this class.
-    private Query () {};
+    private Query () {}
 
     /**
      * method that creates and executes a SELECT query to the database.
      * An example on how to use:<br><br>
      * Query.resultSetToArrayList(Query.select("book", "*", Query.where("title", "Harry Spotter and the Dead-lifter of Azkaban")));
      * @param table the table to use
-     * @param attributes the attributes we want. "*" for all attributes.
+     * @param attributes the attributes we want. "*" for all attributes. Query.project() can be used to format properly for this.
      * @param conditions conditions for an optional WHERE clause.
      * @return A result set containing tuples.
      */
@@ -37,6 +38,36 @@ public class Query {
             System.out.println("Could not build query, Reason: " + e.getMessage());
         }
         return null;
+    }
+
+
+    /**
+     * Inserts a tuple into the given table.
+     * @param table the table to insert into.
+     * @param columns the column names to insert into. * indicates the following values are all used.
+     * @param values the values of a tuple to be inserted.
+     * @return the status on the success of the insert.
+     */
+    public static boolean insert (String table, String columns, String values) {
+        try {
+            StringBuilder query;
+            if (columns.equals("*")) {
+                query = new StringBuilder("INSERT INTO " + table + " VALUES ("+ values +")");
+            }
+            else {
+                query = new StringBuilder("INSERT INTO " + table + " (" + columns + ") VALUES ("+ values +")");
+            }
+            Statement ps = db().createStatement();
+            ps.execute(query.toString());
+            return true;
+        }
+        catch (SQLIntegrityConstraintViolationException e) {
+            System.out.println("Failed to insert due to duplicate primary key.");
+            return false;
+        }
+        catch (Exception e) {
+            return false;
+        }
     }
 
     /**
@@ -82,5 +113,34 @@ public class Query {
      */
     public static String where (String condition, String conditionValue) {
         return condition + " = '" + conditionValue + "'";
+    }
+
+    /**
+     * Helper function to properly format a project.
+     * @param column the columns that are wanted from the table.
+     * @return a formatted string for use within a statement.
+     */
+    public static String project (String... column) {
+        return String.join(", ", column);
+    }
+
+    /**
+     * Helper function to properly format values to be given to INSERT.
+     * @param value a given array of values.
+     * @param <T> denotes that this method takes generic values.
+     * @return a formatted string for use with insert.
+     */
+    @SafeVarargs
+    public static <T> String values (T... value) {
+        String[] strings = new String[value.length];
+        for (int a = 0; a < value.length; a++) {
+            if (value[a] instanceof Double || value[a] instanceof Integer) {
+                strings[a] = String.valueOf(value[a]);
+            }
+            else {
+                strings[a] = "'"+value[a]+"'";
+            }
+        }
+        return String.join(", ", strings);
     }
 }
