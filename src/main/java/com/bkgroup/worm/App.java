@@ -1,16 +1,11 @@
 package com.bkgroup.worm;
 
-import com.bkgroup.worm.utils.DatabaseConnection;
-import com.bkgroup.worm.utils.Tools;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
-
-import java.io.IOException;
 
 public class App extends Application {
     // size of the application window
@@ -35,7 +30,7 @@ public class App extends Application {
         stage.heightProperty().addListener((observable, oldValue, newValue) -> stage.setWidth(stage.getWidth() * (newValue.doubleValue()/oldValue.doubleValue())));
         window.setPrefSize(screenX, screenY);
 
-        // necessary code to make window.
+        /*// necessary code to make window.
         Scene scene = new Scene(window, screenX, screenY);
         stage.setTitle("Bookworm");
         stage.setScene(scene);
@@ -46,8 +41,21 @@ public class App extends Application {
         vbox.setSpacing(screenX/30);
         Tools.switchContent(vbox, "/card.fxml", true);
         window.getChildren().add(vbox);
+        */
 
-        DatabaseConnection.db();
+        //DatabaseConnection.db();
+
+        try {
+            //Load the home screen
+            FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/com/bkgroup/worm/controllers/menu.fxml"));
+            Scene homeScene = new Scene(fxmlLoader.load());
+            stage.setTitle("Bookworm");
+            stage.setScene(homeScene);
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Failed to load home page.\n " + e.getMessage());
+        }
     }
 
     public static void main(String[] args) {

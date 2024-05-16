@@ -5,7 +5,9 @@ module com.example.worm {
 
 
     opens com.bkgroup.worm to javafx.fxml;
+    opens com.bkgroup.worm.controllers to javafx.fxml;
     exports com.bkgroup.worm;
     exports com.bkgroup.worm.utils;
+    exports com.bkgroup.worm.controllers;
     opens com.bkgroup.worm.utils to javafx.fxml;
 }
