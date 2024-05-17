@@ -1,5 +1,6 @@
 package com.bkgroup.worm;
 
+import com.bkgroup.worm.utils.DatabaseConnection;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -43,7 +44,7 @@ public class App extends Application {
         window.getChildren().add(vbox);
         */
 
-        //DatabaseConnection.db();
+        DatabaseConnection.db();
 
         try {
             //Load the home screen

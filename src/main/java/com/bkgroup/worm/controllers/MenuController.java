@@ -46,6 +46,10 @@ public class MenuController {
         profileView.setFitHeight(80);
         profileView.setPreserveRatio(true);
         btnProfile.setGraphic(profileView);
+
+
+        //Default to loading the home screen on initialization
+        Tools.switchContent(centerPane, "/com/bkgroup/worm/controllers/Home.fxml", true);
     }
 
     /**
