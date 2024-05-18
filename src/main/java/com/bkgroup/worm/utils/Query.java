@@ -136,7 +136,7 @@ public class Query {
      */
     public static String project (String... column) {
         return String.join(", ", column);
-    } // TODO CHECK IF NEEDED
+    }
 
     /**
      * Helper function to properly format values to be given to INSERT.
@@ -156,5 +156,5 @@ public class Query {
             }
         }
         return String.join(", ", strings);
-    } // TODO CHECK IF NEEDED
+    }
 }
