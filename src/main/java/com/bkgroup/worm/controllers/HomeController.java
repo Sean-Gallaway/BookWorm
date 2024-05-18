@@ -12,38 +12,44 @@ import javafx.scene.text.FontWeight;
 
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Objects;
 
 public class HomeController {
+    private final static HashMap<String,ArrayList<String[]>> cache = new HashMap<>();
+    private static boolean INITIALIZED;
     private int BOOK_HEIGHT = 175;
     @FXML VBox sections;
 
     @FXML
     public void initialize() {
+        // Load database objects into cache if none are loaded
+        if (!INITIALIZED)
+        {
+            populateSections();
+        }
+
         // Populate local author section
         createSection("PNW Local Author");
-        ResultSet local_authors = Query.select("book","title","author='Kristin Hannah'");
-        createBookList(Objects.requireNonNull(Query.resultSetToArrayList(local_authors)));
+        createBookList(cache.get("LOCAL_AUTHORS"));
 
         // Populate fiction section
         createSection("Fiction");
-        ResultSet fiction = Query.populateGenre("Fiction");
-        createBookList(Objects.requireNonNull(Query.resultSetToArrayList(fiction)));
+        createBookList(cache.get("FICTION"));
 
         // Populate children's books section
         createSection("Children");
-        ResultSet children = Query.populateGenre("Children");
-        createBookList(Objects.requireNonNull(Query.resultSetToArrayList(children)));
+        createBookList(cache.get("CHILDREN"));
 
         // Populate fantasy book section
         createSection("Fantasy");
-        ResultSet fantasy = Query.populateGenre("Fantasy");
-        createBookList(Objects.requireNonNull(Query.resultSetToArrayList(fantasy)));
+        createBookList(cache.get("FANTASY"));
 
         // Populate young adult book section
         createSection("Young Adult");
-        ResultSet young_adult = Query.populateGenre("Young Adult");
-        createBookList(Objects.requireNonNull(Query.resultSetToArrayList(young_adult)));
+        createBookList(cache.get("YOUNG_ADULT"));
+
+        INITIALIZED = true;
     }
 
     /**
@@ -57,52 +63,90 @@ public class HomeController {
     }
 
     /**
+     * Populates cache with specified genres
+     */
+    private void populateSections()
+    {
+        cache.put("LOCAL_AUTHORS", Query.resultSetToArrayList(Query.select("book","title","author='Kristin Hannah'")));
+        cache.put("FICTION", Query.resultSetToArrayList(Query.populateGenre("Fiction")));
+        cache.put("CHILDREN", Query.resultSetToArrayList(Query.populateGenre("Children")));
+        cache.put("FANTASY", Query.resultSetToArrayList(Query.populateGenre("Fantasy")));
+        cache.put("YOUNG_ADULT", Query.resultSetToArrayList(Query.populateGenre("Young Adult")));
+    }
+
+    /**
      * Create a new HBox that displays the images of all books
      * @param content The list of book content used to create the list
      */
     private void createBookList(ArrayList<String[]> content) {
+        // Create content area
+        HBox hBox = createDisplayArea();
+
+        // Populate area with data
+        populateDisplayArea(content, hBox);
+    }
+
+    /**
+     * Creates HBox with scroll bars for books to be displayed in
+     * @return Hbox
+     */
+    private HBox createDisplayArea()
+    {
+        // Create display box
         HBox hBox = new HBox();
         hBox.setMaxWidth(Double.MAX_VALUE);
         HBox.setHgrow(hBox, Priority.ALWAYS);
         hBox.setSpacing(5);
 
-        ScrollPane scroll = new ScrollPane();
-        scroll.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);//Never display a vertical scroll bar
-        scroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);//Only display a horizontal scroll bar if it is needed
-        scroll.setVmax(0);//Make sure you can't scroll up and down
-        scroll.setFitToWidth(true);
-        scroll.prefWidthProperty().bind(sections.widthProperty());
-        scroll.setMaxWidth(Double.MAX_VALUE);
-        scroll.setStyle("-fx-background-color: transparent; -fx-padding: 0; -fx-background-insets: 0;");
+        // Create scroll bar
+        createScrollPane(hBox);
 
-        scroll.setContent(hBox);
-        sections.getChildren().add(scroll);
+        return hBox;
+    }
 
-        /* TODO REMOVE AFTER DEBUGGING
-        System.out.println("Sections width: " + sections.getWidth());
-        System.out.println("scroll width: " + scroll.getWidth());
-        System.out.println("hbox width: " + hBox.getWidth());
-        */
+    /**
+     * Creates scroll bar for specified HBox
+     * @param hBox HBox
+     */
+    private void createScrollPane(HBox hBox) {
+        ScrollPane scrollPane = new ScrollPane();
+        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);//Never display a vertical scroll bar
+        scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);//Only display a horizontal scroll bar if it is needed
+        scrollPane.setVmax(0);//Make sure you can't scroll up and down
+        scrollPane.setFitToWidth(true);
+        scrollPane.prefWidthProperty().bind(sections.widthProperty());
+        scrollPane.setMaxWidth(Double.MAX_VALUE);
+        scrollPane.setStyle("-fx-background-color: transparent; -fx-padding: 0; -fx-background-insets: 0;");
+        scrollPane.setContent(hBox);
+        sections.getChildren().add(scrollPane);
+    }
 
-        String title;
+    /**
+     * Populates HBox with books and displays them for the user.
+     * @param content Book data
+     * @param hBox HBox section
+     */
+    private void populateDisplayArea(ArrayList<String[]> content, HBox hBox)
+    {
         for(String[] i: content) {
             try {
-                title = i[0];
-                title = title.replaceAll(" ", "");
+                String title = i[0].replaceAll(" ","");
 
+                // Set book cover image
                 ImageView imageView = new ImageView();
-
-                String path = "BookCovers/" + title + ".jpg";
                 Image image = new Image("BookCovers/" + title + ".jpg"); // Replace "path/to/your/image.jpg" with the actual path to your image file
                 imageView.setImage(image);
+
                 // Optionally, you can set additional properties such as fit width and fit height
-                double desiredHeight = BOOK_HEIGHT; // Set your desired height
+                double desiredHeight = BOOK_HEIGHT;
                 double scaleFactor = desiredHeight / image.getHeight();
                 double scaledWidth = image.getWidth() * scaleFactor;
 
-                imageView.setFitWidth(scaledWidth); // Set the width of the ImageView
-                imageView.setFitHeight(desiredHeight); // Set the height of the ImageView
+                // Set ImageView width and height
+                imageView.setFitWidth(scaledWidth);
+                imageView.setFitHeight(desiredHeight);
 
+                // Add book image to hBox
                 hBox.getChildren().add(imageView);
             }
             catch (Exception e) {
