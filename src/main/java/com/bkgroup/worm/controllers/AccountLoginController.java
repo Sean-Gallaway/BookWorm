@@ -5,8 +5,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
-public class AccountCreationController {
-
+public class AccountLoginController {
     @FXML
     private Button btnCart;
     @FXML
@@ -16,29 +15,25 @@ public class AccountCreationController {
     @FXML
     private Button btnSearch;
     @FXML
-    private Button btn_createAccount;
-    @FXML
-    private TextField txt_email;
+    private Button btn_login;
     @FXML
     private PasswordField txt_password;
     @FXML
-    private TextField txt_password_confirm;
-    @FXML
-    private PasswordField txt_username;
+    private TextField txt_username;
 
     /**
-     * Activates when "Create Account" button is pressed
+     * Activates when login button is pressed
      */
     @FXML
-    void CreateAccount() {
+    void Login() {
         // TODO:
         // Check if inputs are valid and non-empty
         // Check if account exists
         // Check if passwords match
-        // Create Account
         // Login user
         // Send to profile page
 
         // TODO CREATE HELPER FUNCTION TO HANDLE COMMONALITIES BETWEEN CREATE ACCOUNT AND LOGIN
     }
+
 }
