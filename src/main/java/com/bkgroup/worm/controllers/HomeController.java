@@ -1,6 +1,5 @@
 package com.bkgroup.worm.controllers;
 
-
 import com.bkgroup.worm.utils.Query;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -8,13 +7,12 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class HomeController {
     private int BOOK_HEIGHT = 175;
@@ -22,41 +20,35 @@ public class HomeController {
 
     @FXML
     public void initialize() {
-        ResultSet rs = Query.select("Book", "title", "author=\"Kristin Hannah\"");
-        ArrayList<String[]> content = Query.resultSetToArrayList(rs);
-
+        // Populate local author section
         createSection("PNW Local Author");
-        createBookList(content);
+        ResultSet local_authors = Query.select("book","title","author='Kristin Hannah'");
+        createBookList(Objects.requireNonNull(Query.resultSetToArrayList(local_authors)));
 
-        ResultSet rs2 = Query.select("Book b JOIN Genre g ON b.bookID = g.bookID", "b.title", "g.genre = 'Fiction'");
-        ArrayList<String[]> content2 = Query.resultSetToArrayList(rs2);
-
+        // Populate fiction section
         createSection("Fiction");
-        createBookList(content2);
+        ResultSet fiction = Query.populateGenre("Fiction");
+        createBookList(Objects.requireNonNull(Query.resultSetToArrayList(fiction)));
 
-        ResultSet rs3 = Query.select("Book b JOIN Genre g ON b.bookID = g.bookID", "b.title", "g.genre = 'Children'");
-        ArrayList<String[]> content3 = Query.resultSetToArrayList(rs3);
-
+        // Populate children's books section
         createSection("Children");
-        createBookList(content3);
+        ResultSet children = Query.populateGenre("Children");
+        createBookList(Objects.requireNonNull(Query.resultSetToArrayList(children)));
 
-        ResultSet rs4 = Query.select("Book b JOIN Genre g ON b.bookID = g.bookID", "b.title", "g.genre = 'Fantasy'");
-        ArrayList<String[]> content4 = Query.resultSetToArrayList(rs4);
-
+        // Populate fantasy book section
         createSection("Fantasy");
-        createBookList(content4);
+        ResultSet fantasy = Query.populateGenre("Fantasy");
+        createBookList(Objects.requireNonNull(Query.resultSetToArrayList(fantasy)));
 
-        ResultSet rs5 = Query.select("Book b JOIN Genre g ON b.bookID = g.bookID", "b.title", "g.genre = 'Young Adult'");
-        ArrayList<String[]> content5 = Query.resultSetToArrayList(rs5);
-
+        // Populate young adult book section
         createSection("Young Adult");
-        createBookList(content5);
-
+        ResultSet young_adult = Query.populateGenre("Young Adult");
+        createBookList(Objects.requireNonNull(Query.resultSetToArrayList(young_adult)));
     }
 
     /**
      * Creates a new Label for a section title and adds it to the sections VBox
-     * @param sectionTitle
+     * @param sectionTitle title
      */
     private void createSection(String sectionTitle) {
         Label l = new Label(sectionTitle);
@@ -83,15 +75,14 @@ public class HomeController {
         scroll.setMaxWidth(Double.MAX_VALUE);
         scroll.setStyle("-fx-background-color: transparent; -fx-padding: 0; -fx-background-insets: 0;");
 
-
         scroll.setContent(hBox);
         sections.getChildren().add(scroll);
 
+        /* TODO REMOVE AFTER DEBUGGING
         System.out.println("Sections width: " + sections.getWidth());
         System.out.println("scroll width: " + scroll.getWidth());
         System.out.println("hbox width: " + hBox.getWidth());
-
-
+        */
 
         String title;
         for(String[] i: content) {
@@ -101,9 +92,7 @@ public class HomeController {
 
                 ImageView imageView = new ImageView();
 
-                //Image image = new Image("BookCovers/TheNightingale.jpg");
                 String path = "BookCovers/" + title + ".jpg";
-                System.out.println("Path: " + path);
                 Image image = new Image("BookCovers/" + title + ".jpg"); // Replace "path/to/your/image.jpg" with the actual path to your image file
                 imageView.setImage(image);
                 // Optionally, you can set additional properties such as fit width and fit height
@@ -115,13 +104,10 @@ public class HomeController {
                 imageView.setFitHeight(desiredHeight); // Set the height of the ImageView
 
                 hBox.getChildren().add(imageView);
-            } catch (Exception e) {
-                System.out.println("Error loading images. "  + e.getMessage());
+            }
+            catch (Exception e) {
+                System.out.printf("Error loading cover for \"%s\" : %s\n",i[0], e.getMessage());
             }
         }
-
     }
-
-
-
 }

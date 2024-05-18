@@ -31,6 +31,7 @@ public class App extends Application {
         stage.heightProperty().addListener((observable, oldValue, newValue) -> stage.setWidth(stage.getWidth() * (newValue.doubleValue()/oldValue.doubleValue())));
         window.setPrefSize(screenX, screenY);
 
+        // TODO REMOVE OR UNCOMMENT [ commented out code makes Dima angry >:c ]
         /*// necessary code to make window.
         Scene scene = new Scene(window, screenX, screenY);
         stage.setTitle("Bookworm");

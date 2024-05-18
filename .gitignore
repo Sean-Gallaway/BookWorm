@@ -40,3 +40,4 @@ bin/
 
 ### Mac OS ###
 .DS_Store
+src/main/java/com/bkgroup/worm/utils/DatabaseConnection.java

@@ -1,9 +1,6 @@
 package com.bkgroup.worm.utils;
 
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLIntegrityConstraintViolationException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 
 import static com.bkgroup.worm.utils.DatabaseConnection.db;
@@ -23,23 +20,38 @@ public class Query {
      */
     public static ResultSet select (String table, String attributes, String... conditions) {
         try {
-            // build the query
-            StringBuilder query = new StringBuilder("SELECT " + attributes + " FROM " + table);
-            if (conditions.length != 0){
-                query.append(" WHERE ");
-            }
-            query.append(String.join(", ", conditions)).append(";");
-            Statement ps = db().createStatement();
+            String base = String.format("SELECT %s FROM %s", attributes, table);
 
-            // execute and return
-            return ps.executeQuery(query.toString());
+            // If conditions exist, add WHERE statement in query
+            if (conditions.length != 0) {
+                String conditionFormatted = String.format(" WHERE %s", String.join(", ",conditions));
+                return db().createStatement().executeQuery(base + conditionFormatted);
+            }
+
+            // Get query with no conditions
+            return db().createStatement().executeQuery(base);
         }
-        catch (Exception e) {
-            System.out.println("Could not build query, Reason: " + e.getMessage());
+        catch (SQLException e) {
+            System.err.println("SQL ERROR IN \"select()\":\"Query.java\"");
+            return null;
         }
-        return null;
     }
 
+    /**
+     * Grabs all books from specified genre and returns ResultSet.
+     * @param genre genre to search for
+     * @return ResultSet of all books in specified genre
+     */
+    public static ResultSet populateGenre (String genre) {
+        try {
+            String query = String.format("SELECT b.title FROM Book b JOIN Genre g ON b.bookID = g.bookID WHERE g.genre = '%s'", genre);
+            return db().createStatement().executeQuery(query);
+        }
+        catch (SQLException e) {
+            System.err.println("SQL ERROR IN \"populateGenre()\":\"Query.java\"");
+            return null;
+        }
+    }
 
     /**
      * Inserts a tuple into the given table.
@@ -50,22 +62,24 @@ public class Query {
      */
     public static boolean insert (String table, String columns, String values) {
         try {
-            StringBuilder query;
-            if (columns.equals("*")) {
-                query = new StringBuilder("INSERT INTO " + table + " VALUES ("+ values +")");
+            // If columns are defined
+            if (!columns.equals("*")) {
+                String query = String.format("INSERT INTO %s (%s) VALUES (%s)",table,columns,values);
+                db().createStatement().executeQuery(query);
             }
+            // If columns are not defined
             else {
-                query = new StringBuilder("INSERT INTO " + table + " (" + columns + ") VALUES ("+ values +")");
+                String query = String.format("INSERT INTO %s VALUES (%s)",table,values);
+                db().createStatement().executeQuery(query);
             }
-            Statement ps = db().createStatement();
-            ps.execute(query.toString());
             return true;
         }
         catch (SQLIntegrityConstraintViolationException e) {
-            System.out.println("Failed to insert due to duplicate primary key.");
+            System.err.println("Failed to insert due to duplicate primary key.");
             return false;
         }
-        catch (Exception e) {
+        catch (SQLException e) {
+            System.err.println("SQL ERROR IN \"insert()\":\"Query.java\"");
             return false;
         }
     }
@@ -78,11 +92,11 @@ public class Query {
      */
     public static ArrayList<String[]> resultSetToArrayList (ResultSet rs) {
         if (rs == null) {
-            System.out.println("Error: Result set is null.");
+            System.err.println("Error: Result set is null.");
             return new ArrayList<>();
         }
         try {
-            // initialize the data structure to return, and grab the meta data of the result set to see how many Strings in each array.
+            // initialize the data structure to return, and grab the metadata of the result set to see how many Strings in each array.
             ArrayList<String[]> packagedResults = new ArrayList<>();
             ResultSetMetaData rsmd = rs.getMetaData();
             int d = rsmd.getColumnCount();
@@ -99,20 +113,20 @@ public class Query {
             // return results.
             return packagedResults;
         }
-        catch (Exception e) {
-            System.out.println("Failed to parse ResultSet, Reason: " + e.getMessage());
+        catch (SQLException e) {
+            System.err.println("Failed to parse ResultSet, Reason: " + e.getMessage());
+            return null;
         }
-        return null;
     }
 
     /**
      * Helper function to properly format conditions for the WHERE clause.
      * @param condition The condition to format. ex: SELECT * FROM books WHERE [condition] = '?';
-     * @param conditionValue the value of the condition. ex: SELECT * FROM books WHERE title = '[value]';
+     * @param value the value of the condition. ex: SELECT * FROM books WHERE condition = '[value]';
      * @return a formatted string for use with WHERE clause.
      */
-    public static String where (String condition, String conditionValue) {
-        return condition + " = '" + conditionValue + "'";
+    public static String where (String condition, String value) {
+        return String.format("%s='%s'",condition,value);
     }
 
     /**
@@ -122,7 +136,7 @@ public class Query {
      */
     public static String project (String... column) {
         return String.join(", ", column);
-    }
+    } // TODO CHECK IF NEEDED
 
     /**
      * Helper function to properly format values to be given to INSERT.
@@ -142,5 +156,5 @@ public class Query {
             }
         }
         return String.join(", ", strings);
-    }
+    } // TODO CHECK IF NEEDED
 }
