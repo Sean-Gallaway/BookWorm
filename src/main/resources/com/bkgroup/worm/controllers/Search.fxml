@@ -1,29 +1,77 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Accordion?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.paint.Color?>
-<?import javafx.scene.paint.LinearGradient?>
-<?import javafx.scene.paint.Stop?>
-<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bkgroup.worm.controllers.SearchController">
-   <children>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" height="200.0" layoutX="265.0" layoutY="89.0" stroke="BLACK" strokeType="INSIDE" width="200.0">
-         <fill>
-            <LinearGradient endX="1.0" endY="1.0">
-               <stops>
-                  <Stop>
-                     <color>
-                        <Color red="0.11999999731779099" green="1.0" blue="0.2738950848579407" />
-                     </color>
-                  </Stop>
-                  <Stop offset="1.0">
-                     <color>
-                        <Color red="1.0" green="1.0" blue="1.0" />
-                     </color>
-                  </Stop>
-               </stops>
-            </LinearGradient>
-         </fill></Rectangle>
-   </children>
+<AnchorPane fx:id="base" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bkgroup.worm.controllers.SearchController">
+   <HBox maxHeight="400.0" prefHeight="400.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <AnchorPane style="-fx-background-color: #432432;">
+         <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </padding>
+         <VBox prefHeight="400.0" prefWidth="200.0" style="-fx-border-color: #ffffff;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <AnchorPane prefHeight="44.0" prefWidth="193.0" style="-fx-border-color: #ffffff; -fx-border-style: hidden hidden solid;">
+               <Label alignment="CENTER" layoutX="6.0" layoutY="6.0" text="Filters" textAlignment="CENTER" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <font>
+                     <Font size="24.0" />
+                  </font>
+               </Label>
+            </AnchorPane>
+            <AnchorPane maxHeight="125.0" prefHeight="27.0" prefWidth="193.0" style="-fx-border-style: hidden hidden solid; -fx-border-color: #ffffff;">
+               <Accordion maxHeight="125.0" prefHeight="26.0" prefWidth="193.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <panes>
+                     <TitledPane fx:id="genres" animated="false" prefHeight="45.0" prefWidth="193.0" text="Genres" />
+                  </panes>
+               </Accordion>
+            </AnchorPane>
+            <AnchorPane prefHeight="81.0" prefWidth="193.0" style="-fx-border-style: hidden hidden solid; -fx-border-color: #ffffff;">
+               <VBox layoutY="-86.0" prefHeight="200.0" prefWidth="138.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <Label alignment="CENTER" prefHeight="26.0" prefWidth="191.0" text="Page Count" textAlignment="CENTER" textFill="WHITE">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <Slider fx:id="pageCount" majorTickUnit="100.0" max="1000.0" minorTickCount="50" showTickLabels="true" showTickMarks="true" />
+               </VBox>
+            </AnchorPane>
+            <AnchorPane prefHeight="27.0" prefWidth="193.0">
+               <VBox prefHeight="200.0" prefWidth="138.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="0.0">
+                  <Label alignment="CENTER" prefHeight="26.0" prefWidth="191.0" text="Year" textAlignment="CENTER" textFill="WHITE">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="CENTER" prefHeight="26.0" prefWidth="191.0" text="Min" textAlignment="CENTER" textFill="WHITE" />
+                  <Slider fx:id="yearMin" majorTickUnit="50.0" max="2024.0" min="1900.0" minorTickCount="5" prefHeight="38.0" prefWidth="172.0" showTickLabels="true" showTickMarks="true" VBox.vgrow="ALWAYS" />
+                  <Label alignment="CENTER" prefHeight="26.0" prefWidth="191.0" text="Max" textAlignment="CENTER" textFill="WHITE" />
+                  <Slider fx:id="yearMax" majorTickUnit="50.0" max="2024.0" min="1900.0" minorTickCount="5" prefHeight="38.0" prefWidth="172.0" showTickLabels="true" showTickMarks="true" />
+               </VBox>
+            </AnchorPane>
+         </VBox>
+      </AnchorPane>
+      <VBox prefHeight="400.0" prefWidth="600.0" HBox.hgrow="ALWAYS">
+         <HBox alignment="CENTER" prefHeight="50.0" prefWidth="595.0" spacing="5.0" style="-fx-background-color: #543543;">
+            <padding>
+               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+            </padding>
+            <Label fx:id="searchButton" alignment="CENTER" minWidth="75.0" prefHeight="40.0" prefWidth="75.0" style="-fx-border-color: #ffffff; -fx-border-radius: 3;" text="Search" textAlignment="CENTER" textFill="WHITE">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <TextField fx:id="searchField" alignment="CENTER" prefHeight="44.0" prefWidth="474.0" HBox.hgrow="ALWAYS" />
+         </HBox>
+         <ScrollPane fx:id="output" hbarPolicy="NEVER" prefHeight="350.0" prefWidth="600.0" style="-fx-font-size: 20;" vbarPolicy="ALWAYS" VBox.vgrow="ALWAYS">
+         </ScrollPane>
+      </VBox>
+   </HBox>
 </AnchorPane>

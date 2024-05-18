@@ -28,7 +28,7 @@ public class App extends Application {
                 Card.resize(stage.getWidth()/screenX);
             }
         });
-        stage.heightProperty().addListener((observable, oldValue, newValue) -> stage.setWidth(stage.getWidth() * (newValue.doubleValue()/oldValue.doubleValue())));
+        //stage.heightProperty().addListener((observable, oldValue, newValue) -> stage.setWidth(stage.getWidth() * (newValue.doubleValue()/oldValue.doubleValue())));
         window.setPrefSize(screenX, screenY);
 
         // TODO REMOVE OR UNCOMMENT [ commented out code makes Dima angry >:c ]
