@@ -13,7 +13,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="514.0" prefWidth="629.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="514.0" prefWidth="629.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="AccountCreationController">
   <columnConstraints>
     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
   </columnConstraints>
@@ -71,8 +71,8 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <PasswordField fx:id="txt_username" maxWidth="400.0" prefWidth="400.0" GridPane.halignment="CENTER" GridPane.hgrow="SOMETIMES" GridPane.rowIndex="1" GridPane.valignment="BOTTOM" GridPane.vgrow="NEVER" />
-            <TextField fx:id="txt_password_confirm" maxWidth="400.0" prefWidth="400.0" GridPane.halignment="CENTER" GridPane.hgrow="SOMETIMES" GridPane.rowIndex="4" GridPane.valignment="BOTTOM" GridPane.vgrow="NEVER" />
+            <TextField fx:id="txt_username" maxWidth="400.0" prefWidth="400.0" GridPane.halignment="CENTER" GridPane.hgrow="SOMETIMES" GridPane.rowIndex="1" GridPane.valignment="BOTTOM" GridPane.vgrow="NEVER" />
+            <PasswordField fx:id="txt_password_confirm" maxWidth="400.0" prefWidth="400.0" GridPane.halignment="CENTER" GridPane.hgrow="SOMETIMES" GridPane.rowIndex="4" GridPane.valignment="BOTTOM" GridPane.vgrow="NEVER" />
             <TextField fx:id="txt_email" maxWidth="400.0" prefWidth="400.0" GridPane.halignment="CENTER" GridPane.hgrow="SOMETIMES" GridPane.rowIndex="2" GridPane.valignment="BOTTOM" GridPane.vgrow="NEVER" />
             <PasswordField fx:id="txt_password" maxWidth="400.0" prefWidth="400.0" GridPane.halignment="CENTER" GridPane.hgrow="SOMETIMES" GridPane.rowIndex="3" GridPane.valignment="BOTTOM" GridPane.vgrow="NEVER" />
             <Button fx:id="btn_createAccount" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#CreateAccount" text="Create Account" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="TOP">

@@ -10,10 +10,8 @@ import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
-import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Objects;
 
 public class HomeController {
     private final static HashMap<String,ArrayList<String[]>> cache = new HashMap<>();
