@@ -1,0 +1,6 @@
+.text-field.error {
+    -fx-background-color: #fa3a2e;
+}
+.text-field.error:focused {
+    -fx-background-color: #ff6b62;
+}

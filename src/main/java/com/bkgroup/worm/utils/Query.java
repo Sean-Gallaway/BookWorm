@@ -62,16 +62,16 @@ public class Query {
      */
     public static boolean insert (String table, String columns, String values) {
         try {
+            String query = "";
             // If columns are defined
             if (!columns.equals("*")) {
-                String query = String.format("INSERT INTO %s (%s) VALUES (%s)",table,columns,values);
-                db().createStatement().executeQuery(query);
+                query = String.format("INSERT INTO %s (%s) VALUES (%s)",table,columns,values);
             }
             // If columns are not defined
             else {
-                String query = String.format("INSERT INTO %s VALUES (%s)",table,values);
-                db().createStatement().executeQuery(query);
+                query = String.format("INSERT INTO %s VALUES (%s)",table,values);
             }
+            db().createStatement().execute(query);
             return true;
         }
         catch (SQLIntegrityConstraintViolationException e) {

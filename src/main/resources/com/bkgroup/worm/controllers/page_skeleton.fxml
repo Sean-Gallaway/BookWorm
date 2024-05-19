@@ -22,7 +22,7 @@
          <children>
             <ImageView fitHeight="80.0" fitWidth="629.0" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <image>
-                  <Image url="@../images/header.png" />
+                  <Image url="@../../../../images/header.png" />
                </image>
             </ImageView>
          </children>
@@ -31,7 +31,7 @@
          <children>
             <ImageView fitHeight="80.0" fitWidth="629.0" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <image>
-                  <Image url="@../images/footer.png" />
+                  <Image url="@../../../../images/footer.png" />
                </image>
             </ImageView>
             <GridPane opacity="0.0" prefHeight="80.0" prefWidth="629.0">
