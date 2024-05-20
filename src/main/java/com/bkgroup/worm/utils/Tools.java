@@ -2,6 +2,7 @@ package com.bkgroup.worm.utils;
 
 import com.bkgroup.worm.App;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Alert;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 
@@ -31,6 +32,36 @@ public class Tools {
             ex.printStackTrace();
             System.out.println(ex.getMessage());
         }
+    }
+
+    /**
+     * Creates error display with assigned message and title with the following types:
+     * <ul><li>0: Error</li><li>1: Warning</li><li>2: Confirmation</li><li>3: Information</li></ul>
+     * @param type Popup alert type
+     * @param title Title
+     * @param message Display Message
+     */
+    public static void ShowPopup(int type, String title, String message) {
+        // Create popup with alert type
+        Alert popup;
+        if (type == 0) {
+            popup = new Alert(Alert.AlertType.ERROR);
+        }
+        else if (type == 1) {
+            popup = new Alert(Alert.AlertType.WARNING);
+        }
+        else if (type == 2) {
+            popup = new Alert(Alert.AlertType.CONFIRMATION);
+        }
+        else {
+            popup = new Alert(Alert.AlertType.INFORMATION);
+        }
+
+        // Assign text
+        popup.setTitle(title);
+        popup.setHeaderText(null);
+        popup.setContentText(message);
+        popup.showAndWait();
     }
 
     /**

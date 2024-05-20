@@ -1,12 +1,9 @@
 package com.bkgroup.worm.utils;
 
-import javafx.scene.control.TextField;
 
+import javafx.scene.control.TextField;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -20,7 +17,7 @@ public final class AccountHelper {
      * @param userName Profile username
      * @return True if account exists; false otherwise
      */
-    public static boolean CheckAccountExistance(String userName)
+    public static boolean CheckAccountExistence(String userName)
     {
         String condition = String.format("username='%s'",userName);
         ResultSet user = Query.select("user","*",condition);
@@ -58,5 +55,30 @@ public final class AccountHelper {
         Pattern pattern = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(email);
         return matcher.matches();
+    }
+
+    /**
+     * Attempts to create new account up to 5 times returning true if account was created or false otherwise.
+     * @param user Username
+     * @param pass Password
+     * @param fName First Name
+     * @param lName Last Name
+     * @param email Email
+     * @return True if account was created; false otherwise
+     */
+    public static boolean CreateAccountInDatabase(String user, String pass, String fName, String lName, String email)
+    {
+        // Try to create the new account up to 5 times
+        boolean account_created = false;
+        for (int i = 0; i < 5; ++i)
+        {
+            account_created = Query.insert("user","(username,password,fName,lName,email,profilePic)",
+                    String.format("'%s','%s','%s','%s','%s',0",user,pass,fName,lName,email));
+
+            if (account_created) { return account_created; }
+        }
+
+        // Return false if account could not be created
+        return false;
     }
 }

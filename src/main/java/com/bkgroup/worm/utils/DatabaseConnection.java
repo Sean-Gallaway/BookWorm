@@ -1,6 +1,7 @@
 package com.bkgroup.worm.utils;
 
 import com.bkgroup.worm.App;
+import javafx.scene.control.Alert;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -36,8 +37,11 @@ public class DatabaseConnection {
 
         }
         catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("Failed to connect to the database. Reason: " + e.getCause());
+            // Alert user database connection error occurred
+            Tools.ShowPopup(0,"Server Connection Error","Could Not Connect to Server. Please Wait Then Try Again");
+
+            // Print error
+            System.err.println("Failed to connect to the database. Reason: " + e.getCause());
         }
 
     }

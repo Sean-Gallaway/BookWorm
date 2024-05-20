@@ -1,6 +1,7 @@
 package com.bkgroup.worm.controllers;
 
 // Import necessary JavaFX classes
+import com.bkgroup.worm.utils.Tools;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -69,11 +70,7 @@ public class CartController {
     // Method to handle the checkout process
     private void checkout() {
         // Show an alert dialog to indicate checkout
-        Alert alert = new Alert(AlertType.INFORMATION);
-        alert.setTitle("Checkout");
-        alert.setHeaderText(null);
-        alert.setContentText("Proceeding to checkout...");
-        alert.showAndWait(); // Wait for the user to close the alert
+        Tools.ShowPopup(4,"Checkout","Proceeding to checkout...");
     }
 
     // Method to clear the cart

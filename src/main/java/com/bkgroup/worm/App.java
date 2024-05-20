@@ -45,8 +45,6 @@ public class App extends Application {
         window.getChildren().add(vbox);
         */
 
-        DatabaseConnection.db();
-
         try {
             //Load the home screen
             FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/com/bkgroup/worm/controllers/menu.fxml"));
