@@ -72,7 +72,7 @@ public final class AccountHelper {
         boolean account_created = false;
         for (int i = 0; i < 5; ++i)
         {
-            account_created = Query.insert("user","(username,password,fName,lName,email,profilePic)",
+            account_created = Query.insert("user","username,password,fName,lName,email,profilePic",
                     String.format("'%s','%s','%s','%s','%s',0",user,pass,fName,lName,email));
 
             if (account_created) { return account_created; }
