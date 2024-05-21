@@ -69,6 +69,24 @@ public class Query {
     }
 
     /**
+     * Method that creates and executes a DELETE query to the database
+     * An example on how to use:<br><br>
+     * Query.delete("cart","bookID=9","userID=22");
+     * @param table the table to use
+     * @param conditions condition for the WHERE clause
+     * @return True if value was deleted; false otherwise
+     */
+    public static boolean delete (String table, String... conditions) {
+        try {
+            String query = String.format("DELETE FROM %s WHERE %s",table,String.join(" AND ",conditions));
+            return db().createStatement().execute(query);
+        }
+        catch (SQLException e) {
+            return false;
+        }
+    }
+
+    /**
      * Grabs all books from specified genre and returns ResultSet.
      * @param genre genre to search for
      * @return ResultSet of all books in specified genre
