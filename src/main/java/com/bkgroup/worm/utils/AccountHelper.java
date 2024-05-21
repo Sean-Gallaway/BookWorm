@@ -12,32 +12,33 @@ public final class AccountHelper {
     private AccountHelper() {}
 
     /**
-     * Checks if account exists and returns boolean.
+     * Checks if account exists and returns ID for further account queries.
      * @param username Profile username
-     * @return True if account exists; false otherwise
+     * @return user ID
      */
-    public static boolean CheckAccountExistence(String username)
+    public static int CheckAccountExistence(String username)
     {
         String condition = String.format("username='%s'",username);
-        ResultSet user = Query.select("user","*",condition);
+        ResultSet user = Query.select("user","userID",condition);
 
         // Return false if user result set is null or has no data
         try {
-            return user.next();
+            user.next();
+            return user.getInt("userID");
         }
         catch (NullPointerException | SQLException e) {
-            return false;
+            return -1;
         }
     }
 
     /**
      * Attempts to log in by checking if the password provided matches the password in the database for the username.
-     * @param username Username
+     * @param ID User ID
      * @param password Password
      * @return True if passwords match; false otherwise
      */
-    public static boolean AttemptLogin(String username, String password) {
-        String condition = String.format("username='%s'",username);
+    public static boolean AttemptLogin(int ID, String password) {
+        String condition = String.format("userID='%s'",ID);
         ResultSet user = Query.select("user","password",condition);
 
         // Check if passwords match
@@ -52,11 +53,11 @@ public final class AccountHelper {
 
     /**
      * Returns profile picture index of account.
-     * @param username Username
+     * @param ID User ID
      * @return Profile picture index
      */
-    public static int getPictureIndex(String username) {
-        String condition = String.format("username='%s'",username);
+    public static int getPictureIndex(int ID) {
+        String condition = String.format("userID='%s'",ID);
         ResultSet user = Query.select("user","profilePic",condition);
 
         // Check if passwords match

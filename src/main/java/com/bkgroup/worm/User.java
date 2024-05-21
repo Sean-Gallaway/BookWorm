@@ -6,6 +6,7 @@ public class User {
     private static boolean loggedIn = false;
     private static String username;
     private static int pfpIndex;
+    private static int userID;
     private static ArrayList<Book> cart;
 
     private User() {}
@@ -13,11 +14,13 @@ public class User {
     /**
      * Assign data to user when logged in.
      * @param name Username
+     * @param ID User ID
      * @param pictureIndex Profile picture index
      */
-    public static void Login(String name, int pictureIndex) {
+    public static void Login(String name, int ID, int pictureIndex) {
         username = name;
         pfpIndex = pictureIndex;
+        userID = ID;
         loggedIn = true;
     }
 

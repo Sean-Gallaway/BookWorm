@@ -54,19 +54,20 @@ public class AccountLoginController {
         }
 
         // Alert user if account with specified username does not exist
-        if (!AccountHelper.CheckAccountExistence(txt_username.getText())) {
+        int accountID = AccountHelper.CheckAccountExistence(txt_username.getText());
+        if (accountID == -1) {
             Tools.ShowPopup(1,"No Account Found","No Account With That Username Was Found. " +
                     "Please Create an Account or Verify The Given Username.");
             return;
         }
 
         // Show error if passwords don't match
-        if (!AccountHelper.AttemptLogin(txt_username.getText(),txt_password.getText())) {
+        if (!AccountHelper.AttemptLogin(accountID,txt_password.getText())) {
             Tools.ShowPopup(1,"Login Error","Incorrect Password. Please Try Again.");
             return;
         }
 
-        User.Login(txt_username.getText(),AccountHelper.getPictureIndex(txt_username.getText()));
+        User.Login(txt_username.getText(),accountID,AccountHelper.getPictureIndex(accountID));
     }
 
     /**

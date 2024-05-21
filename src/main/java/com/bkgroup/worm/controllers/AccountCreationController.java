@@ -50,7 +50,8 @@ public class AccountCreationController {
         }
 
         // Alert user if account username is already being used
-        if (AccountHelper.CheckAccountExistence(txt_username.getText())) {
+        int accountID = AccountHelper.CheckAccountExistence(txt_username.getText());
+        if (accountID != -1) {
             Tools.ShowPopup(1,"Account Exists","An Account With That Username Already Exists. " +
                     "Please Login or Choose A Different Username.");
         }
