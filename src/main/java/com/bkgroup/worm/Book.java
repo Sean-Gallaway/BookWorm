@@ -1,17 +1,27 @@
 package com.bkgroup.worm;
 
+import com.bkgroup.worm.utils.Query;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 public class Book {
-    private final String title;
-    private final String author;
+    private final int ID;
 
     /**
      * Create book item to store in cart.
-     * @param title Book title
-     * @param author Book author
+     * @param ID Book ID
      */
-    public Book(String title, String author) {
-        this.title = title;
-        this.author = author;
+    public Book(int ID) {
+        this.ID = ID;
+    }
+
+    /**
+     * Returns int book ID.
+     * @return Book ID
+     */
+    public int getID() {
+        return this.ID;
     }
 
     /**
@@ -19,7 +29,15 @@ public class Book {
      * @return Title
      */
     public String getTitle() {
-        return this.title;
+        ResultSet title = Query.select("book","title",String.format("bookID=%d",this.ID));
+
+        try {
+            title.next();
+            return title.getString("title");
+        }
+        catch (NullPointerException | SQLException e) {
+            return "err";
+        }
     }
 
     /**
@@ -27,6 +45,14 @@ public class Book {
      * @return Author
      */
     public String getAuthor() {
-        return this.author;
+        ResultSet author = Query.select("book","author",String.format("bookID=%d",this.ID));
+
+        try {
+            author.next();
+            return author.getString("author");
+        }
+        catch (NullPointerException | SQLException e) {
+            return "err";
+        }
     }
 }

@@ -3,6 +3,7 @@ package com.bkgroup.worm.controllers;
 // Import necessary JavaFX classes
 import com.bkgroup.worm.Book;
 import com.bkgroup.worm.User;
+import com.bkgroup.worm.utils.Query;
 import com.bkgroup.worm.utils.Tools;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -27,10 +28,13 @@ public class CartController {
     @FXML
     public void initialize() {
         // Add example items to the cart (for testing purposes)
-        User.AddToCart(new Book("The Magician's Nephew","C.S. Lewis"));
-        User.AddToCart(new Book("Harry Potter and the Half-Blood Prince","J.K. Rowling"));
+        if (User.isLoggedIn()) {
+            User.AddToCart(new Book(9));
+            User.AddToCart(new Book(50));
+        }
 
         // TODO FIX QUANTITY AND PRICE
+        // TODO FIX: DOES NOT UPDATE WITH NEW BOOKS
         for (Book book : User.getCart()) {
             addCartItem(book,10.99,1);
         }
