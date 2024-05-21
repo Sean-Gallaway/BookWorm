@@ -40,6 +40,7 @@ public class AccountLoginController {
         if (!VerifyInputs()) {
             Tools.ShowPopup(1,"Invalid Input","At Least One Invalid Input Had Been Detected. " +
                     "Please Verify Information And Try Again.");
+            return;
         }
 
         // Alert user if account with specified username does not exist
