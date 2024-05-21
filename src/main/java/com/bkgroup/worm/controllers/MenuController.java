@@ -4,6 +4,7 @@ import com.bkgroup.worm.User;
 import com.bkgroup.worm.utils.Tools;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -78,6 +79,13 @@ public class MenuController {
     @FXML
     public void clickCart(ActionEvent event) {
         Tools.switchContent(centerPane, "/com/bkgroup/worm/controllers/Cart.fxml", true);
+    }
+
+    /**
+     * Load the BookView window
+     */
+    public void loadBookView() {
+        Tools.switchContent(centerPane, "/com/bkgroup/worm/controllers/BookView.fxml", true);
     }
 
     /**
