@@ -38,7 +38,7 @@ public final class AccountHelper {
      */
     public static boolean AttemptLogin(String username, String password) {
         String condition = String.format("username='%s'",username);
-        ResultSet user = Query.select("user","*",condition);
+        ResultSet user = Query.select("user","password",condition);
 
         // Check if passwords match
         try {
@@ -47,6 +47,25 @@ public final class AccountHelper {
         }
         catch (NullPointerException | SQLException e) {
             return false;
+        }
+    }
+
+    /**
+     * Returns profile picture index of account.
+     * @param username Username
+     * @return Profile picture index
+     */
+    public static int getPictureIndex(String username) {
+        String condition = String.format("username='%s'",username);
+        ResultSet user = Query.select("user","profilePic",condition);
+
+        // Check if passwords match
+        try {
+            user.next();
+            return user.getInt("profilePic");
+        }
+        catch (NullPointerException | SQLException e) {
+            return 0;
         }
     }
 

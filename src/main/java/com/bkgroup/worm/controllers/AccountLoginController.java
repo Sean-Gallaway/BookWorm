@@ -1,5 +1,6 @@
 package com.bkgroup.worm.controllers;
 
+import com.bkgroup.worm.User;
 import com.bkgroup.worm.utils.AccountHelper;
 import com.bkgroup.worm.utils.Tools;
 import javafx.fxml.FXML;
@@ -54,8 +55,7 @@ public class AccountLoginController {
             return;
         }
 
-        // TODO: SEND TO PROFILE PAGE
-        Tools.ShowPopup(9,"Great success!","Very nice!");
+        User.Login(txt_username.getText(),AccountHelper.getPictureIndex(txt_username.getText()));
     }
 
     /**
