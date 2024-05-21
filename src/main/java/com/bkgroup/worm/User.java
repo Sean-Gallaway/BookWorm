@@ -1,5 +1,10 @@
 package com.bkgroup.worm;
 
+import com.bkgroup.worm.utils.Query;
+import com.bkgroup.worm.utils.Tools;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class User {
@@ -23,14 +28,66 @@ public class User {
         userID = ID;
         loggedIn = true;
         cart.clear();
+        PopulateCart();
     }
 
     /**
-     * Adds book to users cart for use in checkout.
+     * Populates the cart using the database upon user login.
+     */
+    public static void PopulateCart() {
+        ResultSet books = Query.select("cart","bookID",String.format("userID=%s",userID));
+
+        try {
+            while (books.next()) {
+                cart.add(new Book(books.getInt("bookID")));
+            }
+        }
+        catch (NullPointerException | SQLException e) {
+            System.err.println("Error copying database cart to local");
+        }
+    }
+
+    /**
+     * Adds book to users cart for use in checkout or tells user book already exists in cart if it is found.
      * @param book Book
      */
     public static void AddToCart(Book book) {
-        cart.add(book);
+        if (ExistsInCart(book)) {
+            Tools.ShowPopup(1,"Book Already In Cart","The Selected Book Already Exists In Your Cart");
+        }
+        else {
+            Query.insert("cart","*",String.format("%d,%d", book.getID(), userID));
+        }
+    }
+
+    // TODO COMMENT
+    public static void RemoveFromCart(Book book) {
+        if (ExistsInCart(book)) {
+            Query.delete("cart",String.format("bookID=%d",book.getID()), String.format("userID=%d",userID));
+        }
+    }
+
+    /**
+     * Checks if book already exists in user's cart.
+     * @param book Book
+     * @return True if book is in cart; false otherwise
+     */
+    private static boolean ExistsInCart(Book book) {
+        ResultSet result = Query.select("cart","bookID",String.format("userID=%s",userID));
+
+        try {
+            while (result.next()) {
+                if (result.getInt("bookID") == book.getID()) {
+                    return true;
+                }
+            }
+        }
+        catch (NullPointerException | SQLException e) {
+            return false;
+        }
+
+        // Book was not found in cart
+        return false;
     }
 
     /**
