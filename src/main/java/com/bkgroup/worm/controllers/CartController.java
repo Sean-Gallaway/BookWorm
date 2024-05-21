@@ -1,6 +1,8 @@
 package com.bkgroup.worm.controllers;
 
 // Import necessary JavaFX classes
+import com.bkgroup.worm.Book;
+import com.bkgroup.worm.User;
 import com.bkgroup.worm.utils.Tools;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -24,13 +26,14 @@ public class CartController {
 
     @FXML
     public void initialize() {
-        // This method runs when the controller is initialized
-        // Print debug message
-        System.out.println("CartController initialized");
-
         // Add example items to the cart (for testing purposes)
-        addCartItem("The Magician's Nephew", "C.S. Lewis", 10.99, 1);
-        addCartItem("Harry Potter and the Half-Blood Prince", "J.K. Rowling", 15.99, 2);
+        User.AddToCart(new Book("The Magician's Nephew","C.S. Lewis"));
+        User.AddToCart(new Book("Harry Potter and the Half-Blood Prince","J.K. Rowling"));
+
+        // TODO FIX QUANTITY AND PRICE
+        for (Book book : User.getCart()) {
+            addCartItem(book,10.99,1);
+        }
 
         // Set actions for the buttons
         checkoutButton.setOnAction(event -> checkout());
@@ -42,7 +45,7 @@ public class CartController {
     }
 
     // Method to add an item to the cart
-    private void addCartItem(String title, String author, double price, int quantity) {
+    private void addCartItem(Book book, double price, int quantity) {
         // Create a new GridPane for the item
         GridPane item = new GridPane();
         item.setHgap(10); // Set horizontal gap between elements
@@ -50,8 +53,8 @@ public class CartController {
         item.setPadding(new Insets(5, 5, 5, 5)); // Set padding around the GridPane
 
         // Create labels for the item's details
-        Label titleLabel = new Label(title); // Book title
-        Label authorLabel = new Label(author); // Author name
+        Label titleLabel = new Label(book.getTitle()); // Book title
+        Label authorLabel = new Label(book.getAuthor()); // Author name
         Label priceLabel = new Label(String.format("$%.2f", price)); // Price
         Label quantityLabel = new Label(String.valueOf(quantity)); // Quantity
         Label totalLabel = new Label(String.format("$%.2f", price * quantity)); // Total price for the item

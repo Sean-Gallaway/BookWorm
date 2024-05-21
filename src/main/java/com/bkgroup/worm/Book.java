@@ -15,11 +15,18 @@ public class Book {
     }
 
     /**
-     * Returns book data in string array in the following format:
-     * <ul><li>[0]: Title</li><li>[1]: Author</li></ul>
-     * @return String array
+     * Returns String book title.
+     * @return Title
      */
-    public String[] getData() {
-        return new String[] { this.title, this.author };
+    public String getTitle() {
+        return this.title;
+    }
+
+    /**
+     * Returns String author name
+     * @return Author
+     */
+    public String getAuthor() {
+        return this.author;
     }
 }

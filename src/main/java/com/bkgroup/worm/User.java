@@ -7,7 +7,7 @@ public class User {
     private static String username;
     private static int pfpIndex;
     private static int userID;
-    private static ArrayList<Book> cart;
+    private static final ArrayList<Book> cart = new ArrayList<>();
 
     private User() {}
 
@@ -22,6 +22,23 @@ public class User {
         pfpIndex = pictureIndex;
         userID = ID;
         loggedIn = true;
+        cart.clear();
+    }
+
+    /**
+     * Adds book to users cart for use in checkout.
+     * @param book Book
+     */
+    public static void AddToCart(Book book) {
+        cart.add(book);
+    }
+
+    /**
+     * Returns cart which is an arraylist of book items.
+     * @return Arraylist cart
+     */
+    public static ArrayList<Book> getCart() {
+        return cart;
     }
 
     /**
@@ -39,6 +56,7 @@ public class User {
         username = "";
         pfpIndex = 0;
         loggedIn = false;
+        userID = -1;
         cart.clear();
     }
 
