@@ -86,7 +86,7 @@ public class MenuController {
     @FXML
     public void clickProfile(ActionEvent event) {
         // TODO REMOVE AFTER TESTING
-        Tools.switchContent(centerPane,"/com/bkgroup/worm/controllers/Account_Creation.fxml", true);
+        Tools.switchContent(centerPane,"/com/bkgroup/worm/controllers/Account_Login.fxml", true);
         //Tools.switchContent(centerPane, "/com/bkgroup/worm/controllers/Profile.fxml", true);
     }
 }

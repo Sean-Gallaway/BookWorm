@@ -1,6 +1,5 @@
 package com.bkgroup.worm.utils;
 
-
 import javafx.scene.control.TextField;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -14,21 +13,39 @@ public final class AccountHelper {
 
     /**
      * Checks if account exists and returns boolean.
-     * @param userName Profile username
+     * @param username Profile username
      * @return True if account exists; false otherwise
      */
-    public static boolean CheckAccountExistence(String userName)
+    public static boolean CheckAccountExistence(String username)
     {
-        String condition = String.format("username='%s'",userName);
+        String condition = String.format("username='%s'",username);
         ResultSet user = Query.select("user","*",condition);
 
         // Return false if user result set is null or has no data
         try {
-            if (user == null) { return false; }
             return user.next();
         }
-        catch (SQLException e)
-        {
+        catch (NullPointerException | SQLException e) {
+            return false;
+        }
+    }
+
+    /**
+     * Attempts to log in by checking if the password provided matches the password in the database for the username.
+     * @param username Username
+     * @param password Password
+     * @return True if passwords match; false otherwise
+     */
+    public static boolean AttemptLogin(String username, String password) {
+        String condition = String.format("username='%s'",username);
+        ResultSet user = Query.select("user","*",condition);
+
+        // Check if passwords match
+        try {
+            user.next();
+            return user.getString("password").equals(password);
+        }
+        catch (NullPointerException | SQLException e) {
             return false;
         }
     }
@@ -39,6 +56,7 @@ public final class AccountHelper {
      */
     public static void ResetBackground(TextField[] textFields)
     {
+        // Reset background to white for all text fields
         for (TextField t : textFields)
         {
             t.getStyleClass().removeAll(Collections.singleton("error"));

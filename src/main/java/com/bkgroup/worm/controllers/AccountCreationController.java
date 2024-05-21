@@ -1,8 +1,8 @@
 package com.bkgroup.worm.controllers;
 
-import javafx.fxml.FXML;
 import com.bkgroup.worm.utils.AccountHelper;
 import com.bkgroup.worm.utils.Tools;
+import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -81,6 +81,7 @@ public class AccountCreationController {
         // Reset background color
         AccountHelper.ResetBackground(textFields);
 
+        // Set text field background to red and set validity to false if invalid input is found
         boolean valid = true;
         if (txt_username.getText().isBlank())
         {
