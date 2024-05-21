@@ -1,4 +1,4 @@
-module com.example.worm {
+module com.bkgroup.worm {
     requires javafx.controls;
     requires javafx.fxml;
     requires java.sql;

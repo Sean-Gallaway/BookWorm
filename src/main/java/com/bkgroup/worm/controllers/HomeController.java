@@ -128,7 +128,7 @@ public class HomeController {
     {
         for(String[] i: content) {
             try {
-                String title = i[0].replaceAll(" ","");
+                String title = i[0].replaceAll(" ","").replaceAll("'", "").replaceAll("-", "");
 
                 // Set book cover image
                 ImageView imageView = new ImageView();

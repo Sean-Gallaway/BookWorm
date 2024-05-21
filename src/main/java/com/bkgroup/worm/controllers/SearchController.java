@@ -2,14 +2,18 @@ package com.bkgroup.worm.controllers;
 
 import com.bkgroup.worm.utils.DatabaseConnection;
 import com.bkgroup.worm.utils.Query;
+import com.bkgroup.worm.utils.Tools;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
 
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class SearchController {
 
@@ -31,8 +35,8 @@ public class SearchController {
         fp.setMinSize(output.getPrefWidth(), output.getPrefHeight());
         output.setContent(fp);
 
-        output.widthProperty().addListener(event -> fp.setPrefWidth(output.getWidth()));
-        output.heightProperty().addListener(event -> fp.setPrefHeight(output.getHeight()));
+        output.widthProperty().addListener(event -> fp.setPrefWidth(output.getWidth()-20));
+        output.heightProperty().addListener(event -> fp.setMinHeight(output.getHeight()));
 
         ArrayList<String[]> result = Query.resultSetToArrayList(Query.select("genre", "DISTINCT genre"));
         VBox vbox = new VBox();
@@ -60,15 +64,18 @@ public class SearchController {
 
     public void searchQuery () {
         // genre search
+        fp.getChildren().clear();
         StringBuilder queryOne = new StringBuilder("""
                 \tSELECT a.bookID,
                 \t    b.title,
                 \t    COUNT(*) AS num
                 \tFROM genre a
                 \t    JOIN book b
-                \t        ON a.bookID = b.bookID
-                \tWHERE\s""");
+                \t        ON a.bookID = b.bookID""");
         for (int a = 0; a < selectedGenres.size(); a++) {
+            if (a == 0) {
+                queryOne.append("\tWHERE\s");
+            }
             queryOne.append(" a.genre = '");
             queryOne.append(selectedGenres.get(a));
             queryOne.append("'");
@@ -79,11 +86,11 @@ public class SearchController {
         queryOne.append("\n\tGROUP BY a.bookID");
         //
 
-        //
+        // exact name search
         StringBuilder queryTwo = new StringBuilder("""
                 \tSELECT bookID,
                 \t    title,
-                \t    COUNT(*) as num
+                \t    CEIL(COUNT(*)*3.5) as num
                 \tFROM book
                 \tWHERE\s""");
         String[] searchTerms = searchField.getText().split(" ");
@@ -95,11 +102,11 @@ public class SearchController {
                 queryTwo.append(" AND");
             }
         }
-        queryTwo.append("\n\tGROUP BY bookID\n");
+        queryTwo.append("\n\tGROUP BY bookID");
         //
 
 
-        //
+        // partial name search
         StringBuilder queryThree = new StringBuilder();
         String temp = """
                 \tSELECT bookID,
@@ -119,7 +126,7 @@ public class SearchController {
         }
         //
 
-        //
+        // publication date search
         String queryFour = """
                 \tSELECT bookID,
                 \t    title,
@@ -132,6 +139,7 @@ public class SearchController {
                 "\n\tGROUP BY bookID";
         //
 
+        // combine the queries
         String subquery =
                 queryOne + "\nUNION ALL\n" +
                 queryTwo + "\nUNION ALL\n" +
@@ -144,6 +152,7 @@ public class SearchController {
                 FROM (
                     """);
         finalQuery.append(subquery);
+        // post-amble
         finalQuery.append("""
                 \n) AS r1
                     JOIN book b2
@@ -152,16 +161,27 @@ public class SearchController {
         finalQuery.append((int) pageCount.getValue()).append("\n");
         finalQuery.append("""
                 GROUP BY r1.title
+                HAVING tNum > 1
                 ORDER BY tnum DESC;
                 """);
-        System.out.println(finalQuery);
         ArrayList<String[]> result;
+
         try {
-            Statement st4 = DatabaseConnection.db().createStatement();
-            result = Query.resultSetToArrayList(st4.executeQuery(finalQuery.toString()));
+            Statement st = DatabaseConnection.db().createStatement();
+            result = Query.resultSetToArrayList(st.executeQuery(finalQuery.toString()));
             if (result != null) {
                 for (String[] str : result) {
-                    System.out.println(str[0] + " " + str[1]);
+                    FXMLLoader loader = new FXMLLoader(Tools.class.getResource("/com/bkgroup/worm/controllers/SearchCard.fxml"));
+                    fp.getChildren().add(loader.load());
+                    String tempStr = str[1].replaceAll(" ","").replaceAll("'", "").replaceAll("-", "");
+                    try {
+                        Image img = new Image(SearchController.class.getResourceAsStream(Objects.requireNonNull("/BookCovers/"+tempStr+".jpg")));
+                        SearchCard sc = loader.getController();
+                        sc.setup(img, str[1]);
+                    }
+                    catch (Exception e) {
+                        System.out.println(str[1] + " " + tempStr);
+                    }
                 }
             }
         }
@@ -170,38 +190,4 @@ public class SearchController {
         }
 
     }
-
-    /* basic structure of search
-    SELECT SUM(num) as tNum,
-    r1.title
-FROM (
-    SELECT g.bookID,
-        b.title,
-        COUNT(g.bookId) AS num
-    FROM genre g
-        JOIN book b
-            ON g.bookID = b.bookID
-    WHERE g.genre = 'romance' OR g.genre = 'military'
-    GROUP BY g.bookID
-UNION ALL
-	SELECT bookID,
-		title,
-		COUNT(bookID) as num
-	FROM book
-	WHERE title LIKE '%The%'
-	GROUP BY bookID
-UNION ALL
-	SELECT bookID,
-		title,
-        COUNT(bookID) as num
-	FROM book
-    WHERE publicationDate = '2018-02-06'
-    GROUP BY bookID
-) AS r1
-	JOIN book b2
-		ON r1.bookID = b2.bookID
-WHERE length < 800
-GROUP BY r1.title
-ORDER BY tNum DESC;
-     */
 }
