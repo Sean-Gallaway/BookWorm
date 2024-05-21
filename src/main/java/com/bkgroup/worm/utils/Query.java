@@ -38,6 +38,37 @@ public class Query {
     }
 
     /**
+     * Method that creates and executes a UPDATE query to the database
+     * An example on how to use:<br><br>
+     * Query.update("user","userID=12","profilePic=2");
+     * @param table the table to use
+     * @param condition condition for the WHERE clause.
+     * @param attributes the table and attributes to UPDATE
+     * @return True if value was updated; false otherwise
+     */
+    public static boolean update (String table, String condition, String... attributes) {
+        try {
+            // Do nothing if no attributes are given
+            if (attributes.length == 0) { throw new SQLException(); }
+
+            // Format query
+            String base = String.format("UPDATE %s ", table);
+            if (attributes.length == 1) {
+                base += String.format("SET %s WHERE %s", attributes[0], condition);
+            }
+            else {
+                base += String.format("SET %s WHERE %s", String.join(",", attributes), condition);
+            }
+
+            return db().createStatement().execute(base);
+        }
+        catch (SQLException e) {
+            System.err.println("SQL ERROR IN \"update()\":\"Query.java\"");
+            return false;
+        }
+    }
+
+    /**
      * Grabs all books from specified genre and returns ResultSet.
      * @param genre genre to search for
      * @return ResultSet of all books in specified genre
