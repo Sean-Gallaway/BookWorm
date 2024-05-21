@@ -16,6 +16,8 @@ public class AccountLoginController {
     private PasswordField txt_password;
     @FXML
     private Button btn_login;
+    @FXML
+    private Button btn_create_account;
 
     TextField[] textFields;
 
@@ -32,7 +34,15 @@ public class AccountLoginController {
     }
 
     /**
-     * Activates when login button is pressed
+     * Activates when "create account" button is pressed
+     */
+    @FXML
+    void GotoAccountCreationPage() {
+        // TODO MAKE IT GO TO ACCOUNT CREATION PAGE
+    }
+
+    /**
+     * Activates when "login" button is pressed
      */
     @FXML
     void Login() {

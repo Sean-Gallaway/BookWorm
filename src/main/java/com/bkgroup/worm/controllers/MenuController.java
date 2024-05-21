@@ -1,5 +1,6 @@
 package com.bkgroup.worm.controllers;
 
+import com.bkgroup.worm.User;
 import com.bkgroup.worm.utils.Tools;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -80,13 +81,21 @@ public class MenuController {
     }
 
     /**
-     * Load the profile window
+     * Open account login page if not logged in; else, go to profile page.
      * @param event The button event
      */
     @FXML
     public void clickProfile(ActionEvent event) {
-        // TODO REMOVE AFTER TESTING
-        Tools.switchContent(centerPane,"/com/bkgroup/worm/controllers/Account_Login.fxml", true);
-        //Tools.switchContent(centerPane, "/com/bkgroup/worm/controllers/Profile.fxml", true);
+        /*
+        if () {
+            Tools.switchContent(centerPane,"/com/bkgroup/worm/controllers/Account_Creation.fxml", true);
+        }
+        */ // TODO ALLOW GOING TO ACCOUNT CREATION PAGE
+        if (!User.isLoggedIn()) {
+            Tools.switchContent(centerPane,"/com/bkgroup/worm/controllers/Account_Login.fxml", true);
+        }
+        else {
+            Tools.switchContent(centerPane,"/com/bkgroup/worm/controllers/Profile.fxml", true);
+        }
     }
 }
