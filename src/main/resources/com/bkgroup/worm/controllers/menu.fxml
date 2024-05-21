@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.geometry.Rectangle2D?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.image.Image?>
@@ -9,13 +10,13 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 
-<BorderPane prefHeight="800.0" prefWidth="1000.0" minHeight="600" minWidth="600" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bkgroup.worm.controllers.MenuController">
+<BorderPane minHeight="600" minWidth="600" prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bkgroup.worm.controllers.MenuController">
    <top>
-      <AnchorPane maxHeight="200.0" minHeight="40.0" prefHeight="50.0" style="-fx-background-color: b9bede;" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0" BorderPane.alignment="CENTER">
+      <AnchorPane maxHeight="200.0" minHeight="40.0" prefHeight="80.0" style="-fx-background-color: b9bede;" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0" BorderPane.alignment="CENTER">
          <children>
-            <StackPane AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+            <StackPane prefHeight="80.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                <children>
-                  <ImageView fitHeight="136.0" fitWidth="350.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="139.0" fitWidth="528.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../../../images/header.png" />
                      </image>
@@ -43,6 +44,9 @@
       </AnchorPane>
    </bottom>
    <center>
-      <AnchorPane fx:id="centerPane" BorderPane.alignment="CENTER" />
+      <AnchorPane fx:id="centerPane" BorderPane.alignment="CENTER">
+         <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </padding></AnchorPane>
    </center>
 </BorderPane>

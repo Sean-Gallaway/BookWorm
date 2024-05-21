@@ -93,7 +93,7 @@ public class Query {
      */
     public static ResultSet populateGenre (String genre) {
         try {
-            String query = String.format("SELECT b.title FROM Book b JOIN Genre g ON b.bookID = g.bookID WHERE g.genre = '%s'", genre);
+            String query = String.format("SELECT * FROM Book b JOIN Genre g ON b.bookID = g.bookID WHERE g.genre = '%s'", genre);
             return db().createStatement().executeQuery(query);
         }
         catch (SQLException e) {

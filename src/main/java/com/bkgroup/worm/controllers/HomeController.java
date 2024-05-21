@@ -1,7 +1,11 @@
 package com.bkgroup.worm.controllers;
 
 import com.bkgroup.worm.utils.Query;
+import javafx.beans.binding.Bindings;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
@@ -9,9 +13,13 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.stage.Stage;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Scanner;
 
 public class HomeController {
     private final static HashMap<String,ArrayList<String[]>> cache = new HashMap<>();
@@ -19,8 +27,20 @@ public class HomeController {
     private int BOOK_HEIGHT = 175;
     @FXML VBox sections;
 
+    @FXML AnchorPane bookViewer;
+    @FXML StackPane viewerPane;
+    @FXML ImageView viewerCover;
+    @FXML Label viewerTitle;
+    @FXML Label viewerSeries;
+    @FXML Label viewerAuthor;
+    @FXML Label viewerGenre;
+    @FXML Label viewerDescription;
+
+
     @FXML
     public void initialize() {
+        centerViewerPane();
+
         // Load database objects into cache if none are loaded
         if (!INITIALIZED)
         {
@@ -48,6 +68,15 @@ public class HomeController {
         createBookList(cache.get("YOUNG_ADULT"));
 
         INITIALIZED = true;
+
+
+    }
+
+    private void centerViewerPane() {
+        double centerX = (bookViewer.getWidth() - viewerPane.getPrefWidth()) / 2;
+        double centerY = (bookViewer.getHeight() - viewerPane.getPrefHeight()) / 2;
+        viewerPane.setLayoutX(centerX);
+        viewerPane.setLayoutY(centerY);
     }
 
     /**
@@ -65,7 +94,7 @@ public class HomeController {
      */
     private void populateSections()
     {
-        cache.put("LOCAL_AUTHORS", Query.resultSetToArrayList(Query.select("book","title","author='Kristin Hannah'")));
+        cache.put("LOCAL_AUTHORS", Query.resultSetToArrayList(Query.select("book","*","author='Kristin Hannah'")));
         cache.put("FICTION", Query.resultSetToArrayList(Query.populateGenre("Fiction")));
         cache.put("CHILDREN", Query.resultSetToArrayList(Query.populateGenre("Children")));
         cache.put("FANTASY", Query.resultSetToArrayList(Query.populateGenre("Fantasy")));
@@ -128,7 +157,7 @@ public class HomeController {
     {
         for(String[] i: content) {
             try {
-                String title = i[0].replaceAll(" ","").replaceAll("'", "").replaceAll("-", "");
+                String title = i[1].replaceAll(" ","").replaceAll("'", "").replaceAll("-", "");
 
                 // Set book cover image
                 ImageView imageView = new ImageView();
@@ -144,6 +173,11 @@ public class HomeController {
                 imageView.setFitWidth(scaledWidth);
                 imageView.setFitHeight(desiredHeight);
 
+                //Set the click listener for clicking on the book cover
+                imageView.setOnMouseClicked(event -> {
+                    clickBook(i, image, title);
+                });
+
                 // Add book image to hBox
                 hBox.getChildren().add(imageView);
             }
@@ -151,5 +185,75 @@ public class HomeController {
                 System.out.printf("Error loading cover for \"%s\" : %s\n",i[0], e.getMessage());
             }
         }
+    }
+
+    /**
+     * Show the ClickView menu, loading the book information of the book that was clicked.
+     * @param content
+     */
+    private void clickBook(String[] content, Image bookCover, String title) {
+        bookViewer.setVisible(true);
+
+
+        //Set the book cover
+        viewerCover.setImage(bookCover);
+        double desiredHeight = BOOK_HEIGHT + 100;
+        double scaleFactor = desiredHeight / bookCover.getHeight();
+        double scaledWidth = bookCover.getWidth() * scaleFactor;
+        viewerCover.setFitWidth(scaledWidth);
+        viewerCover.setFitHeight(desiredHeight);
+
+        //Set the title
+        viewerTitle.setText(content[1]);
+
+        //Set the series
+        if(content[2].equals("NULL")) {//If it's not part of a series, disable the label
+            viewerSeries.setVisible(false);
+        } else {//If it is part of a series
+            viewerSeries.setVisible(true);
+            viewerSeries.setText(content[2]);
+        }
+
+        //Set the author
+        viewerAuthor.setText("by " + content[3]);
+
+        //Set the genres
+        ArrayList<String[]> genres = Query.resultSetToArrayList(Query.select("genre", "genre", Query.where("bookID", content[0])));
+        String genreText = "Genre: ";
+        for(String[] i: genres) {
+            genreText += i[0] + ", ";
+        }
+        genreText = genreText.substring(0, genreText.length()-2);//Remove the final comma and space
+        viewerGenre.setText(genreText);
+
+        viewerDescription.setWrapText(true);//Make sure the text wraps if it gets too long.
+        viewerDescription.setText(loadDescription(title));
+
+    }
+
+    @FXML
+    public void clickCloseBookViewer(ActionEvent event) {
+        bookViewer.setVisible(false);
+    }
+
+    /**
+     * Load the description text from the file.
+     * @param title The full book title (NO spaces).
+     * @return A string containing all text from the description txt file.
+     */
+    private String loadDescription(String title) {
+        try {
+            File file = new File("src/main/resources/Descriptions/" + title + ".txt");
+            Scanner sc = new Scanner(file);
+
+            StringBuilder fileContent = new StringBuilder();
+            while (sc.hasNextLine())
+                fileContent.append(sc.nextLine()).append(System.lineSeparator());
+
+            return fileContent.toString();
+        } catch (Exception e) {
+            System.out.println("Description file could not be read. " + e.getMessage());
+        }
+        return "";
     }
 }
