@@ -263,7 +263,7 @@ INSERT INTO `bookwormDB`.`Genre` (`bookID`, `genre`) VALUES (34, 'historical fic
 INSERT INTO `bookwormDB`.`Genre` (`bookID`, `genre`) VALUES (35, 'mystery');
 INSERT INTO `bookwormDB`.`Genre` (`bookID`, `genre`) VALUES (36, 'fantasy');
 INSERT INTO `bookwormDB`.`Genre` (`bookID`, `genre`) VALUES (37, 'fiction');
-INSERT INTO `bookwormDB`.`Genre` (`bookID`, `genre`) VALUES (38, 'gothic fiction');
+INSERT INTO `bookwormDB`.`Genre` (`bookID`, `genre`) VALUES (38, 'fiction');
 INSERT INTO `bookwormDB`.`Genre` (`bookID`, `genre`) VALUES (39, 'autobiographical ');
 INSERT INTO `bookwormDB`.`Genre` (`bookID`, `genre`) VALUES (40, 'science fiction');
 INSERT INTO `bookwormDB`.`Genre` (`bookID`, `genre`) VALUES (41, 'thriller');

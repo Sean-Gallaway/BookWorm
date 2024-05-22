@@ -59,13 +59,28 @@ public class HomeController {
         createSection("Children");
         createBookList(cache.get("CHILDREN"));
 
+        // Populate young adult book section
+        createSection("Young Adult");
+        createBookList(cache.get("YOUNG_ADULT"));
+
         // Populate fantasy book section
         createSection("Fantasy");
         createBookList(cache.get("FANTASY"));
 
-        // Populate young adult book section
-        createSection("Young Adult");
-        createBookList(cache.get("YOUNG_ADULT"));
+        // Populate science fiction book section
+        createSection("Science Fiction");
+        createBookList(cache.get("SCIENCE_FICTION"));
+
+
+        // Populate Myster book section
+        createSection("Mystery");
+        createBookList(cache.get("MYSTERY"));
+
+        // Populate thriller book section
+        createSection("Thriller");
+        createBookList(cache.get("THRILLER"));
+
+
 
         INITIALIZED = true;
 
@@ -99,6 +114,9 @@ public class HomeController {
         cache.put("CHILDREN", Query.resultSetToArrayList(Query.populateGenre("Children")));
         cache.put("FANTASY", Query.resultSetToArrayList(Query.populateGenre("Fantasy")));
         cache.put("YOUNG_ADULT", Query.resultSetToArrayList(Query.populateGenre("Young Adult")));
+        cache.put("SCIENCE_FICTION", Query.resultSetToArrayList(Query.populateGenre("Science Fiction")));
+        cache.put("MYSTERY", Query.resultSetToArrayList(Query.populateGenre("Mystery")));
+        cache.put("THRILLER", Query.resultSetToArrayList(Query.populateGenre("Thriller")));
     }
 
     /**
