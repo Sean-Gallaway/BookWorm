@@ -70,7 +70,8 @@
             </Label>
             <TextField fx:id="searchField" alignment="CENTER" prefHeight="44.0" prefWidth="474.0" HBox.hgrow="ALWAYS" />
          </HBox>
-         <ScrollPane fx:id="output" hbarPolicy="NEVER" prefHeight="350.0" prefWidth="600.0" style="-fx-font-size: 20;" vbarPolicy="ALWAYS" VBox.vgrow="ALWAYS">
+         <ScrollPane fx:id="output"
+                     hbarPolicy="NEVER" prefHeight="350.0" prefWidth="600.0" style="-fx-font-size: 20; -fx-focus-traversable: false;-fx-background-color: -fx-box-border, -fx-control-inner-background;" vbarPolicy="ALWAYS" VBox.vgrow="ALWAYS">
          </ScrollPane>
       </VBox>
    </HBox>
