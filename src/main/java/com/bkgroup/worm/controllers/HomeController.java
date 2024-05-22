@@ -1,6 +1,9 @@
 package com.bkgroup.worm.controllers;
 
+import com.bkgroup.worm.Book;
+import com.bkgroup.worm.User;
 import com.bkgroup.worm.utils.Query;
+import com.bkgroup.worm.utils.Tools;
 import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -14,7 +17,6 @@ import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -24,6 +26,7 @@ import java.util.Scanner;
 public class HomeController {
     private final static HashMap<String,ArrayList<String[]>> cache = new HashMap<>();
     private static boolean INITIALIZED;
+    private Book selectedBook;
     private int BOOK_HEIGHT = 175;
     @FXML VBox sections;
 
@@ -212,8 +215,7 @@ public class HomeController {
     private void clickBook(String[] content, Image bookCover, String title) {
         bookViewer.setVisible(true);
 
-
-        //Set the book cover
+        // Set the book cover
         viewerCover.setImage(bookCover);
         double desiredHeight = BOOK_HEIGHT + 100;
         double scaleFactor = desiredHeight / bookCover.getHeight();
@@ -221,33 +223,36 @@ public class HomeController {
         viewerCover.setFitWidth(scaledWidth);
         viewerCover.setFitHeight(desiredHeight);
 
-        //Set the title
+        // Set the title
         viewerTitle.setText(content[1]);
 
-        //Set the series
-        if(content[2].equals("NULL")) {//If it's not part of a series, disable the label
+        // Set the series
+        if (content[2].equals("NULL")) { // If it's not part of a series, disable the label
             viewerSeries.setVisible(false);
-        } else {//If it is part of a series
+        } else { // If it is part of a series
             viewerSeries.setVisible(true);
             viewerSeries.setText(content[2]);
         }
 
-        //Set the author
+        // Set the author
         viewerAuthor.setText("by " + content[3]);
 
-        //Set the genres
+        // Set the genres
         ArrayList<String[]> genres = Query.resultSetToArrayList(Query.select("genre", "genre", Query.where("bookID", content[0])));
         String genreText = "Genre: ";
-        for(String[] i: genres) {
+        for (String[] i : genres) {
             genreText += i[0] + ", ";
         }
-        genreText = genreText.substring(0, genreText.length()-2);//Remove the final comma and space
+        genreText = genreText.substring(0, genreText.length() - 2); // Remove the final comma and space
         viewerGenre.setText(genreText);
 
-        viewerDescription.setWrapText(true);//Make sure the text wraps if it gets too long.
+        viewerDescription.setWrapText(true); // Make sure the text wraps if it gets too long.
         viewerDescription.setText(loadDescription(title));
 
+        // Store the selected book reference
+        selectedBook = new Book(Integer.parseInt(content[0]));
     }
+
 
     @FXML
     public void clickCloseBookViewer(ActionEvent event) {
@@ -274,4 +279,33 @@ public class HomeController {
         }
         return "";
     }
+    @FXML
+    public void handleAddToCart(ActionEvent event) {
+        if (selectedBook != null) {
+            User.AddToCart(selectedBook);
+            updateCartView(selectedBook); // Update the cart view immediately
+        } else {
+            Tools.ShowPopup(4, "Error", "No book selected to add to cart.");
+        }
+    }
+
+    // Method to update the cart view
+    private void updateCartView(Book selectedBook) {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/bkgroup/worm/controllers/Cart.fxml"));
+        try {
+            Parent root = loader.load();
+            CartController cartController = loader.getController();
+            cartController.addCartItem(selectedBook, 1); // Use appropriate quantity
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+    // Method to get the currently selected book
+    private Book getSelectedBook() {
+        return selectedBook;
+    }
+
 }

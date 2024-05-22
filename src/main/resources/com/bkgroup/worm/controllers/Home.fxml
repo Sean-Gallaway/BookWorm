@@ -65,10 +65,11 @@
                               </ScrollPane>
                               <HBox id="Buttons" prefHeight="39.0" prefWidth="222.0" spacing="5.0">
                                  <children>
-                                    <Button id="AddToCart" mnemonicParsing="false" text="Add to Cart" />
+                                    <Button id="AddToCart" mnemonicParsing="false" text="Add to Cart" onAction="#handleAddToCart" />
                                     <Button id="AddToWishlist" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" text="Add to Wishlist" />
                                  </children>
                               </HBox>
+
                            </children>
                         </VBox>
                         <Button id="Close" mnemonicParsing="false" onAction="#clickCloseBookViewer" text="Close" />

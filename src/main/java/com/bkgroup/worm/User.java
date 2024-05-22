@@ -53,16 +53,18 @@ public class User {
      */
     public static void AddToCart(Book book) {
         if (ExistsInCart(book)) {
-            Tools.ShowPopup(1,"Book Already In Cart","The Selected Book Already Exists In Your Cart");
-        }
-        else {
-            Query.insert("cart","*",String.format("%d,%d", book.getID(), userID));
+            Tools.ShowPopup(1, "Book Already In Cart", "The Selected Book Already Exists In Your Cart");
+        } else {
+            cart.add(book); // Add to local cart
+            Query.insert("cart", "*", String.format("%d,%d", book.getID(), userID));
+            Tools.ShowPopup(4, "Book Added", "The Selected Book Has Been Added to Your Cart");
         }
     }
 
-    // TODO COMMENT
+
     public static void RemoveFromCart(Book book) {
         if (ExistsInCart(book)) {
+            cart.remove(book); // Remove from local cart
             Query.delete("cart",String.format("bookID=%d",book.getID()), String.format("userID=%d",userID));
         }
     }
@@ -141,5 +143,13 @@ public class User {
     public static boolean setPfpIndex(int index) {
         pfpIndex = index;
         return true; // TODO ERROR CHECKING INDEX BOUNDS
+    }
+
+    /**
+     * Clears the user's cart.
+     */
+    public static void clearCart() {
+        cart.clear(); // Clear local cart
+        Query.delete("cart", "userID=" + userID); // Clear cart in database
     }
 }

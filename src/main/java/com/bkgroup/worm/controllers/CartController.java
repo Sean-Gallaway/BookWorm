@@ -1,104 +1,79 @@
 package com.bkgroup.worm.controllers;
 
-// Import necessary JavaFX classes
 import com.bkgroup.worm.Book;
 import com.bkgroup.worm.User;
-import com.bkgroup.worm.utils.Query;
 import com.bkgroup.worm.utils.Tools;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.geometry.Insets;
 
 public class CartController {
-    // Declare FXML components
     @FXML
-    private ListView<GridPane> cartListView; // ListView to display cart items
+    private ListView<GridPane> cartListView;
     @FXML
-    private Label totalLabel; // Label to display total price
+    private Label totalLabel;
     @FXML
-    private Button checkoutButton; // Button to proceed with checkout
+    private Button checkoutButton;
     @FXML
-    private Button clearButton; // Button to clear the cart
-
+    private Button clearButton;
+    @FXML
+    private ImageView angelWormImage;
+    @FXML
+    private ImageView devilWormImage;
     @FXML
     public void initialize() {
-        // Add example items to the cart (for testing purposes)
-        if (User.isLoggedIn()) {
-            User.AddToCart(new Book(9));
-            User.AddToCart(new Book(50));
-        }
-
-        // TODO FIX QUANTITY AND PRICE
-        // TODO FIX: DOES NOT UPDATE WITH NEW BOOKS
+        // Load items from the user's cart
         for (Book book : User.getCart()) {
-            addCartItem(book,10.99,1);
+            addCartItem(book, 1);
         }
 
         // Set actions for the buttons
         checkoutButton.setOnAction(event -> checkout());
-        // Set action for the clear cart button
         clearButton.setOnAction(event -> clearCart());
 
-        // Update the total price
+        // Update the total items count
         updateTotal();
     }
 
     // Method to add an item to the cart
-    private void addCartItem(Book book, double price, int quantity) {
-        // Create a new GridPane for the item
+    public void addCartItem(Book book, int quantity) {
         GridPane item = new GridPane();
-        item.setHgap(10); // Set horizontal gap between elements
-        item.setVgap(5); // Set vertical gap between elements
-        item.setPadding(new Insets(5, 5, 5, 5)); // Set padding around the GridPane
+        item.setHgap(10);
+        item.setVgap(5);
+        item.setPadding(new Insets(5, 5, 5, 5));
 
-        // Create labels for the item's details
-        Label titleLabel = new Label(book.getTitle()); // Book title
-        Label authorLabel = new Label(book.getAuthor()); // Author name
-        Label priceLabel = new Label(String.format("$%.2f", price)); // Price
-        Label quantityLabel = new Label(String.valueOf(quantity)); // Quantity
-        Label totalLabel = new Label(String.format("$%.2f", price * quantity)); // Total price for the item
+        Label titleLabel = new Label(book.getTitle());
+        Label authorLabel = new Label(book.getAuthor());
+        Label quantityLabel = new Label(String.valueOf(quantity));
 
-        // Add labels to the GridPane in respective columns
         item.add(titleLabel, 0, 0);
         item.add(authorLabel, 1, 0);
-        item.add(priceLabel, 2, 0);
-        item.add(quantityLabel, 3, 0);
-        item.add(totalLabel, 4, 0);
+        item.add(quantityLabel, 2, 0);
 
-        // Add the GridPane to the ListView
         cartListView.getItems().add(item);
+        updateTotal(); // Update total whenever a new item is added
     }
 
     // Method to handle the checkout process
     private void checkout() {
-        // Show an alert dialog to indicate checkout
-        Tools.ShowPopup(4,"Checkout","Proceeding to checkout...");
+        Tools.ShowPopup(4, "Checkout", "Proceeding to checkout...");
     }
 
     // Method to clear the cart
     private void clearCart() {
-        // Clear all items from the ListView
         cartListView.getItems().clear();
-        // Update the total price to reflect the cleared cart
-        updateTotal();
+        User.clearCart(); // Clear the cart in User class
+        updateTotal(); // Update the total count to reflect the cleared cart
     }
 
-    // Method to update the total price displayed
+    // Method to update the total items displayed
     private void updateTotal() {
-        double total = 0.0; // Initialize total price
-        // Iterate through each item in the ListView
-        for (GridPane item : cartListView.getItems()) {
-            // Get the total price label for the item (assumed to be in the 5th column)
-            Label totalLabel = (Label) item.getChildren().get(4);
-            // Add the item's total price to the overall total (remove the "$" sign and parse as double)
-            total += Double.parseDouble(totalLabel.getText().substring(1));
-        }
-        // Update the totalLabel to show the overall total price
-        totalLabel.setText(String.format("%.2f", total));
+        int totalItems = cartListView.getItems().size();
+        totalLabel.setText(String.valueOf(totalItems));
     }
 }
+
