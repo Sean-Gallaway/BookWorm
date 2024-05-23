@@ -9,6 +9,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
@@ -30,6 +31,7 @@ public class HomeController {
     private int BOOK_HEIGHT = 175;
     @FXML VBox sections;
 
+    //Book Viewer Window
     @FXML AnchorPane bookViewer;
     @FXML StackPane viewerPane;
     @FXML ImageView viewerCover;
@@ -39,15 +41,26 @@ public class HomeController {
     @FXML Label viewerGenre;
     @FXML Label viewerDescription;
 
+    private enum LikeStatus {Dislike, Neutral, Like};
+    private LikeStatus like;//Keeps track of the like status for the current book being displayed.
+    private Image greyLike = new Image("images/GreyThumbUp.png");
+    private Image greenLike = new Image("images/GreenThumbUp.png");
+    private Image greyDislike = new Image("images/GreyThumbDown.png");
+    private Image redDislike = new Image("images/RedThumbDown.png");
+
+    //Book Viewer Buttons
+    @FXML Button likeButton;
+    @FXML Button dislikeButton;
+    @FXML Button closeButton;
+
+
 
     @FXML
     public void initialize() {
-        centerViewerPane();
-
         // Load database objects into cache if none are loaded
-        if (!INITIALIZED)
-        {
+        if (!INITIALIZED) {
             populateSections();
+            initializeViewerPane();
         }
 
         // Populate local author section
@@ -75,7 +88,7 @@ public class HomeController {
         createBookList(cache.get("SCIENCE_FICTION"));
 
 
-        // Populate Myster book section
+        // Populate Mystery book section
         createSection("Mystery");
         createBookList(cache.get("MYSTERY"));
 
@@ -83,10 +96,22 @@ public class HomeController {
         createSection("Thriller");
         createBookList(cache.get("THRILLER"));
 
-
-
         INITIALIZED = true;
+    }
 
+    /**
+     * Complete all initialization for the graphics of the book viewer
+     */
+    private void initializeViewerPane() {
+        centerViewerPane();
+
+        setLikeStatus(LikeStatus.Neutral);
+
+        Image closeImg = new Image("images/Close.png");
+        ImageView closeView = new ImageView(closeImg);
+        closeView.setFitHeight(25);
+        closeView.setPreserveRatio(true);
+        closeButton.setGraphic(closeView);
 
     }
 
@@ -259,6 +284,67 @@ public class HomeController {
         bookViewer.setVisible(false);
     }
 
+    @FXML
+    public void clickLikeButton(ActionEvent event) {
+        if(like == LikeStatus.Like) {
+            //If the status is already set to like, and you click it again, it will go back to neutral
+            setLikeStatus(LikeStatus.Neutral);
+        } else {
+            //If the status is neutral or dislike, and you click like, it will switch the status to "Like"
+            setLikeStatus(LikeStatus.Like);
+        }
+    }
+
+    @FXML
+    public void clickDislikeButton(ActionEvent event) {
+        if(like == LikeStatus.Dislike) {
+            //If the status is already set to dislike, and you click it again, it will go back to neutral
+            setLikeStatus(LikeStatus.Neutral);
+        } else {
+            //If the status is neutral or like, and you click dislike, it will switch the status to "Dislike"
+            setLikeStatus(LikeStatus.Dislike);
+        }
+    }
+
+    /**
+     * Update the like status both logically and graphically for the book viewer
+     * @param status The new like status
+     */
+    @FXML
+    public void setLikeStatus(LikeStatus status) {
+        like = status;//Update the status variable
+
+        ImageView likeView = null;
+        ImageView dislikeView = null;
+
+        switch(like) {
+            case Neutral:
+                likeView = new ImageView(greyLike);
+                dislikeView = new ImageView(greyDislike);
+            break;
+            case Like:
+                likeView = new ImageView(greenLike);
+                dislikeView = new ImageView(greyDislike);
+                break;
+            case Dislike:
+                likeView = new ImageView(greyLike);
+                dislikeView = new ImageView(redDislike);
+                break;
+
+        }
+
+        //Set the graphics for likeButton
+        likeView.setFitHeight(30);
+        likeView.setPreserveRatio(true);
+        likeButton.setGraphic(likeView);
+
+        //Set the graphics for dislikeButton
+        dislikeView.setFitHeight(30);
+        dislikeView.setPreserveRatio(true);
+        dislikeButton.setGraphic(dislikeView);
+    }
+
+
     /**
      * Load the description text from the file.
      * @param title The full book title (NO spaces).
@@ -307,5 +393,7 @@ public class HomeController {
     private Book getSelectedBook() {
         return selectedBook;
     }
+
+
 
 }

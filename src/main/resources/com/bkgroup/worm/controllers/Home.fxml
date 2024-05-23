@@ -35,8 +35,8 @@
                               <ImageView fx:id="viewerCover" fitHeight="213.0" fitWidth="155.0" pickOnBounds="true" preserveRatio="true" />
                               <HBox id="Buttons" alignment="CENTER" prefHeight="26.0" prefWidth="222.0" spacing="5.0">
                                  <children>
-                                    <Button id="Like" mnemonicParsing="false" text="Like" />
-                                    <Button id="Dislike" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" text="Dislike" />
+                                    <Button id="Like" fx:id="likeButton" contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" onAction="#clickLikeButton" style="-fx-background-color: #ffffff;" text="Like" />
+                                    <Button id="Dislike" fx:id="dislikeButton" contentDisplay="GRAPHIC_ONLY" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#clickDislikeButton" style="-fx-background-color: #ffffff;" text="Dislike" />
                                  </children>
                               </HBox>
                            </children>
@@ -65,14 +65,14 @@
                               </ScrollPane>
                               <HBox id="Buttons" prefHeight="39.0" prefWidth="222.0" spacing="5.0">
                                  <children>
-                                    <Button id="AddToCart" mnemonicParsing="false" text="Add to Cart" onAction="#handleAddToCart" />
+                                    <Button id="AddToCart" mnemonicParsing="false" onAction="#handleAddToCart" text="Add to Cart" />
                                     <Button id="AddToWishlist" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" text="Add to Wishlist" />
                                  </children>
                               </HBox>
 
                            </children>
                         </VBox>
-                        <Button id="Close" mnemonicParsing="false" onAction="#clickCloseBookViewer" text="Close" />
+                        <Button id="Close" fx:id="closeButton" contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" onAction="#clickCloseBookViewer" style="-fx-background-color: #ffffff;" text="Close" />
                      </children>
                      <padding>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
