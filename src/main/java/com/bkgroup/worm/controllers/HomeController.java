@@ -249,18 +249,18 @@ public class HomeController {
         viewerCover.setFitHeight(desiredHeight);
 
         // Set the title
-        viewerTitle.setText(content[1]);
+        viewerTitle.setText(content[Query.BookAttributes.title.ordinal()]);
 
         // Set the series
-        if (content[2].equals("NULL")) { // If it's not part of a series, disable the label
+        if (content[2] == null) { // If it's not part of a series, disable the label
             viewerSeries.setVisible(false);
         } else { // If it is part of a series
             viewerSeries.setVisible(true);
-            viewerSeries.setText(content[2]);
+            viewerSeries.setText(content[Query.BookAttributes.series.ordinal()] + " : " + content[Query.BookAttributes.seriesNum.ordinal()]);
         }
 
         // Set the author
-        viewerAuthor.setText("by " + content[3]);
+        viewerAuthor.setText("by " + content[4]);
 
         // Set the genres
         ArrayList<String[]> genres = Query.resultSetToArrayList(Query.select("genre", "genre", Query.where("bookID", content[0])));
@@ -275,13 +275,14 @@ public class HomeController {
         viewerDescription.setText(loadDescription(title));
 
         // Store the selected book reference
-        selectedBook = new Book(Integer.parseInt(content[0]));
+        selectedBook = new Book(Integer.parseInt(content[Query.BookAttributes.bookID.ordinal()]));
     }
 
 
     @FXML
     public void clickCloseBookViewer(ActionEvent event) {
         bookViewer.setVisible(false);
+        setLikeStatus(LikeStatus.Neutral);
     }
 
     @FXML

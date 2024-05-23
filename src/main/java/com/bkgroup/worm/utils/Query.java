@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import static com.bkgroup.worm.utils.DatabaseConnection.db;
 
 public class Query {
+    public enum BookAttributes {bookID, title, series, seriesNum, author, length, publicationDate, numAvailable};
     // do not make an instance of this class.
     private Query () {}
 

@@ -22,6 +22,7 @@ CREATE TABLE IF NOT EXISTS `bookwormDB`.`Book` (
   `bookID` INT NOT NULL AUTO_INCREMENT,
   `title` VARCHAR(50) NOT NULL,
   `series` VARCHAR(50) NULL,
+  `seriesNum` INT NULL,
   `author` VARCHAR(50) NOT NULL,
   `length` INT NOT NULL,
   `publicationDate` DATE NOT NULL,
@@ -144,57 +145,57 @@ SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `bookwormDB`;
-INSERT INTO `bookwormDB`.`Book` (`bookID`, `title`, `series`, `author`, `length`, `publicationDate`, `numAvailable`) VALUES (1, 'The Nightingale', 'NULL', 'Kristin Hannah', 608, '2017-04-25', 5);
-INSERT INTO `bookwormDB`.`Book` (`bookID`, `title`, `series`, `author`, `length`, `publicationDate`, `numAvailable`) VALUES (2, 'The Women', 'NULL', 'Kristin Hannah', 480, '2024-02-06', 5);
-INSERT INTO `bookwormDB`.`Book` (`bookID`, `title`, `series`, `author`, `length`, `publicationDate`, `numAvailable`) VALUES (3, 'The Great Alone', 'NULL', 'Kristin Hannah', 448, '2018-02-06', 5);
-INSERT INTO `bookwormDB`.`Book` (`bookID`, `title`, `series`, `author`, `length`, `publicationDate`, `numAvailable`) VALUES (4, 'Dune', 'Dune: 1', 'Frank Herbert', 892, '1905-05-18', 5);
-INSERT INTO `bookwormDB`.`Book` (`bookID`, `title`, `series`, `author`, `length`, `publicationDate`, `numAvailable`) VALUES (5, 'Dune Messiah', 'Dune:2', 'Frank Herbert', 350, '1905-05-29', 5);
-INSERT INTO `bookwormDB`.`Book` (`bookID`, `title`, `series`, `author`, `length`, `publicationDate`, `numAvailable`) VALUES (6, 'Children of Dune', 'Dune:3', 'Frank Herbert', 623, '1905-05-29', 5);
-INSERT INTO `bookwormDB`.`Book` (`bookID`, `title`, `series`, `author`, `length`, `publicationDate`, `numAvailable`) VALUES (7, 'God Emperor of Dune', 'Dune:4', 'Frank Herbert', 604, '1905-06-03', 5);
-INSERT INTO `bookwormDB`.`Book` (`bookID`, `title`, `series`, `author`, `length`, `publicationDate`, `numAvailable`) VALUES (8, 'Heretics of Dune', 'Dune:5', 'Frank Herbert', 300, '1905-06-06', 5);
-INSERT INTO `bookwormDB`.`Book` (`bookID`, `title`, `series`, `author`, `length`, `publicationDate`, `numAvailable`) VALUES (9, 'The Magician\'s Nephew', 'The Chronicles of Narnia:1', 'C.S. Lewis', 221, '1905-05-08', 5);
-INSERT INTO `bookwormDB`.`Book` (`bookID`, `title`, `series`, `author`, `length`, `publicationDate`, `numAvailable`) VALUES (10, 'The Horse and His Boy', 'The Chronicles of Narnia:2', 'C.S. Lewis', 256, '1905-05-07', 5);
-INSERT INTO `bookwormDB`.`Book` (`bookID`, `title`, `series`, `author`, `length`, `publicationDate`, `numAvailable`) VALUES (11, 'The Lion the Witch and the Wardrobe', 'The Chronicles of Narnia:3', 'C.S. Lewis', 224, '1905-05-03', 5);
-INSERT INTO `bookwormDB`.`Book` (`bookID`, `title`, `series`, `author`, `length`, `publicationDate`, `numAvailable`) VALUES (12, 'Prince Caspian', 'The Chronicles of Narnia:4', 'C.S. Lewis', 256, '1905-05-04', 5);
-INSERT INTO `bookwormDB`.`Book` (`bookID`, `title`, `series`, `author`, `length`, `publicationDate`, `numAvailable`) VALUES (13, 'The Silver Chair', 'The Chronicles of Narnia:5', 'C.S. Lewis', 272, '1905-05-06', 5);
-INSERT INTO `bookwormDB`.`Book` (`bookID`, `title`, `series`, `author`, `length`, `publicationDate`, `numAvailable`) VALUES (14, 'The Last Battle', 'The Chronicles of Narnia:6', 'C.S. Lewis', 240, '1905-05-09', 5);
-INSERT INTO `bookwormDB`.`Book` (`bookID`, `title`, `series`, `author`, `length`, `publicationDate`, `numAvailable`) VALUES (15, 'The Hobbit', 'NULL', 'J.R.R Tolkien', 300, '1937-09-21', 5);
-INSERT INTO `bookwormDB`.`Book` (`bookID`, `title`, `series`, `author`, `length`, `publicationDate`, `numAvailable`) VALUES (16, 'The Silmarillion', 'NULL', 'J.R.R Tolkien', 384, '1977-09-15', 5);
-INSERT INTO `bookwormDB`.`Book` (`bookID`, `title`, `series`, `author`, `length`, `publicationDate`, `numAvailable`) VALUES (17, 'The Fellowship of the Ring', 'Lord Of the Ring:1', 'J.R.R Tolkien', 432, '1954-07-29', 5);
-INSERT INTO `bookwormDB`.`Book` (`bookID`, `title`, `series`, `author`, `length`, `publicationDate`, `numAvailable`) VALUES (18, 'The Two Towers', 'Lord Of the Ring:2', 'J.R.R Tolkien', 352, '1954-11-11', 5);
-INSERT INTO `bookwormDB`.`Book` (`bookID`, `title`, `series`, `author`, `length`, `publicationDate`, `numAvailable`) VALUES (19, 'The Return of the King', 'Lord Of the Ring:3', 'J.R.R Tolkien', 432, '1955-10-20', 5);
-INSERT INTO `bookwormDB`.`Book` (`bookID`, `title`, `series`, `author`, `length`, `publicationDate`, `numAvailable`) VALUES (20, 'The Hunger Games', 'Hunger Games:1', 'Suzanne Collins', 384, '2008-09-14', 5);
-INSERT INTO `bookwormDB`.`Book` (`bookID`, `title`, `series`, `author`, `length`, `publicationDate`, `numAvailable`) VALUES (21, 'Catching Fire', 'Hunger Games:2', 'Suzanne Collins', 115, '2009-09-01', 5);
-INSERT INTO `bookwormDB`.`Book` (`bookID`, `title`, `series`, `author`, `length`, `publicationDate`, `numAvailable`) VALUES (22, 'Mockingjay', 'Hunger Games:3', 'Suzanne Collins', 329, '2010-08-24', 5);
-INSERT INTO `bookwormDB`.`Book` (`bookID`, `title`, `series`, `author`, `length`, `publicationDate`, `numAvailable`) VALUES (23, 'To Kill a Mockingbird', 'NULL', 'Harper Lee', 336, '1960-07-11', 5);
-INSERT INTO `bookwormDB`.`Book` (`bookID`, `title`, `series`, `author`, `length`, `publicationDate`, `numAvailable`) VALUES (24, '1984', 'NULL', 'George Orwell', 328, '1949-06-08', 5);
-INSERT INTO `bookwormDB`.`Book` (`bookID`, `title`, `series`, `author`, `length`, `publicationDate`, `numAvailable`) VALUES (25, 'The Great Gatsby', 'NULL', 'F. Scott Fitzgerald', 180, '1925-04-10', 5);
-INSERT INTO `bookwormDB`.`Book` (`bookID`, `title`, `series`, `author`, `length`, `publicationDate`, `numAvailable`) VALUES (26, 'Pride and Prejudice', 'NULL', 'Jane Austen', 279, '1813-01-28', 5);
-INSERT INTO `bookwormDB`.`Book` (`bookID`, `title`, `series`, `author`, `length`, `publicationDate`, `numAvailable`) VALUES (27, 'The Catcher in the Rye', 'NULL', 'J.D. Salinger', 224, '1951-07-16', 5);
-INSERT INTO `bookwormDB`.`Book` (`bookID`, `title`, `series`, `author`, `length`, `publicationDate`, `numAvailable`) VALUES (28, 'The Da Vinci Code', 'NULL', 'Dan Brown', 489, '2003-03-18', 5);
-INSERT INTO `bookwormDB`.`Book` (`bookID`, `title`, `series`, `author`, `length`, `publicationDate`, `numAvailable`) VALUES (29, 'The Alchemist', 'NULL', 'Paulo Coelho', 197, '1905-06-10', 5);
-INSERT INTO `bookwormDB`.`Book` (`bookID`, `title`, `series`, `author`, `length`, `publicationDate`, `numAvailable`) VALUES (30, 'The Book Thief', 'NULL', 'Markus Zusak', 552, '2006-03-14', 5);
-INSERT INTO `bookwormDB`.`Book` (`bookID`, `title`, `series`, `author`, `length`, `publicationDate`, `numAvailable`) VALUES (31, 'The Fault in Our Stars', 'NULL', 'John Green', 313, '2012-01-10', 5);
-INSERT INTO `bookwormDB`.`Book` (`bookID`, `title`, `series`, `author`, `length`, `publicationDate`, `numAvailable`) VALUES (32, 'The Kite Runner', 'NULL', 'Khaled Hosseini', 371, '2003-05-29', 5);
-INSERT INTO `bookwormDB`.`Book` (`bookID`, `title`, `series`, `author`, `length`, `publicationDate`, `numAvailable`) VALUES (33, 'The Girl with the Dragon Tattoo', 'NULL', 'Stieg Larsson', 672, '2005-08-01', 5);
-INSERT INTO `bookwormDB`.`Book` (`bookID`, `title`, `series`, `author`, `length`, `publicationDate`, `numAvailable`) VALUES (34, 'The Help', 'NULL', 'Kathryn Stockett', 464, '2009-02-10', 5);
-INSERT INTO `bookwormDB`.`Book` (`bookID`, `title`, `series`, `author`, `length`, `publicationDate`, `numAvailable`) VALUES (35, 'The Shadow of the Wind', 'NULL', 'Carlos Ruiz Zafon', 487, '1905-06-23', 5);
-INSERT INTO `bookwormDB`.`Book` (`bookID`, `title`, `series`, `author`, `length`, `publicationDate`, `numAvailable`) VALUES (36, 'The Night Circus', 'NULL', 'Erin Morgenstern', 400, '2011-09-13', 5);
-INSERT INTO `bookwormDB`.`Book` (`bookID`, `title`, `series`, `author`, `length`, `publicationDate`, `numAvailable`) VALUES (37, 'The Goldfinch', 'NULL', 'Donna Tartt', 864, '2013-10-22', 5);
-INSERT INTO `bookwormDB`.`Book` (`bookID`, `title`, `series`, `author`, `length`, `publicationDate`, `numAvailable`) VALUES (38, 'The Picture of Dorian Gray', 'NULL', 'Oscar Wilde', 254, '1890-07-01', 5);
-INSERT INTO `bookwormDB`.`Book` (`bookID`, `title`, `series`, `author`, `length`, `publicationDate`, `numAvailable`) VALUES (39, 'The Bell Jar', 'NULL', 'Sylvia Plath', 244, '1963-01-14', 5);
-INSERT INTO `bookwormDB`.`Book` (`bookID`, `title`, `series`, `author`, `length`, `publicationDate`, `numAvailable`) VALUES (40, 'The Martian', 'NULL', 'Andy Weir', 369, '2014-02-11', 5);
-INSERT INTO `bookwormDB`.`Book` (`bookID`, `title`, `series`, `author`, `length`, `publicationDate`, `numAvailable`) VALUES (41, 'Gone Girl', 'NULL', 'Gillian Flynn', 419, '2012-06-05', 5);
-INSERT INTO `bookwormDB`.`Book` (`bookID`, `title`, `series`, `author`, `length`, `publicationDate`, `numAvailable`) VALUES (42, 'Little Women', 'NULL', 'Louisa May Alcott', 759, '1868-09-30', 5);
-INSERT INTO `bookwormDB`.`Book` (`bookID`, `title`, `series`, `author`, `length`, `publicationDate`, `numAvailable`) VALUES (43, 'The Secret Garden', 'NULL', 'Frances Hodgson Burnett', 331, '1905-03-25', 5);
-INSERT INTO `bookwormDB`.`Book` (`bookID`, `title`, `series`, `author`, `length`, `publicationDate`, `numAvailable`) VALUES (44, 'The Road', 'NULL', 'Cormac McCarthy', 287, '2006-09-26', 5);
-INSERT INTO `bookwormDB`.`Book` (`bookID`, `title`, `series`, `author`, `length`, `publicationDate`, `numAvailable`) VALUES (45, 'Harry Potter and the Sorcerer\'s Stone', 'Harry Potter:1', 'J.K. Rowling', 320, '1997-06-26', 5);
-INSERT INTO `bookwormDB`.`Book` (`bookID`, `title`, `series`, `author`, `length`, `publicationDate`, `numAvailable`) VALUES (46, 'Harry Potter and the Chamber of Secrets', 'Harry Potter:2', 'J.K. Rowling', 352, '1998-07-02', 5);
-INSERT INTO `bookwormDB`.`Book` (`bookID`, `title`, `series`, `author`, `length`, `publicationDate`, `numAvailable`) VALUES (47, 'Harry Potter and the Prisoner of Azkaban', 'Harry Potter:3', 'J.K. Rowling', 448, '1999-07-08', 5);
-INSERT INTO `bookwormDB`.`Book` (`bookID`, `title`, `series`, `author`, `length`, `publicationDate`, `numAvailable`) VALUES (48, 'Harry Potter and the Goblet of Fire', 'Harry Potter:4', 'J.K. Rowling', 752, '2000-07-08', 5);
-INSERT INTO `bookwormDB`.`Book` (`bookID`, `title`, `series`, `author`, `length`, `publicationDate`, `numAvailable`) VALUES (49, 'Harry Potter and the Order of the Phoenix', 'Harry Potter:5', 'J.K. Rowling', 870, '2003-06-21', 5);
-INSERT INTO `bookwormDB`.`Book` (`bookID`, `title`, `series`, `author`, `length`, `publicationDate`, `numAvailable`) VALUES (50, 'Harry Potter and the Half-Blood Prince', 'Harry Potter:6', 'J.K. Rowling', 652, '2005-07-16', 5);
-INSERT INTO `bookwormDB`.`Book` (`bookID`, `title`, `series`, `author`, `length`, `publicationDate`, `numAvailable`) VALUES (51, 'Harry Potter and the Deathly Hallows', 'Harry Potter:7', 'J.K. Rowling', 784, '2007-07-21', 5);
+INSERT INTO `bookwormDB`.`Book` (`bookID`, `title`, `series`, `seriesNum`, `author`, `length`, `publicationDate`, `numAvailable`) VALUES (1, 'The Nightingale', NULL,NULL, 'Kristin Hannah', 608, '2017-04-25', 5);
+INSERT INTO `bookwormDB`.`Book` (`bookID`, `title`, `series`, `seriesNum`,`author`, `length`, `publicationDate`, `numAvailable`) VALUES (2, 'The Women', NULL,NULL, 'Kristin Hannah', 480, '2024-02-06', 5);
+INSERT INTO `bookwormDB`.`Book` (`bookID`, `title`, `series`, `seriesNum`,`author`, `length`, `publicationDate`, `numAvailable`) VALUES (3, 'The Great Alone', NULL,NULL, 'Kristin Hannah', 448, '2018-02-06', 5);
+INSERT INTO `bookwormDB`.`Book` (`bookID`, `title`, `series`, `seriesNum`,`author`, `length`, `publicationDate`, `numAvailable`) VALUES (4, 'Dune', 'Dune',1, 'Frank Herbert', 892, '1905-05-18', 5);
+INSERT INTO `bookwormDB`.`Book` (`bookID`, `title`, `series`, `seriesNum`,`author`, `length`, `publicationDate`, `numAvailable`) VALUES (5, 'Dune Messiah', 'Dune',2, 'Frank Herbert', 350, '1905-05-29', 5);
+INSERT INTO `bookwormDB`.`Book` (`bookID`, `title`, `series`, `seriesNum`,`author`, `length`, `publicationDate`, `numAvailable`) VALUES (6, 'Children of Dune', 'Dune',3, 'Frank Herbert', 623, '1905-05-29', 5);
+INSERT INTO `bookwormDB`.`Book` (`bookID`, `title`, `series`, `seriesNum`,`author`, `length`, `publicationDate`, `numAvailable`) VALUES (7, 'God Emperor of Dune', 'Dune',4, 'Frank Herbert', 604, '1905-06-03', 5);
+INSERT INTO `bookwormDB`.`Book` (`bookID`, `title`, `series`, `seriesNum`,`author`, `length`, `publicationDate`, `numAvailable`) VALUES (8, 'Heretics of Dune', 'Dune',5, 'Frank Herbert', 300, '1905-06-06', 5);
+INSERT INTO `bookwormDB`.`Book` (`bookID`, `title`, `series`, `seriesNum`,`author`, `length`, `publicationDate`, `numAvailable`) VALUES (9, 'The Magician\'s Nephew', 'The Chronicles of Narnia',1, 'C.S. Lewis', 221, '1905-05-08', 5);
+INSERT INTO `bookwormDB`.`Book` (`bookID`, `title`, `series`, `seriesNum`,`author`, `length`, `publicationDate`, `numAvailable`) VALUES (10, 'The Horse and His Boy', 'The Chronicles of Narnia',2, 'C.S. Lewis', 256, '1905-05-07', 5);
+INSERT INTO `bookwormDB`.`Book` (`bookID`, `title`, `series`, `seriesNum`,`author`, `length`, `publicationDate`, `numAvailable`) VALUES (11, 'The Lion the Witch and the Wardrobe', 'The Chronicles of Narnia',3, 'C.S. Lewis', 224, '1905-05-03', 5);
+INSERT INTO `bookwormDB`.`Book` (`bookID`, `title`, `series`, `seriesNum`,`author`, `length`, `publicationDate`, `numAvailable`) VALUES (12, 'Prince Caspian', 'The Chronicles of Narnia',4, 'C.S. Lewis', 256, '1905-05-04', 5);
+INSERT INTO `bookwormDB`.`Book` (`bookID`, `title`, `series`, `seriesNum`,`author`, `length`, `publicationDate`, `numAvailable`) VALUES (13, 'The Silver Chair', 'The Chronicles of Narnia',5, 'C.S. Lewis', 272, '1905-05-06', 5);
+INSERT INTO `bookwormDB`.`Book` (`bookID`, `title`, `series`, `seriesNum`,`author`, `length`, `publicationDate`, `numAvailable`) VALUES (14, 'The Last Battle', 'The Chronicles of Narnia',6, 'C.S. Lewis', 240, '1905-05-09', 5);
+INSERT INTO `bookwormDB`.`Book` (`bookID`, `title`, `series`, `seriesNum`,`author`, `length`, `publicationDate`, `numAvailable`) VALUES (15, 'The Hobbit', NULL,NULL, 'J.R.R Tolkien', 300, '1937-09-21', 5);
+INSERT INTO `bookwormDB`.`Book` (`bookID`, `title`, `series`, `seriesNum`,`author`, `length`, `publicationDate`, `numAvailable`) VALUES (16, 'The Silmarillion', NULL,NULL, 'J.R.R Tolkien', 384, '1977-09-15', 5);
+INSERT INTO `bookwormDB`.`Book` (`bookID`, `title`, `series`, `seriesNum`,`author`, `length`, `publicationDate`, `numAvailable`) VALUES (17, 'The Fellowship of the Ring', 'Lord Of the Ring',1, 'J.R.R Tolkien', 432, '1954-07-29', 5);
+INSERT INTO `bookwormDB`.`Book` (`bookID`, `title`, `series`, `seriesNum`,`author`, `length`, `publicationDate`, `numAvailable`) VALUES (18, 'The Two Towers', 'Lord Of the Ring',2, 'J.R.R Tolkien', 352, '1954-11-11', 5);
+INSERT INTO `bookwormDB`.`Book` (`bookID`, `title`, `series`, `seriesNum`,`author`, `length`, `publicationDate`, `numAvailable`) VALUES (19, 'The Return of the King', 'Lord Of the Ring',3, 'J.R.R Tolkien', 432, '1955-10-20', 5);
+INSERT INTO `bookwormDB`.`Book` (`bookID`, `title`, `series`, `seriesNum`,`author`, `length`, `publicationDate`, `numAvailable`) VALUES (20, 'The Hunger Games', 'Hunger Games',1, 'Suzanne Collins', 384, '2008-09-14', 5);
+INSERT INTO `bookwormDB`.`Book` (`bookID`, `title`, `series`, `seriesNum`,`author`, `length`, `publicationDate`, `numAvailable`) VALUES (21, 'Catching Fire', 'Hunger Games',2, 'Suzanne Collins', 115, '2009-09-01', 5);
+INSERT INTO `bookwormDB`.`Book` (`bookID`, `title`, `series`, `seriesNum`,`author`, `length`, `publicationDate`, `numAvailable`) VALUES (22, 'Mockingjay', 'Hunger Games',3, 'Suzanne Collins', 329, '2010-08-24', 5);
+INSERT INTO `bookwormDB`.`Book` (`bookID`, `title`, `series`, `seriesNum`,`author`, `length`, `publicationDate`, `numAvailable`) VALUES (23, 'To Kill a Mockingbird', NULL,NULL, 'Harper Lee', 336, '1960-07-11', 5);
+INSERT INTO `bookwormDB`.`Book` (`bookID`, `title`, `series`, `seriesNum`,`author`, `length`, `publicationDate`, `numAvailable`) VALUES (24, '1984', NULL,NULL, 'George Orwell', 328, '1949-06-08', 5);
+INSERT INTO `bookwormDB`.`Book` (`bookID`, `title`, `series`, `seriesNum`,`author`, `length`, `publicationDate`, `numAvailable`) VALUES (25, 'The Great Gatsby', NULL,NULL, 'F. Scott Fitzgerald', 180, '1925-04-10', 5);
+INSERT INTO `bookwormDB`.`Book` (`bookID`, `title`, `series`, `seriesNum`,`author`, `length`, `publicationDate`, `numAvailable`) VALUES (26, 'Pride and Prejudice', NULL,NULL, 'Jane Austen', 279, '1813-01-28', 5);
+INSERT INTO `bookwormDB`.`Book` (`bookID`, `title`, `series`, `seriesNum`,`author`, `length`, `publicationDate`, `numAvailable`) VALUES (27, 'The Catcher in the Rye', NULL,NULL, 'J.D. Salinger', 224, '1951-07-16', 5);
+INSERT INTO `bookwormDB`.`Book` (`bookID`, `title`, `series`, `seriesNum`,`author`, `length`, `publicationDate`, `numAvailable`) VALUES (28, 'The Da Vinci Code', NULL,NULL, 'Dan Brown', 489, '2003-03-18', 5);
+INSERT INTO `bookwormDB`.`Book` (`bookID`, `title`, `series`, `seriesNum`,`author`, `length`, `publicationDate`, `numAvailable`) VALUES (29, 'The Alchemist', NULL,NULL, 'Paulo Coelho', 197, '1905-06-10', 5);
+INSERT INTO `bookwormDB`.`Book` (`bookID`, `title`, `series`, `seriesNum`,`author`, `length`, `publicationDate`, `numAvailable`) VALUES (30, 'The Book Thief', NULL,NULL, 'Markus Zusak', 552, '2006-03-14', 5);
+INSERT INTO `bookwormDB`.`Book` (`bookID`, `title`, `series`, `seriesNum`,`author`, `length`, `publicationDate`, `numAvailable`) VALUES (31, 'The Fault in Our Stars', NULL,NULL, 'John Green', 313, '2012-01-10', 5);
+INSERT INTO `bookwormDB`.`Book` (`bookID`, `title`, `series`, `seriesNum`,`author`, `length`, `publicationDate`, `numAvailable`) VALUES (32, 'The Kite Runner', NULL,NULL, 'Khaled Hosseini', 371, '2003-05-29', 5);
+INSERT INTO `bookwormDB`.`Book` (`bookID`, `title`, `series`, `seriesNum`,`author`, `length`, `publicationDate`, `numAvailable`) VALUES (33, 'The Girl with the Dragon Tattoo', NULL,NULL, 'Stieg Larsson', 672, '2005-08-01', 5);
+INSERT INTO `bookwormDB`.`Book` (`bookID`, `title`, `series`, `seriesNum`,`author`, `length`, `publicationDate`, `numAvailable`) VALUES (34, 'The Help', NULL,NULL, 'Kathryn Stockett', 464, '2009-02-10', 5);
+INSERT INTO `bookwormDB`.`Book` (`bookID`, `title`, `series`, `seriesNum`,`author`, `length`, `publicationDate`, `numAvailable`) VALUES (35, 'The Shadow of the Wind', NULL,NULL, 'Carlos Ruiz Zafon', 487, '1905-06-23', 5);
+INSERT INTO `bookwormDB`.`Book` (`bookID`, `title`, `series`, `seriesNum`,`author`, `length`, `publicationDate`, `numAvailable`) VALUES (36, 'The Night Circus', NULL,NULL, 'Erin Morgenstern', 400, '2011-09-13', 5);
+INSERT INTO `bookwormDB`.`Book` (`bookID`, `title`, `series`, `seriesNum`,`author`, `length`, `publicationDate`, `numAvailable`) VALUES (37, 'The Goldfinch', NULL,NULL, 'Donna Tartt', 864, '2013-10-22', 5);
+INSERT INTO `bookwormDB`.`Book` (`bookID`, `title`, `series`, `seriesNum`,`author`, `length`, `publicationDate`, `numAvailable`) VALUES (38, 'The Picture of Dorian Gray', NULL,NULL, 'Oscar Wilde', 254, '1890-07-01', 5);
+INSERT INTO `bookwormDB`.`Book` (`bookID`, `title`, `series`, `seriesNum`,`author`, `length`, `publicationDate`, `numAvailable`) VALUES (39, 'The Bell Jar', NULL,NULL, 'Sylvia Plath', 244, '1963-01-14', 5);
+INSERT INTO `bookwormDB`.`Book` (`bookID`, `title`, `series`, `seriesNum`,`author`, `length`, `publicationDate`, `numAvailable`) VALUES (40, 'The Martian', NULL,NULL, 'Andy Weir', 369, '2014-02-11', 5);
+INSERT INTO `bookwormDB`.`Book` (`bookID`, `title`, `series`, `seriesNum`,`author`, `length`, `publicationDate`, `numAvailable`) VALUES (41, 'Gone Girl', NULL,NULL, 'Gillian Flynn', 419, '2012-06-05', 5);
+INSERT INTO `bookwormDB`.`Book` (`bookID`, `title`, `series`, `seriesNum`,`author`, `length`, `publicationDate`, `numAvailable`) VALUES (42, 'Little Women', NULL,NULL, 'Louisa May Alcott', 759, '1868-09-30', 5);
+INSERT INTO `bookwormDB`.`Book` (`bookID`, `title`, `series`, `seriesNum`,`author`, `length`, `publicationDate`, `numAvailable`) VALUES (43, 'The Secret Garden', NULL,NULL, 'Frances Hodgson Burnett', 331, '1905-03-25', 5);
+INSERT INTO `bookwormDB`.`Book` (`bookID`, `title`, `series`, `seriesNum`,`author`, `length`, `publicationDate`, `numAvailable`) VALUES (44, 'The Road', NULL,NULL, 'Cormac McCarthy', 287, '2006-09-26', 5);
+INSERT INTO `bookwormDB`.`Book` (`bookID`, `title`, `series`, `seriesNum`,`author`, `length`, `publicationDate`, `numAvailable`) VALUES (45, 'Harry Potter and the Sorcerer\'s Stone', 'Harry Potter',1, 'J.K. Rowling', 320, '1997-06-26', 5);
+INSERT INTO `bookwormDB`.`Book` (`bookID`, `title`, `series`, `seriesNum`,`author`, `length`, `publicationDate`, `numAvailable`) VALUES (46, 'Harry Potter and the Chamber of Secrets', 'Harry Potter',2, 'J.K. Rowling', 352, '1998-07-02', 5);
+INSERT INTO `bookwormDB`.`Book` (`bookID`, `title`, `series`, `seriesNum`,`author`, `length`, `publicationDate`, `numAvailable`) VALUES (47, 'Harry Potter and the Prisoner of Azkaban', 'Harry Potter',3, 'J.K. Rowling', 448, '1999-07-08', 5);
+INSERT INTO `bookwormDB`.`Book` (`bookID`, `title`, `series`, `seriesNum`,`author`, `length`, `publicationDate`, `numAvailable`) VALUES (48, 'Harry Potter and the Goblet of Fire', 'Harry Potter',4, 'J.K. Rowling', 752, '2000-07-08', 5);
+INSERT INTO `bookwormDB`.`Book` (`bookID`, `title`, `series`, `seriesNum`,`author`, `length`, `publicationDate`, `numAvailable`) VALUES (49, 'Harry Potter and the Order of the Phoenix', 'Harry Potter',5, 'J.K. Rowling', 870, '2003-06-21', 5);
+INSERT INTO `bookwormDB`.`Book` (`bookID`, `title`, `series`, `seriesNum`,`author`, `length`, `publicationDate`, `numAvailable`) VALUES (50, 'Harry Potter and the Half-Blood Prince', 'Harry Potter',6, 'J.K. Rowling', 652, '2005-07-16', 5);
+INSERT INTO `bookwormDB`.`Book` (`bookID`, `title`, `series`, `seriesNum`,`author`, `length`, `publicationDate`, `numAvailable`) VALUES (51, 'Harry Potter and the Deathly Hallows', 'Harry Potter',7, 'J.K. Rowling', 784, '2007-07-21', 5);
 
 COMMIT;
 
