@@ -1,6 +1,8 @@
 package com.bkgroup.worm.utils;
 
 import javafx.scene.control.TextField;
+import org.w3c.dom.Text;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collections;
@@ -80,6 +82,18 @@ public final class AccountHelper {
         for (TextField t : textFields)
         {
             t.getStyleClass().removeAll(Collections.singleton("error"));
+        }
+    }
+
+    /**
+     * Clears all text in a given array of text fields.
+     * @param textFields Text fields
+     */
+    public static void ClearText(TextField[] textFields)
+    {
+        for (TextField t : textFields)
+        {
+            t.clear();
         }
     }
 

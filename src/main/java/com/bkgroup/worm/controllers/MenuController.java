@@ -94,13 +94,8 @@ public class MenuController {
      */
     @FXML
     public void clickProfile(ActionEvent event) {
-        /*
-        if () {
-            Tools.switchContent(centerPane,"/com/bkgroup/worm/controllers/Account_Creation.fxml", true);
-        }
-        */ // TODO ALLOW GOING TO ACCOUNT CREATION PAGE
         if (!User.isLoggedIn()) {
-            Tools.switchContent(centerPane,"/com/bkgroup/worm/controllers/Account_Login.fxml", true);
+            Tools.switchContent(centerPane,"/com/bkgroup/worm/controllers/Account_Pages.fxml", true);
         }
         else {
             Tools.switchContent(centerPane,"/com/bkgroup/worm/controllers/Profile.fxml", true);
