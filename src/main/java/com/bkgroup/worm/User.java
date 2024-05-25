@@ -61,7 +61,10 @@ public class User {
         }
     }
 
-
+    /**
+     * Removes book from local cart and database.
+     * @param book Book to remove
+     */
     public static void RemoveFromCart(Book book) {
         if (ExistsInCart(book)) {
             cart.remove(book); // Remove from local cart
@@ -90,6 +93,13 @@ public class User {
 
         // Book was not found in cart
         return false;
+    }
+
+    /**
+     * Creates popup that informs user they must log in to complete action.
+     */
+    public static void LoginPrompt() {
+        Tools.ShowPopup(1,"Login","Please log in to complete this action");
     }
 
     /**

@@ -1,5 +1,6 @@
 package com.bkgroup.worm.controllers;
 
+import com.bkgroup.worm.User;
 import com.bkgroup.worm.utils.Tools;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -20,7 +21,10 @@ public class SearchCard {
         label.setText(string);
         button.setFill(new ImagePattern(cartImage));
         button.setOnMouseClicked(event-> {
-            if (putInCart) {
+            if (!User.isLoggedIn()) {
+                User.LoginPrompt();
+            }
+            else if (putInCart) {
                 System.out.println("remove from cart");
                 /*
                 Cole put you're method of removing from cart here

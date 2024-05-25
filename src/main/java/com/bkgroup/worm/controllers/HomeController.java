@@ -368,7 +368,9 @@ public class HomeController {
     }
     @FXML
     public void handleAddToCart(ActionEvent event) {
-        if (selectedBook != null) {
+        if (!User.isLoggedIn()) {
+            User.LoginPrompt();
+        } else if (selectedBook != null) {
             User.AddToCart(selectedBook);
             updateCartView(selectedBook); // Update the cart view immediately
         } else {
