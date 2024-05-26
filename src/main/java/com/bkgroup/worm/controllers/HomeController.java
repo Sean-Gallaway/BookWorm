@@ -53,15 +53,18 @@ public class HomeController {
     @FXML Button dislikeButton;
     @FXML Button closeButton;
 
-
-
+    /**
+     * Initializes home page, adding books to a cache and displaying those books in genre-appropriate displays.
+     */
     @FXML
     public void initialize() {
         // Load database objects into cache if none are loaded
         if (!INITIALIZED) {
             populateSections();
-            initializeViewerPane();
         }
+
+        // Initialize book viewer icons
+        initializeViewerPane();
 
         // Populate local author section
         createSection("PNW Local Author");
@@ -104,15 +107,12 @@ public class HomeController {
      */
     private void initializeViewerPane() {
         centerViewerPane();
-
         setLikeStatus(LikeStatus.Neutral);
-
         Image closeImg = new Image("images/Close.png");
         ImageView closeView = new ImageView(closeImg);
         closeView.setFitHeight(25);
         closeView.setPreserveRatio(true);
         closeButton.setGraphic(closeView);
-
     }
 
     private void centerViewerPane() {
