@@ -13,6 +13,7 @@ import javafx.scene.layout.VBox;
 
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Objects;
 
 public class SearchController {
@@ -148,7 +149,8 @@ public class SearchController {
 
         StringBuilder finalQuery = new StringBuilder("""
                 SELECT SUM(num) as tNum,
-                r1.title
+                r1.title,
+                r1.bookID
                 FROM (
                     """);
         finalQuery.append(subquery);
@@ -160,11 +162,12 @@ public class SearchController {
                 WHERE length >\s""");
         finalQuery.append((int) pageCount.getValue()).append("\n");
         finalQuery.append("""
-                GROUP BY r1.title
+                GROUP BY r1.title, r1.bookID
                 HAVING tNum > 1
                 ORDER BY tnum DESC;
                 """);
         ArrayList<String[]> result;
+        System.out.println(finalQuery);
 
         try {
             Statement st = DatabaseConnection.db().createStatement();
@@ -174,6 +177,7 @@ public class SearchController {
                     FXMLLoader loader = new FXMLLoader(Tools.class.getResource("/com/bkgroup/worm/controllers/SearchCard.fxml"));
                     fp.getChildren().add(loader.load());
                     String tempStr = str[1].replaceAll(" ","").replaceAll("'", "").replaceAll("-", "");
+                    System.out.println(Arrays.toString(str));
                     try {
                         Image img = new Image(SearchController.class.getResourceAsStream(Objects.requireNonNull("/BookCovers/"+tempStr+".jpg")));
                         SearchCard sc = loader.getController();
