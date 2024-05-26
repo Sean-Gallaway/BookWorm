@@ -1,6 +1,7 @@
 package com.bkgroup.worm.utils;
 
 import static com.bkgroup.worm.utils.DatabaseConnection.db;
+
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;

@@ -1,12 +1,12 @@
 package com.bkgroup.worm.controllers;
 
-import com.bkgroup.worm.Book;
-import com.bkgroup.worm.User;
+import com.bkgroup.worm.utils.Book;
+import com.bkgroup.worm.utils.User;
 import com.bkgroup.worm.utils.Query;
 import com.bkgroup.worm.utils.Tools;
-import javafx.beans.binding.Bindings;
-import javafx.event.ActionEvent;
+
 import javafx.fxml.FXML;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
@@ -17,7 +17,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
-import javafx.stage.Stage;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;

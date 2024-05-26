@@ -1,8 +1,9 @@
 package com.bkgroup.worm.controllers;
 
-import com.bkgroup.worm.Book;
-import com.bkgroup.worm.User;
+import com.bkgroup.worm.utils.Book;
+import com.bkgroup.worm.utils.User;
 import com.bkgroup.worm.utils.Tools;
+
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;

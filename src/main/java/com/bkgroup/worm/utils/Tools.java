@@ -1,6 +1,8 @@
 package com.bkgroup.worm.utils;
 
+import static com.bkgroup.worm.utils.DatabaseConnection.db;
 import com.bkgroup.worm.App;
+
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.layout.Pane;
@@ -8,8 +10,6 @@ import javafx.scene.layout.Region;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
-import static com.bkgroup.worm.utils.DatabaseConnection.db;
 
 public class Tools {
     /**

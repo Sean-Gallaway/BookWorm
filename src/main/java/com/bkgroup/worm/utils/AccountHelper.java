@@ -1,8 +1,6 @@
 package com.bkgroup.worm.utils;
 
 import javafx.scene.control.TextField;
-import org.w3c.dom.Text;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collections;

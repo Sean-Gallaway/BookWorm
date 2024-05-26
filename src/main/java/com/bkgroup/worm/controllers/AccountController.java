@@ -1,17 +1,14 @@
 package com.bkgroup.worm.controllers;
 
-import com.bkgroup.worm.User;
+import com.bkgroup.worm.utils.User;
 import com.bkgroup.worm.utils.AccountHelper;
-import com.bkgroup.worm.utils.Query;
 import com.bkgroup.worm.utils.Tools;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
-
-import java.sql.ResultSet;
-import java.sql.SQLException;
 
 /**
  * PREFIXES:

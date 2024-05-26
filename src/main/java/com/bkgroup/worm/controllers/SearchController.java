@@ -4,6 +4,7 @@ import com.bkgroup.worm.utils.DatabaseConnection;
 import com.bkgroup.worm.utils.Query;
 import com.bkgroup.worm.utils.SearchBuilder;
 import com.bkgroup.worm.utils.Tools;
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
@@ -14,7 +15,6 @@ import javafx.scene.layout.VBox;
 
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Objects;
 
 public class SearchController {

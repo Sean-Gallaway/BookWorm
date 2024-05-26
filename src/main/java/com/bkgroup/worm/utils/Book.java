@@ -1,6 +1,4 @@
-package com.bkgroup.worm;
-
-import com.bkgroup.worm.utils.Query;
+package com.bkgroup.worm.utils;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
