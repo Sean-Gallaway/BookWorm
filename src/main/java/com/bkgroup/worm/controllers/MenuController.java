@@ -89,16 +89,11 @@ public class MenuController {
     }
 
     /**
-     * Open account login page if not logged in; else, go to profile page.
+     * Open account page
      * @param event The button event
      */
     @FXML
     public void clickProfile(ActionEvent event) {
-        if (!User.isLoggedIn()) {
-            Tools.switchContent(centerPane,"/com/bkgroup/worm/controllers/Account_Pages.fxml", true);
-        }
-        else {
-            Tools.switchContent(centerPane,"/com/bkgroup/worm/controllers/Profile.fxml", true);
-        }
+        Tools.switchContent(centerPane,"/com/bkgroup/worm/controllers/Account_Pages.fxml", true);
     }
 }

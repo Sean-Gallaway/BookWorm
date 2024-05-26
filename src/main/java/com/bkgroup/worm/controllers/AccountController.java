@@ -17,6 +17,7 @@ import java.sql.SQLException;
  * PREFIXES:
  * SI -> Sign in page
  * AC -> Account creation page
+ * PF -> Profile page
  */
 public class AccountController {
 
@@ -48,59 +49,74 @@ public class AccountController {
     private GridPane pane_account_creation;
     @FXML
     private GridPane pane_account_login;
+    @FXML
+    private GridPane pane_account_page;
 
     // Sign in page text fields
     TextField[] SI_textFields;
     // Account creation page text fields
     TextField[] AC_textFields;
+    boolean initialized = false;
 
     /**
      * Assign variables and CSS sheet used for changing text field background color.
      */
     public void initialize()
     {
-        // Set login page by visible by default
-        pane_account_creation.setVisible(false);
-        pane_account_login.setVisible(true);
-
-        // Assign text fields
-        SI_textFields = new TextField[] { SI_txt_username, SI_txt_password };
-        AC_textFields = new TextField[] { AC_txt_email, AC_txt_password, AC_txt_password_confirm,
-                AC_txt_name_first, AC_txt_name_last, AC_txt_username };
-
-        // Assign css to text fields
-        for (TextField t : SI_textFields)
-        {
-            t.getStylesheets().add("/CSS/RedTextField.css");
+        // Go to account page if logged in or login page if not.
+        if (User.isLoggedIn()) {
+            GotoProfilePage();
         }
-        for (TextField t : AC_textFields)
-        {
-            t.getStylesheets().add("/CSS/RedTextField.css");
+        else {
+            GotoAccountLoginPage();
+        }
+
+        // Initialize variables once
+        if (!initialized) {
+            // Assign text fields
+            SI_textFields = new TextField[] { SI_txt_username, SI_txt_password };
+            AC_textFields = new TextField[] { AC_txt_email, AC_txt_password, AC_txt_password_confirm,
+                    AC_txt_name_first, AC_txt_name_last, AC_txt_username };
+
+            // Assign css to text fields
+            for (TextField t : SI_textFields)
+            {
+                t.getStylesheets().add("/CSS/RedTextField.css");
+            }
+            for (TextField t : AC_textFields)
+            {
+                t.getStylesheets().add("/CSS/RedTextField.css");
+            }
         }
     }
 
     /**
-     * Sets account creation page to be visible, makes login page invisible, and resets account login page.
+     * Makes account creation page visible and all other pages invisible.
      */
     @FXML
     void GotoAccountCreationPage() {
         pane_account_creation.setVisible(true);
         pane_account_login.setVisible(false);
-
-        AccountHelper.ResetBackground(SI_textFields);
-        AccountHelper.ClearText(SI_textFields);
+        pane_account_page.setVisible(false);
     }
 
     /**
-     * Sets log in page to be visible, makes account creation page invisible, and resets account creation page.
+     * Makes login page visible and all other pages invisible.
      */
     @FXML
     void GotoAccountLoginPage() {
         pane_account_creation.setVisible(false);
         pane_account_login.setVisible(true);
+        pane_account_page.setVisible(false);
+    }
 
-        AccountHelper.ResetBackground(AC_textFields);
-        AccountHelper.ClearText(AC_textFields);
+    /**
+     * Makes profile page visible and all other pages invisible.
+     */
+    private void GotoProfilePage() {
+        pane_account_creation.setVisible(false);
+        pane_account_login.setVisible(false);
+        pane_account_page.setVisible(true);
     }
 
     /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -133,10 +149,13 @@ public class AccountController {
                 AC_txt_name_last.getText(),AC_txt_email.getText()
         );
 
-        // Verify if user account was or was not created
+        // Verify if user account was or was not created. Log user in if account was created
         if (accountCreated) {
-            Tools.ShowPopup(2,"Account Created","Account Created Successfully. Please log in to proceed");
-            GotoAccountLoginPage();
+            Tools.ShowPopup(2,"Account Created","Account Created Successfully.");
+            User.Login(AC_txt_username.getText(),accountID,AccountHelper.getPictureIndex(accountID));
+            AccountHelper.ResetBackground(AC_textFields);
+            AccountHelper.ClearText(AC_textFields);
+            GotoProfilePage();
         }
         else {
             Tools.ShowPopup(0,"Account Error","Account Could Not Be Created. Please Wait And Try Again.");
@@ -193,7 +212,7 @@ public class AccountController {
     /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
     /**
-     * Activates when "login" button is pressed
+     * Logs user in if inputs are all valid.
      */
     @FXML
     void Login() {
@@ -218,7 +237,11 @@ public class AccountController {
             return;
         }
 
+        // Log in, go to profile page, and reset login page
         User.Login(SI_txt_username.getText(),accountID,AccountHelper.getPictureIndex(accountID));
+        AccountHelper.ResetBackground(SI_textFields);
+        AccountHelper.ClearText(SI_textFields);
+        GotoProfilePage();
     }
 
     /**
