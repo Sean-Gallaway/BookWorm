@@ -24,8 +24,6 @@ public class App extends Application {
         Group g = new Group();
         this.stage = stage;
         AnchorPane ap = new AnchorPane();
-        stage.widthProperty().addListener(event -> ap.setPrefWidth(stage.getWidth()));
-        stage.heightProperty().addListener(event -> ap.setPrefHeight(stage.getHeight()));
         //Load the home screen
         try {
             FXMLLoader fxmlLoader2 = new FXMLLoader(App.class.getResource("/com/bkgroup/worm/controllers/Overlay.fxml"));
