@@ -1,6 +1,8 @@
 package com.bkgroup.worm.controllers;
 
+import com.bkgroup.worm.App;
 import com.bkgroup.worm.utils.Book;
+import com.bkgroup.worm.utils.Query;
 import com.bkgroup.worm.utils.User;
 import com.bkgroup.worm.utils.Tools;
 
@@ -21,6 +23,10 @@ public class SearchCard {
     void setup (Image img, String title, int bookID) {
         // Set book image and title
         image.setImage(img);
+        image.setOnMouseClicked(event -> {
+            String[] arr = Query.resultSetToArrayList(Query.select("book", "*", Query.where("title", title))).get(0);
+            App.oc.clickBook(arr, img, title.replaceAll(" ","").replaceAll("'", "").replaceAll("-", ""));
+        });
         label.setText(title);
 
         inCart = User.ExistsInCart(new Book(bookID));

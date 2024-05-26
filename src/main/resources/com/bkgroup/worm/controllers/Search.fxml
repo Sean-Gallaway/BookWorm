@@ -34,13 +34,13 @@
                </Accordion>
             </AnchorPane>
             <AnchorPane prefHeight="81.0" prefWidth="193.0" style="-fx-border-style: hidden hidden solid; -fx-border-color: #ffffff;">
-               <VBox layoutY="-86.0" prefHeight="200.0" prefWidth="138.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                  <Label alignment="CENTER" prefHeight="26.0" prefWidth="191.0" text="Page Count" textAlignment="CENTER" textFill="WHITE">
+               <VBox layoutY="-86.0" prefHeight="200.0" prefWidth="138.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="0.0">
+                  <Label alignment="CENTER" prefHeight="26.0" prefWidth="191.0" text="Min Page Count" textAlignment="CENTER" textFill="WHITE">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <Slider fx:id="pageCount" majorTickUnit="100.0" max="1000.0" minorTickCount="50" showTickLabels="true" showTickMarks="true" />
+                  <Slider fx:id="pageCount" majorTickUnit="250.0" max="1000.0" showTickLabels="true" showTickMarks="true" />
                </VBox>
             </AnchorPane>
             <AnchorPane prefHeight="27.0" prefWidth="193.0">
@@ -53,7 +53,7 @@
                   <Label alignment="CENTER" prefHeight="26.0" prefWidth="191.0" text="Min" textAlignment="CENTER" textFill="WHITE" />
                   <Slider fx:id="yearMin" majorTickUnit="50.0" max="2024.0" min="1900.0" minorTickCount="5" prefHeight="38.0" prefWidth="172.0" showTickLabels="true" showTickMarks="true" VBox.vgrow="ALWAYS" />
                   <Label alignment="CENTER" prefHeight="26.0" prefWidth="191.0" text="Max" textAlignment="CENTER" textFill="WHITE" />
-                  <Slider fx:id="yearMax" majorTickUnit="50.0" max="2024.0" min="1900.0" minorTickCount="5" prefHeight="38.0" prefWidth="172.0" showTickLabels="true" showTickMarks="true" />
+                  <Slider fx:id="yearMax" majorTickUnit="50.0" max="2024.0" min="1900.0" minorTickCount="5" prefHeight="38.0" prefWidth="172.0" showTickLabels="true" showTickMarks="true" value="2024.0" />
                </VBox>
             </AnchorPane>
          </VBox>
@@ -70,8 +70,7 @@
             </Label>
             <TextField fx:id="searchField" alignment="CENTER" prefHeight="44.0" prefWidth="474.0" HBox.hgrow="ALWAYS" />
          </HBox>
-         <ScrollPane fx:id="output"
-                     hbarPolicy="NEVER" prefHeight="350.0" prefWidth="600.0" style="-fx-font-size: 20; -fx-focus-traversable: false;-fx-background-color: -fx-box-border, -fx-control-inner-background;" vbarPolicy="ALWAYS" VBox.vgrow="ALWAYS">
+         <ScrollPane fx:id="output" hbarPolicy="NEVER" prefHeight="350.0" prefWidth="600.0" style="-fx-font-size: 20; -fx-focus-traversable: false;-fx-background-color: -fx-box-border, -fx-control-inner-background;" vbarPolicy="ALWAYS" VBox.vgrow="ALWAYS">
          </ScrollPane>
       </VBox>
    </HBox>

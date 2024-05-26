@@ -32,7 +32,6 @@ public class Query {
                 String conditionFormatted = String.format(" WHERE %s", String.join(", ",conditions));
                 return db().createStatement().executeQuery(base + conditionFormatted);
             }
-
             // Get query with no conditions
             return db().createStatement().executeQuery(base);
         }
@@ -164,7 +163,7 @@ public class Query {
      * @return a formatted string for use with WHERE clause.
      */
     public static String where(String condition, String value) {
-        return String.format("%s='%s'",condition,value);
+        return String.format("%s=\"%s\"",condition,value);
     }
 
     /**

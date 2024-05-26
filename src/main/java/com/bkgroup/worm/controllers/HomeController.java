@@ -1,15 +1,10 @@
 package com.bkgroup.worm.controllers;
 
-import com.bkgroup.worm.utils.Book;
-import com.bkgroup.worm.utils.User;
+import com.bkgroup.worm.App;
 import com.bkgroup.worm.utils.Query;
 import com.bkgroup.worm.utils.Tools;
 
 import javafx.fxml.FXML;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
@@ -18,40 +13,14 @@ import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Scanner;
 
 public class HomeController {
     private final static HashMap<String,ArrayList<String[]>> cache = new HashMap<>();
     private static boolean INITIALIZED;
-    private Book selectedBook;
-    private int BOOK_HEIGHT = 175;
     @FXML VBox sections;
-
-    //Book Viewer Window
-    @FXML AnchorPane bookViewer;
-    @FXML StackPane viewerPane;
-    @FXML ImageView viewerCover;
-    @FXML Label viewerTitle;
-    @FXML Label viewerSeries;
-    @FXML Label viewerAuthor;
-    @FXML Label viewerGenre;
-    @FXML Label viewerDescription;
-
-    private enum LikeStatus {Dislike, Neutral, Like};
-    private LikeStatus like;//Keeps track of the like status for the current book being displayed.
-    private Image greyLike = new Image("images/GreyThumbUp.png");
-    private Image greenLike = new Image("images/GreenThumbUp.png");
-    private Image greyDislike = new Image("images/GreyThumbDown.png");
-    private Image redDislike = new Image("images/RedThumbDown.png");
-
-    //Book Viewer Buttons
-    @FXML Button likeButton;
-    @FXML Button dislikeButton;
-    @FXML Button closeButton;
+    public static int BOOK_HEIGHT = 175;
 
     /**
      * Initializes home page, adding books to a cache and displaying those books in genre-appropriate displays.
@@ -64,7 +33,7 @@ public class HomeController {
         }
 
         // Initialize book viewer icons
-        initializeViewerPane();
+        App.oc.initializeViewerPane();
 
         // Populate local author section
         createSection("PNW Local Author");
@@ -102,25 +71,7 @@ public class HomeController {
         INITIALIZED = true;
     }
 
-    /**
-     * Complete all initialization for the graphics of the book viewer
-     */
-    private void initializeViewerPane() {
-        centerViewerPane();
-        setLikeStatus(LikeStatus.Neutral);
-        Image closeImg = new Image("images/Close.png");
-        ImageView closeView = new ImageView(closeImg);
-        closeView.setFitHeight(25);
-        closeView.setPreserveRatio(true);
-        closeButton.setGraphic(closeView);
-    }
 
-    private void centerViewerPane() {
-        double centerX = (bookViewer.getWidth() - viewerPane.getPrefWidth()) / 2;
-        double centerY = (bookViewer.getHeight() - viewerPane.getPrefHeight()) / 2;
-        viewerPane.setLayoutX(centerX);
-        viewerPane.setLayoutY(centerY);
-    }
 
     /**
      * Creates a new Label for a section title and adds it to the sections VBox
@@ -220,9 +171,7 @@ public class HomeController {
                 imageView.setFitHeight(desiredHeight);
 
                 //Set the click listener for clicking on the book cover
-                imageView.setOnMouseClicked(event -> {
-                    clickBook(i, image, title);
-                });
+                imageView.setOnMouseClicked(event -> App.oc.clickBook(i, image, title));
 
                 // Add book image to hBox
                 hBox.getChildren().add(imageView);
@@ -232,171 +181,4 @@ public class HomeController {
             }
         }
     }
-
-    /**
-     * Show the ClickView menu, loading the book information of the book that was clicked.
-     * @param content
-     */
-    private void clickBook(String[] content, Image bookCover, String title) {
-        bookViewer.setVisible(true);
-
-        // Set the book cover
-        viewerCover.setImage(bookCover);
-        double desiredHeight = BOOK_HEIGHT + 100;
-        double scaleFactor = desiredHeight / bookCover.getHeight();
-        double scaledWidth = bookCover.getWidth() * scaleFactor;
-        viewerCover.setFitWidth(scaledWidth);
-        viewerCover.setFitHeight(desiredHeight);
-
-        // Set the title
-        viewerTitle.setText(content[Query.BookAttributes.title.ordinal()]);
-
-        // Set the series
-        if (content[2] == null) { // If it's not part of a series, disable the label
-            viewerSeries.setVisible(false);
-        } else { // If it is part of a series
-            viewerSeries.setVisible(true);
-            viewerSeries.setText(content[Query.BookAttributes.series.ordinal()] + " : " + content[Query.BookAttributes.seriesNum.ordinal()]);
-        }
-
-        // Set the author
-        viewerAuthor.setText("by " + content[4]);
-
-        // Set the genres
-        ArrayList<String[]> genres = Query.resultSetToArrayList(Query.select("genre", "genre", Query.where("bookID", content[0])));
-        String genreText = "Genre: ";
-        for (String[] i : genres) {
-            genreText += i[0] + ", ";
-        }
-        genreText = genreText.substring(0, genreText.length() - 2); // Remove the final comma and space
-        viewerGenre.setText(genreText);
-
-        viewerDescription.setWrapText(true); // Make sure the text wraps if it gets too long.
-        viewerDescription.setText(loadDescription(title));
-
-        // Store the selected book reference
-        selectedBook = new Book(Integer.parseInt(content[Query.BookAttributes.bookID.ordinal()]));
-    }
-
-
-    @FXML
-    public void clickCloseBookViewer(ActionEvent event) {
-        bookViewer.setVisible(false);
-        setLikeStatus(LikeStatus.Neutral);
-    }
-
-    @FXML
-    public void clickLikeButton(ActionEvent event) {
-        if(like == LikeStatus.Like) {
-            //If the status is already set to like, and you click it again, it will go back to neutral
-            setLikeStatus(LikeStatus.Neutral);
-        } else {
-            //If the status is neutral or dislike, and you click like, it will switch the status to "Like"
-            setLikeStatus(LikeStatus.Like);
-        }
-    }
-
-    @FXML
-    public void clickDislikeButton(ActionEvent event) {
-        if(like == LikeStatus.Dislike) {
-            //If the status is already set to dislike, and you click it again, it will go back to neutral
-            setLikeStatus(LikeStatus.Neutral);
-        } else {
-            //If the status is neutral or like, and you click dislike, it will switch the status to "Dislike"
-            setLikeStatus(LikeStatus.Dislike);
-        }
-    }
-
-    /**
-     * Update the like status both logically and graphically for the book viewer
-     * @param status The new like status
-     */
-    @FXML
-    public void setLikeStatus(LikeStatus status) {
-        like = status;//Update the status variable
-
-        ImageView likeView = null;
-        ImageView dislikeView = null;
-
-        switch(like) {
-            case Neutral:
-                likeView = new ImageView(greyLike);
-                dislikeView = new ImageView(greyDislike);
-            break;
-            case Like:
-                likeView = new ImageView(greenLike);
-                dislikeView = new ImageView(greyDislike);
-                break;
-            case Dislike:
-                likeView = new ImageView(greyLike);
-                dislikeView = new ImageView(redDislike);
-                break;
-
-        }
-
-        //Set the graphics for likeButton
-        likeView.setFitHeight(30);
-        likeView.setPreserveRatio(true);
-        likeButton.setGraphic(likeView);
-
-        //Set the graphics for dislikeButton
-        dislikeView.setFitHeight(30);
-        dislikeView.setPreserveRatio(true);
-        dislikeButton.setGraphic(dislikeView);
-    }
-
-
-    /**
-     * Load the description text from the file.
-     * @param title The full book title (NO spaces).
-     * @return A string containing all text from the description txt file.
-     */
-    private String loadDescription(String title) {
-        try {
-            File file = new File("src/main/resources/Descriptions/" + title + ".txt");
-            Scanner sc = new Scanner(file);
-
-            StringBuilder fileContent = new StringBuilder();
-            while (sc.hasNextLine())
-                fileContent.append(sc.nextLine()).append(System.lineSeparator());
-
-            return fileContent.toString();
-        } catch (Exception e) {
-            System.out.println("Description file could not be read. " + e.getMessage());
-        }
-        return "";
-    }
-    @FXML
-    public void handleAddToCart(ActionEvent event) {
-        if (!User.isLoggedIn()) {
-            User.LoginPrompt();
-        } else if (selectedBook != null) {
-            User.AddToCart(selectedBook);
-            updateCartView(selectedBook); // Update the cart view immediately
-        } else {
-            Tools.ShowPopup(4, "Error", "No book selected to add to cart.");
-        }
-    }
-
-    // Method to update the cart view
-    private void updateCartView(Book selectedBook) {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/bkgroup/worm/controllers/Cart.fxml"));
-        try {
-            Parent root = loader.load();
-            CartController cartController = loader.getController();
-            cartController.addCartItem(selectedBook);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-
-
-    // Method to get the currently selected book
-    private Book getSelectedBook() {
-        return selectedBook;
-    }
-
-
-
 }
