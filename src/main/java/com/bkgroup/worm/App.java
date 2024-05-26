@@ -2,12 +2,11 @@ package com.bkgroup.worm;
 
 import com.bkgroup.worm.controllers.OverlayController;
 import com.bkgroup.worm.utils.DatabaseConnection;
-import com.bkgroup.worm.utils.Tools;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
@@ -24,16 +23,18 @@ public class App extends Application {
     public void start(Stage stage) {
         Group g = new Group();
         this.stage = stage;
-        
+        AnchorPane ap = new AnchorPane();
+        stage.widthProperty().addListener(event -> ap.setPrefWidth(stage.getWidth()));
+        stage.heightProperty().addListener(event -> ap.setPrefHeight(stage.getHeight()));
         //Load the home screen
         try {
             FXMLLoader fxmlLoader2 = new FXMLLoader(App.class.getResource("/com/bkgroup/worm/controllers/Overlay.fxml"));
             g.getChildren().add(fxmlLoader2.load());
             oc = fxmlLoader2.getController();
-
             DatabaseConnection.db();
             FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/com/bkgroup/worm/controllers/menu.fxml"));
-            Scene homeScene = new Scene(new Pane(fxmlLoader.load(), g));
+            ap.getChildren().addAll(fxmlLoader.load(), g);
+            Scene homeScene = new Scene(ap);
             stage.setTitle("Bookworm");
             stage.setScene(homeScene);
             stage.show();
