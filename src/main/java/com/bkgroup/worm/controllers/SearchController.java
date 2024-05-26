@@ -72,7 +72,8 @@ public class SearchController {
         SearchBuilder search = new SearchBuilder()
                 .fullName(searchTerms)
                 .publication((int)yearMin.getValue(), (int)yearMax.getValue())
-                .genre(selectedGenres.toArray(new String[0]));
+                .genre(selectedGenres.toArray(new String[0]))
+                .pageCount((int)pageCount.getValue());
         for (String str : searchTerms) {
             search.partialName(str);
         }
@@ -92,6 +93,7 @@ public class SearchController {
                         sc.setup(img, str[1], Integer.parseInt(str[2]));
                     }
                     catch (Exception e) {
+                        System.out.println(str[0] + " " + str[1] + " " + str[2]);
                         e.printStackTrace();
                     }
                 }
