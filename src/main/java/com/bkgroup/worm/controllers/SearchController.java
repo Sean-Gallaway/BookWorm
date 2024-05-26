@@ -167,7 +167,6 @@ public class SearchController {
                 ORDER BY tnum DESC;
                 """);
         ArrayList<String[]> result;
-        System.out.println(finalQuery);
 
         try {
             Statement st = DatabaseConnection.db().createStatement();
@@ -177,11 +176,10 @@ public class SearchController {
                     FXMLLoader loader = new FXMLLoader(Tools.class.getResource("/com/bkgroup/worm/controllers/SearchCard.fxml"));
                     fp.getChildren().add(loader.load());
                     String tempStr = str[1].replaceAll(" ","").replaceAll("'", "").replaceAll("-", "");
-                    System.out.println(Arrays.toString(str));
                     try {
                         Image img = new Image(SearchController.class.getResourceAsStream(Objects.requireNonNull("/BookCovers/"+tempStr+".jpg")));
                         SearchCard sc = loader.getController();
-                        sc.setup(img, str[1]);
+                        sc.setup(img, str[1], Integer.parseInt(str[2]));
                     }
                     catch (Exception e) {
                         System.out.println(str[1] + " " + tempStr);

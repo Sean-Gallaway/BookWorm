@@ -1,12 +1,15 @@
 package com.bkgroup.worm.utils;
 
-import java.sql.*;
-import java.util.ArrayList;
-
 import static com.bkgroup.worm.utils.DatabaseConnection.db;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
+import java.util.ArrayList;
 
 public class Query {
     public enum BookAttributes {bookID, title, series, seriesNum, author, length, publicationDate, numAvailable};
+
     // do not make an instance of this class.
     private Query () {}
 
@@ -19,7 +22,7 @@ public class Query {
      * @param conditions conditions for an optional WHERE clause.
      * @return A result set containing tuples.
      */
-    public static ResultSet select (String table, String attributes, String... conditions) {
+    public static ResultSet select(String table, String attributes, String... conditions) {
         try {
             String base = String.format("SELECT %s FROM %s", attributes, table);
 
@@ -47,7 +50,7 @@ public class Query {
      * @param attributes the table and attributes to UPDATE
      * @return True if value was updated; false otherwise
      */
-    public static boolean update (String table, String condition, String... attributes) {
+    public static boolean update(String table, String condition, String... attributes) {
         try {
             // Do nothing if no attributes are given
             if (attributes.length == 0) { throw new SQLException(); }
@@ -77,7 +80,7 @@ public class Query {
      * @param conditions condition for the WHERE clause
      * @return True if value was deleted; false otherwise
      */
-    public static boolean delete (String table, String... conditions) {
+    public static boolean delete(String table, String... conditions) {
         try {
             String query = String.format("DELETE FROM %s WHERE %s",table,String.join(" AND ",conditions));
             return db().createStatement().execute(query);
@@ -88,29 +91,13 @@ public class Query {
     }
 
     /**
-     * Grabs all books from specified genre and returns ResultSet.
-     * @param genre genre to search for
-     * @return ResultSet of all books in specified genre
-     */
-    public static ResultSet populateGenre (String genre) {
-        try {
-            String query = String.format("SELECT * FROM Book b JOIN Genre g ON b.bookID = g.bookID WHERE g.genre = '%s'", genre);
-            return db().createStatement().executeQuery(query);
-        }
-        catch (SQLException e) {
-            System.err.println("SQL ERROR IN \"populateGenre()\":\"Query.java\"");
-            return null;
-        }
-    }
-
-    /**
      * Inserts a tuple into the given table.
      * @param table the table to insert into.
      * @param columns the column names to insert into. * indicates the following values are all used.
      * @param values the values of a tuple to be inserted.
      * @return the status on the success of the insert.
      */
-    public static boolean insert (String table, String columns, String values) {
+    public static boolean insert(String table, String columns, String values) {
         try {
             String query = "";
             // If columns are defined
@@ -140,7 +127,7 @@ public class Query {
      * @param rs A given result set
      * @return the packaged contents of the ResultSet.
      */
-    public static ArrayList<String[]> resultSetToArrayList (ResultSet rs) {
+    public static ArrayList<String[]> resultSetToArrayList(ResultSet rs) {
         if (rs == null) {
             System.err.println("Error: Result set is null.");
             return new ArrayList<>();
@@ -175,7 +162,7 @@ public class Query {
      * @param value the value of the condition. ex: SELECT * FROM books WHERE condition = '[value]';
      * @return a formatted string for use with WHERE clause.
      */
-    public static String where (String condition, String value) {
+    public static String where(String condition, String value) {
         return String.format("%s='%s'",condition,value);
     }
 
@@ -184,7 +171,7 @@ public class Query {
      * @param column the columns that are wanted from the table.
      * @return a formatted string for use within a statement.
      */
-    public static String project (String... column) {
+    public static String project(String... column) {
         return String.join(", ", column);
     }
 
@@ -195,7 +182,7 @@ public class Query {
      * @return a formatted string for use with insert.
      */
     @SafeVarargs
-    public static <T> String values (T... value) {
+    public static <T> String values(T... value) {
         String[] strings = new String[value.length];
         for (int a = 0; a < value.length; a++) {
             if (value[a] instanceof Double || value[a] instanceof Integer) {

@@ -6,6 +6,11 @@ import javafx.scene.control.Alert;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import static com.bkgroup.worm.utils.DatabaseConnection.db;
+
 public class Tools {
     /**
      * Loads an FXML file of the given path starting at the resources folder. FXML loader starts its relative path from
@@ -31,6 +36,22 @@ public class Tools {
         catch (Exception ex) {
             ex.printStackTrace();
             System.out.println(ex.getMessage());
+        }
+    }
+
+    /**
+     * Grabs all books from specified genre and returns ResultSet.
+     * @param genre genre to search for
+     * @return ResultSet of all books in specified genre
+     */
+    public static ResultSet populateGenre(String genre) {
+        try {
+            String query = String.format("SELECT * FROM Book b JOIN Genre g ON b.bookID = g.bookID WHERE g.genre = '%s'", genre);
+            return db().createStatement().executeQuery(query);
+        }
+        catch (SQLException e) {
+            System.err.println("SQL ERROR IN \"populateGenre()\":\"Tools.java\"");
+            return null;
         }
     }
 

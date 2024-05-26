@@ -1,5 +1,6 @@
 package com.bkgroup.worm.controllers;
 
+import com.bkgroup.worm.Book;
 import com.bkgroup.worm.User;
 import com.bkgroup.worm.utils.Tools;
 import javafx.scene.control.Label;
@@ -14,31 +15,37 @@ public class SearchCard {
     public Rectangle button;
     public ImageView image;
     public Label label;
-    boolean putInCart = false;
+    boolean inCart = false;
 
-    void setup (Image img, String string) {
+    void setup (Image img, String title, int bookID) {
+        // Set book image and title
         image.setImage(img);
-        label.setText(string);
-        button.setFill(new ImagePattern(cartImage));
+        label.setText(title);
+
+        inCart = User.ExistsInCart(new Book(bookID));
+
+        // If book is in cart, cart icon is changed to trash.
+        if (inCart) {
+            button.setFill(new ImagePattern(removeImage));
+        }
+        else {
+            button.setFill(new ImagePattern(cartImage));
+        }
+
+        // On click, do correct action
         button.setOnMouseClicked(event-> {
             if (!User.isLoggedIn()) {
                 User.LoginPrompt();
             }
-            else if (putInCart) {
-                System.out.println("remove from cart");
-                /*
-                Cole put you're method of removing from cart here
-                */
+            else if (inCart) {
                 button.setFill(new ImagePattern(cartImage));
-                putInCart = false;
+                inCart = false;
+                User.RemoveFromCart(new Book(bookID));
             }
             else {
-                System.out.println("add to cart");
-                /*
-                Cole put you're method of adding to cart here.
-                */
                 button.setFill(new ImagePattern(removeImage));
-                putInCart = true;
+                inCart = true;
+                User.AddToCart(new Book(bookID));
             }
         });
     }

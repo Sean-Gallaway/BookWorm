@@ -138,13 +138,13 @@ public class HomeController {
     private void populateSections()
     {
         cache.put("LOCAL_AUTHORS", Query.resultSetToArrayList(Query.select("book","*","author='Kristin Hannah'")));
-        cache.put("FICTION", Query.resultSetToArrayList(Query.populateGenre("Fiction")));
-        cache.put("CHILDREN", Query.resultSetToArrayList(Query.populateGenre("Children")));
-        cache.put("FANTASY", Query.resultSetToArrayList(Query.populateGenre("Fantasy")));
-        cache.put("YOUNG_ADULT", Query.resultSetToArrayList(Query.populateGenre("Young Adult")));
-        cache.put("SCIENCE_FICTION", Query.resultSetToArrayList(Query.populateGenre("Science Fiction")));
-        cache.put("MYSTERY", Query.resultSetToArrayList(Query.populateGenre("Mystery")));
-        cache.put("THRILLER", Query.resultSetToArrayList(Query.populateGenre("Thriller")));
+        cache.put("FICTION", Query.resultSetToArrayList(Tools.populateGenre("Fiction")));
+        cache.put("CHILDREN", Query.resultSetToArrayList(Tools.populateGenre("Children")));
+        cache.put("FANTASY", Query.resultSetToArrayList(Tools.populateGenre("Fantasy")));
+        cache.put("YOUNG_ADULT", Query.resultSetToArrayList(Tools.populateGenre("Young Adult")));
+        cache.put("SCIENCE_FICTION", Query.resultSetToArrayList(Tools.populateGenre("Science Fiction")));
+        cache.put("MYSTERY", Query.resultSetToArrayList(Tools.populateGenre("Mystery")));
+        cache.put("THRILLER", Query.resultSetToArrayList(Tools.populateGenre("Thriller")));
     }
 
     /**

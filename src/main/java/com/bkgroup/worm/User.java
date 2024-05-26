@@ -82,12 +82,15 @@ public class User {
      * @param book Book
      */
     public static void AddToCart(Book book) {
-        if (ExistsInCart(book)) {
-            Tools.ShowPopup(1, "Book Already In Cart", "The Selected Book Already Exists In Your Cart");
-        } else {
+        if (book.getID() == -1) {
+            Tools.ShowPopup(0, "Error", "Error adding book to cart.");
+        }
+        else if (ExistsInCart(book)) {
+            Tools.ShowPopup(1, "Already In Cart", "The Selected Book Already Exists In Your Cart");
+        }
+        else {
             cart.add(book); // Add to local cart
             Query.insert("cart","*",String.format("%d,%d",book.getID(),userID));
-            Tools.ShowPopup(4, "Book Added", "The Selected Book Has Been Added to Your Cart");
         }
     }
 
@@ -97,11 +100,10 @@ public class User {
      */
     public static void AddToWishlist(Book book) {
         if (ExistsInWishlist(book)) {
-            Tools.ShowPopup(1, "Book Already In Wishlist", "The Selected Book Already Exists In Your Wishlist");
+            Tools.ShowPopup(1, "Already In Wishlist", "The Selected Book Already Exists In Your Wishlist");
         } else {
             cart.add(book); // Add to local cart
             Query.insert("wishlist","*",String.format("%d,%d", book.getID(),userID));
-            Tools.ShowPopup(4,"Book Added","The Selected Book Has Been Added to Your Cart");
         }
     }
 
@@ -117,22 +119,16 @@ public class User {
     }
 
     /**
-     * Checks if book already exists in user's cart.
+     * Checks if book already exists in user's local cart which is synced with database.
      * @param book Book
      * @return True if book is in cart; false otherwise
      */
-    private static boolean ExistsInCart(Book book) {
-        ResultSet result = Query.select("cart","bookID",String.format("userID=%s",userID));
-
-        try {
-            while (result.next()) {
-                if (result.getInt("bookID") == book.getID()) {
-                    return true;
-                }
+    public static boolean ExistsInCart(Book book) {
+        // Search all books in cart for a matching ID
+        for (Book b : cart) {
+            if (b.getID() == book.getID()) {
+                return true;
             }
-        }
-        catch (NullPointerException | SQLException e) {
-            return false;
         }
 
         // Book was not found in cart
@@ -140,22 +136,16 @@ public class User {
     }
 
     /**
-     * Checks if book already exists in user's wishlist.
+     * Checks if book already exists in user's local wishlist which is synced with database.
      * @param book Book
      * @return True if book is in wishlist; false otherwise
      */
-    private static boolean ExistsInWishlist(Book book) {
-        ResultSet result = Query.select("wishlist","bookID",String.format("userID=%s",userID));
-
-        try {
-            while (result.next()) {
-                if (result.getInt("bookID") == book.getID()) {
-                    return true;
-                }
+    public static boolean ExistsInWishlist(Book book) {
+        // Search all books in wishlist for a matching ID
+        for (Book b : wishlist) {
+            if (b.getID() == book.getID()) {
+                return true;
             }
-        }
-        catch (NullPointerException | SQLException e) {
-            return false;
         }
 
         // Book was not found in wishlist
@@ -220,10 +210,10 @@ public class User {
     }
 
     /**
-     * Clears the user's cart.
+     * Clears user's local and database cart.
      */
     public static void clearCart() {
-        cart.clear(); // Clear local cart
-        Query.delete("cart", "userID=" + userID); // Clear cart in database
+        cart.clear();
+        Query.delete("cart",String.format("userID=%d",userID));
     }
 }
