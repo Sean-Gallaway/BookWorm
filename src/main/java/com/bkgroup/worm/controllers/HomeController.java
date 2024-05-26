@@ -20,7 +20,7 @@ public class HomeController {
     private final static HashMap<String,ArrayList<String[]>> cache = new HashMap<>();
     private static boolean INITIALIZED;
     @FXML VBox sections;
-    public static int BOOK_HEIGHT = 175;
+    public static int BOOK_HEIGHT = 300;
 
     /**
      * Initializes home page, adding books to a cache and displaying those books in genre-appropriate displays.
@@ -31,6 +31,9 @@ public class HomeController {
         if (!INITIALIZED) {
             populateSections();
         }
+
+        // Add CSS in the hackiest way possible
+        sections.setStyle("-fx-background-color: #c0bfbc");
 
         // Initialize book viewer icons
         App.oc.initializeViewerPane();
@@ -78,8 +81,8 @@ public class HomeController {
      * @param sectionTitle title
      */
     private void createSection(String sectionTitle) {
-        Label l = new Label(sectionTitle);
-        l.setFont(Font.font("Arial", FontWeight.BOLD, 20));
+        Label l = new Label(" " + sectionTitle);
+        l.setFont(Font.font("Arial", FontWeight.BOLD, 28));
         sections.getChildren().add(l);
     }
 
@@ -118,9 +121,10 @@ public class HomeController {
     {
         // Create display box
         HBox hBox = new HBox();
+        hBox.setPrefHeight(316);
         hBox.setMaxWidth(Double.MAX_VALUE);
         HBox.setHgrow(hBox, Priority.ALWAYS);
-        hBox.setSpacing(5);
+        hBox.setSpacing(16);
 
         // Create scroll bar
         createScrollPane(hBox);

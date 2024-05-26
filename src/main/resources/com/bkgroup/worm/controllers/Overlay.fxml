@@ -11,67 +11,48 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="Book Viewer" fx:id="bookViewer" layoutX="10.0" layoutY="10.0" visible="false"
-            AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
-            AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/20"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bkgroup.worm.controllers.OverlayController">
-   <AnchorPane style="-fx-background-color: #999999; -fx-opacity: 0.8;" AnchorPane.bottomAnchor="-5.0"
-               AnchorPane.leftAnchor="-5.0" AnchorPane.rightAnchor="-5.0" AnchorPane.topAnchor="-5.0"/>
-   <StackPane fx:id="viewerPane" AnchorPane.bottomAnchor="75.0" AnchorPane.leftAnchor="100.0"
-              AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="75.0">
-      <AnchorPane maxHeight="340.0" maxWidth="460.0" minHeight="340.0" minWidth="460.0"
-                  style="-fx-background-color: #ffffff;" StackPane.alignment="CENTER"/>
-      <HBox maxHeight="340.0" maxWidth="460.0" minHeight="340.0" minWidth="460.0" spacing="10.0"
-            StackPane.alignment="CENTER">
+<AnchorPane id="Book Viewer" fx:id="bookViewer" layoutX="10.0" layoutY="10.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/20" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bkgroup.worm.controllers.OverlayController">
+   <AnchorPane style="-fx-background-color: #999999; -fx-opacity: 0.8;" AnchorPane.bottomAnchor="-5.0" AnchorPane.leftAnchor="-5.0" AnchorPane.rightAnchor="-5.0" AnchorPane.topAnchor="-5.0" />
+   <StackPane fx:id="viewerPane" AnchorPane.bottomAnchor="75.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="75.0">
+      <AnchorPane maxHeight="500.0" maxWidth="600.0" minHeight="500.0" minWidth="600.0" style="-fx-background-color: #ffffff;" StackPane.alignment="CENTER" />
+      <HBox maxHeight="500.0" maxWidth="600.0" minHeight="500.0" minWidth="600.0" spacing="10.0" StackPane.alignment="CENTER">
          <padding>
-            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
          </padding>
          <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0">
-            <ImageView fx:id="viewerCover" fitHeight="213.0" fitWidth="155.0" pickOnBounds="true"
-                       preserveRatio="true"/>
-            <HBox id="Buttons" alignment="CENTER" prefHeight="26.0" prefWidth="222.0" spacing="5.0"
-                  VBox.vgrow="ALWAYS">
-               <Button id="Like" fx:id="likeButton" contentDisplay="GRAPHIC_ONLY"
-                       mnemonicParsing="false" onAction="#clickLikeButton" prefHeight="40.0"
-                       prefWidth="40.0" style="-fx-background-color: #ffffff;" text="Like"/>
-               <Button id="Dislike" fx:id="dislikeButton" contentDisplay="GRAPHIC_ONLY" layoutX="10.0"
-                       layoutY="10.0" mnemonicParsing="false" onAction="#clickDislikeButton"
-                       prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: #ffffff;"
-                       text="Dislike"/>
+            <ImageView fx:id="viewerCover" fitHeight="213.0" fitWidth="155.0" pickOnBounds="true" preserveRatio="true" />
+            <HBox id="Buttons" alignment="CENTER" prefHeight="26.0" prefWidth="222.0" spacing="5.0" VBox.vgrow="ALWAYS">
+               <Button id="Like" fx:id="likeButton" contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" onAction="#clickLikeButton" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: #ffffff;" text="Like" />
+               <Button id="Dislike" fx:id="dislikeButton" contentDisplay="GRAPHIC_ONLY" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#clickDislikeButton" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: #ffffff;" text="Dislike" />
             </HBox>
          </VBox>
          <VBox spacing="5.0">
             <Label id="TitleLabel" fx:id="viewerTitle" text="[Title]">
                <font>
-                  <Font size="18.0"/>
+                  <Font size="18.0" />
                </font>
             </Label>
             <Label id="SeriesLabel" fx:id="viewerSeries" layoutX="10.0" layoutY="10.0" text="[Series]">
                <font>
-                  <Font size="12.0"/>
+                  <Font size="12.0" />
                </font>
             </Label>
-            <Label id="AuthorLabel" fx:id="viewerAuthor" layoutX="10.0" layoutY="10.0" text="[Author]"/>
-            <Label id="GenreLabel" fx:id="viewerGenre" layoutX="10.0" layoutY="33.0" text="[Genre]"/>
-            <ScrollPane fitToWidth="true" hbarPolicy="NEVER" hmax="0.0" prefHeight="200.0"
-                        prefWidth="300.0">
+            <Label id="AuthorLabel" fx:id="viewerAuthor" layoutX="10.0" layoutY="10.0" text="[Author]" />
+            <Label id="GenreLabel" fx:id="viewerGenre" layoutX="10.0" layoutY="33.0" text="[Genre]" />
+            <ScrollPane fitToWidth="true" hbarPolicy="NEVER" hmax="0.0" prefHeight="200.0" prefWidth="300.0" VBox.vgrow="ALWAYS">
                <Label id="DescriptionLabel" fx:id="viewerDescription" text="Description">
                   <padding>
-                     <Insets bottom="5.0" left="5.0" right="20.0" top="5.0"/>
+                     <Insets bottom="5.0" left="5.0" right="20.0" top="5.0" />
                   </padding>
                </Label>
             </ScrollPane>
             <HBox id="Buttons" prefHeight="39.0" prefWidth="222.0" spacing="5.0">
-               <Button id="AddToCart" mnemonicParsing="false" onAction="#handleAddToCart"
-                       text="Add to Cart"/>
-               <Button id="AddToWishlist" layoutX="10.0" layoutY="10.0" mnemonicParsing="false"
-                       text="Add to Wishlist"/>
+               <Button id="AddToCart" mnemonicParsing="false" onAction="#handleAddToCart" text="Add to Cart" />
+               <Button id="AddToWishlist" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" text="Add to Wishlist" />
             </HBox>
 
          </VBox>
-         <Button id="Close" fx:id="closeButton" contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false"
-                 onAction="#clickCloseBookViewer" style="-fx-background-color: #ffffff;" text="Close"
-                 HBox.hgrow="ALWAYS"/>
+         <Button id="Close" fx:id="closeButton" contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" onAction="#clickCloseBookViewer" style="-fx-background-color: #ffffff;" text="Close" HBox.hgrow="ALWAYS" />
       </HBox>
    </StackPane>
 </AnchorPane>
