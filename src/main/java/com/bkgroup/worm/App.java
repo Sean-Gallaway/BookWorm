@@ -17,6 +17,9 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) {
+
+        this.stage = stage;
+        
         //Load the home screen
         try {
             DatabaseConnection.db();
