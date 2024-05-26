@@ -13,6 +13,7 @@ public class User {
     private static int pfpIndex;
     private static int userID;
     private static final ArrayList<Book> cart = new ArrayList<>();
+    private static final ArrayList<Book> wishlist = new ArrayList<>();
 
     private User() {}
 
@@ -29,13 +30,42 @@ public class User {
         loggedIn = true;
         cart.clear();
         PopulateCart();
+        PopulateWishlist();
     }
 
     /**
-     * Populates the cart using the database upon user login.
+     * Log use out and reset all profile data to prevent errors.
+     */
+    public static void Logout() {
+        username = "";
+        pfpIndex = 0;
+        loggedIn = false;
+        userID = -1;
+        cart.clear();
+        wishlist.clear();
+    }
+
+    /**
+     * Populates the local cart using the database upon user login.
      */
     public static void PopulateCart() {
         ResultSet books = Query.select("cart","bookID",String.format("userID=%s",userID));
+
+        try {
+            while (books.next()) {
+                cart.add(new Book(books.getInt("bookID")));
+            }
+        }
+        catch (NullPointerException | SQLException e) {
+            System.err.println("Error copying database cart to local");
+        }
+    }
+
+    /**
+     * Populates the local wishlist using the database upon user login
+     */
+    public static void PopulateWishlist() {
+        ResultSet books = Query.select("wishlist","bookID",String.format("userID=%s",userID));
 
         try {
             while (books.next()) {
@@ -56,8 +86,22 @@ public class User {
             Tools.ShowPopup(1, "Book Already In Cart", "The Selected Book Already Exists In Your Cart");
         } else {
             cart.add(book); // Add to local cart
-            Query.insert("cart", "*", String.format("%d,%d", book.getID(), userID));
+            Query.insert("cart","*",String.format("%d,%d",book.getID(),userID));
             Tools.ShowPopup(4, "Book Added", "The Selected Book Has Been Added to Your Cart");
+        }
+    }
+
+    /**
+     * Adds book to users wishlist for use in checkout or tells user book already exists in checkout if it is found.
+     * @param book Book
+     */
+    public static void AddToWishlist(Book book) {
+        if (ExistsInWishlist(book)) {
+            Tools.ShowPopup(1, "Book Already In Wishlist", "The Selected Book Already Exists In Your Wishlist");
+        } else {
+            cart.add(book); // Add to local cart
+            Query.insert("wishlist","*",String.format("%d,%d", book.getID(),userID));
+            Tools.ShowPopup(4,"Book Added","The Selected Book Has Been Added to Your Cart");
         }
     }
 
@@ -96,6 +140,29 @@ public class User {
     }
 
     /**
+     * Checks if book already exists in user's wishlist.
+     * @param book Book
+     * @return True if book is in wishlist; false otherwise
+     */
+    private static boolean ExistsInWishlist(Book book) {
+        ResultSet result = Query.select("wishlist","bookID",String.format("userID=%s",userID));
+
+        try {
+            while (result.next()) {
+                if (result.getInt("bookID") == book.getID()) {
+                    return true;
+                }
+            }
+        }
+        catch (NullPointerException | SQLException e) {
+            return false;
+        }
+
+        // Book was not found in wishlist
+        return false;
+    }
+
+    /**
      * Creates popup that informs user they must log in to complete action.
      */
     public static void LoginPrompt() {
@@ -111,22 +178,19 @@ public class User {
     }
 
     /**
+     * Returns wishlist which is an arraylist of book items.
+     * @return Arraylist wishlist
+     */
+    public static ArrayList<Book> getWishlist() {
+        return wishlist;
+    }
+
+    /**
      * Returns login status.
      * @return True if logged in; false otherwise
      */
     public static boolean isLoggedIn() {
         return loggedIn;
-    }
-
-    /**
-     * Log use out and reset all profile data to prevent errors.
-     */
-    public static void Logout() {
-        username = "";
-        pfpIndex = 0;
-        loggedIn = false;
-        userID = -1;
-        cart.clear();
     }
 
     /**
