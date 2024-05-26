@@ -384,7 +384,7 @@ public class HomeController {
         try {
             Parent root = loader.load();
             CartController cartController = loader.getController();
-            cartController.addCartItem(selectedBook, 1); // Use appropriate quantity
+            cartController.addCartItem(selectedBook);
         } catch (IOException e) {
             e.printStackTrace();
         }
