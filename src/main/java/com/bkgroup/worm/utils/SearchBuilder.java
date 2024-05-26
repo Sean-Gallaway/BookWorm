@@ -2,7 +2,7 @@ package com.bkgroup.worm.utils;
 
 public class SearchBuilder {
     boolean constructed = false;
-    int pageCount;
+    int pgCount;
     String query = "";
 
     /**
@@ -23,10 +23,10 @@ public class SearchBuilder {
                     JOIN book b2
                         ON r1.bookID = b2.bookID
                 WHERE length >\s""");
-            result.append(pageCount).append("\n");
+            result.append(pgCount).append("\n");
             result.append("""
                 GROUP BY r1.title, r1.bookID
-                HAVING tNum > 1
+                HAVING tNum >= 1
                 ORDER BY tnum DESC;
                 """);
             query = result.toString();
@@ -42,6 +42,9 @@ public class SearchBuilder {
      * @return this Builder object.
      */
     public SearchBuilder fullName (String[] nameSections) {
+        if (nameSections.length == 0 || nameSections[0].equals("")) {
+            return this;
+        }
         StringBuilder full = new StringBuilder("""
                 \tSELECT bookID,
                 \t    title,
@@ -71,6 +74,9 @@ public class SearchBuilder {
      * @return this Builder object.
      */
     public SearchBuilder partialName (String pName) {
+        if (pName.equals("")) {
+            return this;
+        }
         if (!query.equals("")) {
             query+="\nUNION ALL\n";
         }
@@ -91,6 +97,9 @@ public class SearchBuilder {
      * @return this Builder object.
      */
     public SearchBuilder genre (String[] genres) {
+        if (genres.length == 0) {
+            return this;
+        }
         StringBuilder wantedGenre = new StringBuilder("""
                 \tSELECT a.bookID,
                 \t    b.title,
@@ -136,6 +145,11 @@ public class SearchBuilder {
                 " AND publicationDate < '" +
                 yearMax + "-01" + "-01'" +
                 "\n\tGROUP BY bookID";
+        return this;
+    }
+
+    public SearchBuilder pageCount (int pgCount) {
+        this.pgCount = pgCount;
         return this;
     }
 }
