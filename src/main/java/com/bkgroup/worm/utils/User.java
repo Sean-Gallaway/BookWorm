@@ -308,6 +308,10 @@ public class User {
         return loggedIn;
     }
 
+    /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+    /* * * * * * * * * * * * * * * * * * * * GETTERS AND SETTERS * * * * * * * * * * * * * * * * * * * * * * * * * * */
+    /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
     /**
      * Returns profile username.
      * @return Username
@@ -324,13 +328,13 @@ public class User {
         return pfpIndex;
     }
 
-    // TODO COMMENT INDICES AND ENSURE INDEX WITHIN BOUNDS
     /**
      * Sets profile picture index.
      * @param index index
      */
     public static boolean setPfpIndex(int index) {
         pfpIndex = index;
+        Query.update("user",String.format("userID=%d",userID),String.format("profilePic=%d",pfpIndex));
         return true; // TODO ERROR CHECKING INDEX BOUNDS
     }
 }

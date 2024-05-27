@@ -18,10 +18,10 @@ public final class AccountHelper {
      */
     public static int CheckAccountExistence(String username)
     {
-        String condition = String.format("username='%s'",username);
-        ResultSet user = Query.select("user","userID",condition);
+        // Gets account ID by username
+        ResultSet user = Query.select("user","userID",String.format("username='%s'",username));
 
-        // Return false if user result set is null or has no data
+        // Return false if user result set is null or has no data; else, return account ID
         try {
             user.next();
             return user.getInt("userID");
@@ -38,60 +38,16 @@ public final class AccountHelper {
      * @return True if passwords match; false otherwise
      */
     public static boolean AttemptLogin(int ID, String password) {
-        String condition = String.format("userID='%s'",ID);
-        ResultSet user = Query.select("user","password",condition);
+        // Get account password by ID
+        ResultSet user = Query.select("user","password",String.format("userID='%s'",ID));
 
-        // Check if passwords match
+        // Return false if password is incorrect; else, return true
         try {
             user.next();
             return user.getString("password").equals(password);
         }
         catch (NullPointerException | SQLException e) {
             return false;
-        }
-    }
-
-    /**
-     * Returns profile picture index of account.
-     * @param ID User ID
-     * @return Profile picture index
-     */
-    public static int getPictureIndex(int ID) {
-        String condition = String.format("userID='%s'",ID);
-        ResultSet user = Query.select("user","profilePic",condition);
-
-        // Check if passwords match
-        try {
-            user.next();
-            return user.getInt("profilePic");
-        }
-        catch (NullPointerException | SQLException e) {
-            return 0;
-        }
-    }
-
-    /**
-     * Resets background color of text fields.
-     * @param textFields Text fields to reset
-     */
-    public static void ResetBackground(TextField[] textFields)
-    {
-        // Reset background to white for all text fields
-        for (TextField t : textFields)
-        {
-            t.getStyleClass().removeAll(Collections.singleton("error"));
-        }
-    }
-
-    /**
-     * Clears all text in a given array of text fields.
-     * @param textFields Text fields
-     */
-    public static void ClearText(TextField[] textFields)
-    {
-        for (TextField t : textFields)
-        {
-            t.clear();
         }
     }
 
@@ -130,5 +86,29 @@ public final class AccountHelper {
 
         // Return false if account could not be created
         return false;
+    }
+
+    /**
+     * Resets background color of text fields to white.
+     * @param textFields Text fields to reset
+     */
+    public static void ResetBackground(TextField[] textFields)
+    {
+        for (TextField t : textFields)
+        {
+            t.getStyleClass().removeAll(Collections.singleton("error"));
+        }
+    }
+
+    /**
+     * Clears all text in a given array of text fields.
+     * @param textFields Text fields
+     */
+    public static void ClearText(TextField[] textFields)
+    {
+        for (TextField t : textFields)
+        {
+            t.clear();
+        }
     }
 }

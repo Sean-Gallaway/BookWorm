@@ -121,7 +121,8 @@ public class AccountController {
     /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
     /**
-     * Activates when "Create Account" button is pressed
+     * Attempts to create account with supplied inputs. Validates inputs and checks if user already exists before
+     * attempting to create an account. If account is created successfully, the user is logged in.
      */
     @FXML
     void CreateAccount() {
@@ -209,7 +210,8 @@ public class AccountController {
     /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
     /**
-     * Logs user in if inputs are all valid.
+     * Attempts to log user in with supplied inputs after validating inputs. If no account exists, user is told to try
+     * another username. If all inputs are valid, user is logged in.
      */
     @FXML
     void Login() {
