@@ -115,6 +115,8 @@ public class CartController {
         if (destructive) {
             User.clearCart();
         }
+
+        updateTotal();
     }
 
     /**
