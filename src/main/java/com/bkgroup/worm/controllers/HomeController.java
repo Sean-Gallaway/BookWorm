@@ -70,7 +70,7 @@ public class HomeController {
     }
 
     /**
-     * Populates cache with specified genres.
+     * Populates cache with specified section criteria.
      */
     private void populateSections()
     {

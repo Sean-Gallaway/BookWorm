@@ -19,6 +19,13 @@ public class App extends Application {
     // it is useful for some classes to be able to access the Stage globally.
     public static Stage stage;
 
+    /**
+     * Start the JavaFX application
+     * @param stage the primary stage for this application, onto which
+     * the application scene can be set.
+     * Applications may create other stages, if needed, but they will not be
+     * primary stages.
+     */
     @Override
     public void start(Stage stage) {
         Group g = new Group();
@@ -41,6 +48,10 @@ public class App extends Application {
         }
     }
 
+    /**
+     * Entry point of the program. Launches JavaFX.
+     * @param args The main method parameters
+     */
     public static void main(String[] args) {
         launch();
     }

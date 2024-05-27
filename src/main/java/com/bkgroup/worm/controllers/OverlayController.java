@@ -65,7 +65,9 @@ public class OverlayController {
 
     /**
      * Show the ClickView menu, loading the book information of the book that was clicked.
-     * @param content
+     * @param content The database content of the book that was clicked.
+     * @param bookCover The Image cover art for the book
+     * @param title The book title
      */
     public void clickBook(String[] content, Image bookCover, String title) {
         // Make visible and set size
@@ -111,7 +113,7 @@ public class OverlayController {
         // Store the selected book reference
         selectedBook = new Book(Integer.parseInt(content[Query.BookAttributes.bookID.ordinal()]));
 
-        setLikeStatus(selectedBook);
+        setLikeStatus(selectedBook);//Set the current like status to the like status of the book.
     }
 
     /**
@@ -183,6 +185,10 @@ public class OverlayController {
         return "";
     }
 
+    /**
+     * Adds the selected book to the cart
+     * @param event This event runs when "Add to Cart" button is pressed.
+     */
     @FXML
     public void handleAddToCart(ActionEvent event) {
         if (!User.isLoggedIn()) {
@@ -200,6 +206,10 @@ public class OverlayController {
         }
     }
 
+    /**
+     * Adds the selected book to the wishlist
+     * @param event This event runs when "Add to Wishlist" button is pressed.
+     */
     @FXML
     void handleAddToWishlist(ActionEvent event) {
         if (!User.isLoggedIn()) {
@@ -217,7 +227,10 @@ public class OverlayController {
         }
     }
 
-    // Method to update the cart view
+    /**
+     * Update the cart view
+     * @param selectedBook The book to be added to the cart
+     */
     private void updateCartView(Book selectedBook) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/bkgroup/worm/controllers/Cart.fxml"));
         try {
@@ -229,7 +242,10 @@ public class OverlayController {
         }
     }
 
-    // Method to update the wishlist view
+    /**
+     * Update the wishlist view
+     * @param selectedBook The book to be added to the wishlist
+     */
     private void updateWishlistView(Book selectedBook) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/bkgroup/worm/controllers/Cart.fxml"));
         try {
@@ -241,6 +257,9 @@ public class OverlayController {
         }
     }
 
+    /**
+     * Put book viewer in the center of the current pane.
+     */
     private void centerViewerPane() {
         double centerX = (bookViewer.getWidth() - viewerPane.getPrefWidth()) / 2;
         double centerY = (bookViewer.getHeight() - viewerPane.getPrefHeight()) / 2;
@@ -252,7 +271,9 @@ public class OverlayController {
      * Complete all initialization for the graphics of the book viewer
      */
     public void initializeViewerPane() {
-        centerViewerPane();
+        centerViewerPane();//Make sure cart viewer is centered
+
+        //Set the close button to the appropriate icon
         Image closeImg = new Image("images/Close.png");
         ImageView closeView = new ImageView(closeImg);
         closeView.setFitHeight(25);
@@ -260,13 +281,22 @@ public class OverlayController {
         closeButton.setGraphic(closeView);
     }
 
+    /**
+     * Close the book viewer panel
+     */
     @FXML
     public void clickCloseBookViewer() {
         bookViewer.setVisible(false);
     }
 
+    /**
+     * This method runs when the like button is clicked.
+     * Based on the current like status of the book, it updates to the new like status
+     * both graphically and logically.
+     * @param event Button press information.
+     */
     @FXML
-    public void clickLikeButton() {
+    public void clickLikeButton(ActionEvent event) {
         if (!User.isLoggedIn()) {
             User.LoginPrompt();
         }
@@ -286,8 +316,14 @@ public class OverlayController {
         }
     }
 
+    /**
+     * This method runs when the dislike button is clicked.
+     * Based on the current like status of the book, it updates to the new like status
+     * both graphically and logically.
+     * @param event Button press information.
+     */
     @FXML
-    public void clickDislikeButton() {
+    public void clickDislikeButton(ActionEvent event) {
         if (!User.isLoggedIn()) {
             User.LoginPrompt();
         } else if (getBookStatus(getSelectedBook()) == LikeStatus.Dislike) {
@@ -306,7 +342,10 @@ public class OverlayController {
         }
     }
 
-    // Method to get the currently selected book
+    /**
+     * Returns the Book currently selected
+     * @return Currently selected Book
+     */
     private Book getSelectedBook() {
         return selectedBook;
     }
