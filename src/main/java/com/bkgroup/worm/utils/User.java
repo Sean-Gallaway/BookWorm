@@ -3,6 +3,8 @@ package com.bkgroup.worm.utils;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class User {
     private static boolean loggedIn = false;
@@ -11,6 +13,7 @@ public class User {
     private static int userID;
     private static final ArrayList<Book> cart = new ArrayList<>();
     private static final ArrayList<Book> wishlist = new ArrayList<>();
+    private static final HashMap<Integer,Integer> preferences = new HashMap<>();
 
     private User() {}
 
@@ -28,6 +31,7 @@ public class User {
         cart.clear();
         PopulateCart();
         PopulateWishlist();
+        PopulatePreferences();
     }
 
     /**
@@ -40,12 +44,13 @@ public class User {
         userID = -1;
         cart.clear();
         wishlist.clear();
+        preferences.clear();
     }
 
     /**
      * Populates the local cart using the database upon user login.
      */
-    public static void PopulateCart() {
+    private static void PopulateCart() {
         ResultSet books = Query.select("cart","bookID",String.format("userID=%s",userID));
 
         try {
@@ -59,9 +64,9 @@ public class User {
     }
 
     /**
-     * Populates the local wishlist using the database upon user login
+     * Populates the local wishlist using the database upon user login.
      */
-    public static void PopulateWishlist() {
+    private static void PopulateWishlist() {
         ResultSet books = Query.select("wishlist","bookID",String.format("userID=%s",userID));
 
         try {
@@ -71,6 +76,22 @@ public class User {
         }
         catch (NullPointerException | SQLException e) {
             System.err.println("Error copying database cart to local");
+        }
+    }
+
+    /**
+     * Populates the local preference list using the database upon user login.
+     */
+    private static void PopulatePreferences() {
+        ResultSet books = Query.select("userpreferences","*",String.format("userID=%d",userID));
+
+        try {
+            while (books.next()) {
+                preferences.put(books.getInt("bookID"),books.getInt("preference"));
+            }
+        }
+        catch (NullPointerException | SQLException e) {
+            System.err.println("Error copying database preferences to local");
         }
     }
 
@@ -105,6 +126,28 @@ public class User {
     }
 
     /**
+     * Adds book to preferences with a rating depending on argument.
+     * @param book Book to add
+     * @param isLiked True if book was liked; false otherwise
+     */
+    public static void AddToPreferences(Book book, boolean isLiked) {
+        preferences.put(book.getID(), isLiked ? 1 : 0);
+        Query.insert("userpreferences","*", String.format("%d,%d,%d",userID,book.getID(),isLiked ? 1 : 0)
+        );
+    }
+
+    /**
+     * Removes book from local and database preferences.
+     * @param book Book to remove
+     */
+    public static void RemoveFromPreferences(Book book) {
+        if (preferences.containsKey(book.getID())) {
+            preferences.remove(book.getID());
+            Query.delete("userpreferences",String.format("bookID=%d",book.getID()), String.format("userID=%d",userID));
+        }
+    }
+
+    /**
      * Removes book from local cart and database.
      * @param book Book to remove
      */
@@ -130,6 +173,19 @@ public class User {
 
         // Book was not found in cart
         return false;
+    }
+
+    /**
+     * Returns preference of book or -1 if it is not in preferences.
+     * @param book Book
+     * @return -1: DNE, 0: Disliked, 1: Liked
+     */
+    public static int ExistsInPreferences(Book book) {
+        if (!preferences.containsKey(book.getID())) {
+            return -1;
+        }
+
+        return preferences.get(book.getID());
     }
 
     /**
@@ -165,11 +221,22 @@ public class User {
     }
 
     /**
-     * Returns wishlist which is an arraylist of book items.
-     * @return Arraylist wishlist
+     * Gets all rated books and adds books to arraylist to return. Rating grabbed depends on input argument.
+     * @param liked True grabs liked books; False grabs disliked books
+     * @return Book arraylist
      */
-    public static ArrayList<Book> getWishlist() {
-        return wishlist;
+    public static ArrayList<Book> getPreferences(boolean liked) {
+        ArrayList<Book> list = new ArrayList<>();
+        for (Map.Entry<Integer,Integer> book : preferences.entrySet()) {
+            if (liked && book.getValue() == 1) {
+                list.add(new Book(book.getKey()));
+            }
+            else if (!liked && book.getValue() == 0) {
+                list.add(new Book(book.getKey()));
+            }
+
+        }
+        return list;
     }
 
     /**

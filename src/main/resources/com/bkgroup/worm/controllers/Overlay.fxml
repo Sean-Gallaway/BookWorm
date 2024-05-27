@@ -48,7 +48,7 @@
             </ScrollPane>
             <HBox id="Buttons" prefHeight="39.0" prefWidth="222.0" spacing="5.0">
                <Button id="AddToCart" mnemonicParsing="false" onAction="#handleAddToCart" text="Add to Cart" />
-               <Button id="AddToWishlist" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" text="Add to Wishlist" />
+               <Button id="AddToWishlist" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#handleAddToWishlist" text="Add to Wishlist" />
             </HBox>
 
          </VBox>
