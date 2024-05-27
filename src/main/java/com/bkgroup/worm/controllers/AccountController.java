@@ -6,8 +6,10 @@ import com.bkgroup.worm.utils.Tools;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 
 /**
@@ -20,34 +22,57 @@ public class AccountController {
 
     @FXML
     private Button AC_btn_createAccount;
+
     @FXML
     private Button AC_btn_login;
+
     @FXML
     private TextField AC_txt_email;
+
     @FXML
     private TextField AC_txt_name_first;
+
     @FXML
     private TextField AC_txt_name_last;
+
     @FXML
     private PasswordField AC_txt_password;
+
     @FXML
     private PasswordField AC_txt_password_confirm;
+
     @FXML
     private TextField AC_txt_username;
+
     @FXML
     private Button SI_btn_create_account;
+
     @FXML
     private Button SI_btn_login;
+
     @FXML
     private PasswordField SI_txt_password;
+
     @FXML
     private TextField SI_txt_username;
+
+    @FXML
+    private Label emailProfile;
+
+    @FXML
+    private Label nameProfile;
+
     @FXML
     private GridPane pane_account_creation;
+
     @FXML
     private GridPane pane_account_login;
+
     @FXML
     private GridPane pane_account_page;
+
+    @FXML
+    private ImageView profileIcon;
 
     // Sign in page text fields
     TextField[] SI_textFields;
@@ -114,6 +139,16 @@ public class AccountController {
         pane_account_creation.setVisible(false);
         pane_account_login.setVisible(false);
         pane_account_page.setVisible(true);
+
+        //retrieve name of current user from database and store in newly declared string
+        String name = "stephen";
+        //set label to the string that was just created storing the user's name
+        nameProfile.setText(name);
+
+        //retrieve email of current user from database and store in newly declared string
+        String email = "nuge@gmail.com";
+        //set label to the string that was just created storing the user's email
+        emailProfile.setText(email);
     }
 
     /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
