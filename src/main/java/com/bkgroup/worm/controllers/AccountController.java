@@ -45,6 +45,9 @@ public class AccountController {
     private TextField AC_txt_username;
 
     @FXML
+    private Button LogOutBtn;
+
+    @FXML
     private Button SI_btn_create_account;
 
     @FXML
@@ -60,7 +63,22 @@ public class AccountController {
     private Label emailProfile;
 
     @FXML
+    private Label emailProfile1;
+
+    @FXML
+    private TextField emailText;
+
+    @FXML
+    private TextField fNameText;
+
+    @FXML
+    private TextField lNameText;
+
+    @FXML
     private Label nameProfile;
+
+    @FXML
+    private Label nameProfile1;
 
     @FXML
     private GridPane pane_account_creation;
@@ -72,7 +90,19 @@ public class AccountController {
     private GridPane pane_account_page;
 
     @FXML
+    private GridPane pane_account_settings_page;
+
+    @FXML
     private ImageView profileIcon;
+
+    @FXML
+    private ImageView profileIcon1;
+
+    @FXML
+    private TextField pwText;
+
+    @FXML
+    private TextField uNameText;
 
     // Sign in page text fields
     TextField[] SI_textFields;
@@ -135,20 +165,47 @@ public class AccountController {
     /**
      * Makes profile page visible and all other pages invisible.
      */
+    @FXML
     private void GotoProfilePage() {
         pane_account_creation.setVisible(false);
         pane_account_login.setVisible(false);
         pane_account_page.setVisible(true);
 
-        //retrieve name of current user from database and store in newly declared string
-        String name = "stephen";
-        //set label to the string that was just created storing the user's name
-        nameProfile.setText(name);
+        //call updateProfileDisplay to reset values to current user information
+        updateProfileDisplay();
+    }
 
-        //retrieve email of current user from database and store in newly declared string
-        String email = "nuge@gmail.com";
-        //set label to the string that was just created storing the user's email
-        emailProfile.setText(email);
+    /**
+     * Makes profile page visible and all other pages invisible.
+     */
+    @FXML
+    private void GotoSettingsPage() {
+        pane_account_creation.setVisible(false);
+        pane_account_login.setVisible(false);
+        pane_account_page.setVisible(false);
+        pane_account_settings_page.setVisible(true);
+
+
+        //call updateProfileDisplay to reset values to current user information
+        updateProfileDisplay();
+    }
+
+    /**
+     * Method used to update the GUI to display the corresponding information to a specific user.
+     */
+    private void updateProfileDisplay() {
+
+        //declare String Builder Object to append the first and last name to
+        StringBuilder fullName = new StringBuilder();
+
+        //retrieve first and last name of current user from database and append to the newly declared String Builder
+        fullName.append(User.getFirstName()).append(" ").append(User.getLastName());
+
+        //set label to a converted String Builder Object to display the user's name
+        nameProfile.setText(fullName.toString());
+
+        //set label to a string holding the user's email pulled from the database
+        emailProfile.setText(User.getEmail());
     }
 
     /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
