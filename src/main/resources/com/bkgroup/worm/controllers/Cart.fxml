@@ -61,5 +61,6 @@
       </Label>
       <Button fx:id="checkoutButton" layoutX="819.0" layoutY="215.0" mnemonicParsing="false" style="-fx-background-color: #4CAF50; -fx-text-fill: white;" text="Checkout" />
       <Button fx:id="clearButton" layoutX="634.0" layoutY="215.0" mnemonicParsing="false" style="-fx-background-color: #f44336; -fx-text-fill: white;" text="Clear Cart" />
+      <Button fx:id="clearWishlist" layoutX="166.0" layoutY="423.0" mnemonicParsing="false" onAction="#clearWishlist" style="-fx-background-color: #f44336; -fx-text-fill: white;" text="Clear Wishlist" />
    </children>
 </AnchorPane>

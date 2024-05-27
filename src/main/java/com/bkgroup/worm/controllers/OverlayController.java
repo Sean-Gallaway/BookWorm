@@ -11,9 +11,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 
 import java.io.File;
@@ -47,6 +49,17 @@ public class OverlayController {
     @FXML Button likeButton;
     @FXML Button dislikeButton;
     @FXML Button closeButton;
+
+    @FXML
+    private ListView<GridPane> cartListView;
+    @FXML
+    private ListView<GridPane> wishlistListView;
+
+    private static ListView<GridPane> staticWishlistListView;
+
+    public void initialize() {
+        staticWishlistListView = wishlistListView;
+    }
 
     /**
      * Show the ClickView menu, loading the book information of the book that was clicked.
@@ -195,6 +208,7 @@ public class OverlayController {
         }
         else if (selectedBook != null) {
             User.AddToWishlist(selectedBook);
+            updateWishlistView(selectedBook); // Update the wishlist view immediately
         }
         else {
             Tools.ShowPopup(0, "Error", "No book selected to add to wishlist.");
@@ -208,6 +222,18 @@ public class OverlayController {
             Parent root = loader.load();
             CartController cartController = loader.getController();
             cartController.addCartItem(selectedBook);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Method to update the wishlist view
+    private void updateWishlistView(Book selectedBook) {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/bkgroup/worm/controllers/Cart.fxml"));
+        try {
+            Parent root = loader.load();
+            CartController cartController = loader.getController();
+            cartController.addWishlistItem(selectedBook);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -243,19 +269,17 @@ public class OverlayController {
             User.LoginPrompt();
         }
         else if (getBookStatus(getSelectedBook()) == LikeStatus.Like) {
-            //If the status is already set to like, and you click it again, it will go back to neutral
+            // If the status is already set to like, and you click it again, it will go back to neutral
             User.RemoveFromPreferences(getSelectedBook());
             setLikeStatus(getSelectedBook());
-        }
-        else if (User.ExistsInPreferences(getSelectedBook()) != -1) {
+        } else if (User.ExistsInPreferences(getSelectedBook()) != -1) {
             // Update status if book already has a preference
             User.RemoveFromPreferences(getSelectedBook());
-            User.AddToPreferences(getSelectedBook(),true);
+            User.AddToPreferences(getSelectedBook(), true);
             setLikeStatus(getSelectedBook());
-        }
-        else {
-            //If the status is neutral or dislike, and you click like, it will switch the status to "Like"
-            User.AddToPreferences(getSelectedBook(),true);
+        } else {
+            // If the status is neutral or dislike, and you click like, it will switch the status to "Like"
+            User.AddToPreferences(getSelectedBook(), true);
             setLikeStatus(getSelectedBook());
         }
     }
@@ -264,21 +288,18 @@ public class OverlayController {
     public void clickDislikeButton() {
         if (!User.isLoggedIn()) {
             User.LoginPrompt();
-        }
-        else if (getBookStatus(getSelectedBook()) == LikeStatus.Dislike) {
-            //If the status is already set to dislike, and you click it again, it will go back to neutral
+        } else if (getBookStatus(getSelectedBook()) == LikeStatus.Dislike) {
+            // If the status is already set to dislike, and you click it again, it will go back to neutral
             User.RemoveFromPreferences(getSelectedBook());
             setLikeStatus(getSelectedBook());
-        }
-        else if (User.ExistsInPreferences(getSelectedBook()) != -1) {
+        } else if (User.ExistsInPreferences(getSelectedBook()) != -1) {
             // Update status if book already has a preference
             User.RemoveFromPreferences(getSelectedBook());
-            User.AddToPreferences(getSelectedBook(),false);
+            User.AddToPreferences(getSelectedBook(), false);
             setLikeStatus(getSelectedBook());
-        }
-        else {
-            //If the status is neutral or like, and you click dislike, it will switch the status to "Dislike"
-            User.AddToPreferences(getSelectedBook(),false);
+        } else {
+            // If the status is neutral or like, and you click dislike, it will switch the status to "Dislike"
+            User.AddToPreferences(getSelectedBook(), false);
             setLikeStatus(getSelectedBook());
         }
     }
