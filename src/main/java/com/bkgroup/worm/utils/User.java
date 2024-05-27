@@ -8,7 +8,10 @@ import java.util.Map;
 
 public class User {
     private static boolean loggedIn = false;
+    private static String email;
     private static String username;
+    private static String firstName;
+    private static String lastName;
     private static int pfpIndex;
     private static int userID;
     private static final ArrayList<Book> cart = new ArrayList<>();
@@ -25,11 +28,11 @@ public class User {
     public static void Login(String name, int ID) {
         username = name;
         userID = ID;
-        pfpIndex = getPfpIndex();
-        loggedIn = true;
+        LoadUserData();
         PopulateCart();
         PopulateWishlist();
         PopulatePreferences();
+        loggedIn = true;
     }
 
     /**
@@ -37,12 +40,14 @@ public class User {
      */
     public static void Logout() {
         username = "";
+        firstName = "";
+        lastName = "";
         pfpIndex = 0;
-        loggedIn = false;
         userID = -1;
         cart.clear();
         wishlist.clear();
         preferences.clear();
+        loggedIn = false;
     }
 
     /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -308,8 +313,26 @@ public class User {
         return loggedIn;
     }
 
+    /**
+     * Loads user data including first name, last name, email, and profile picture index.
+     */
+    private static void LoadUserData() {
+        ResultSet user = Query.select("user","*",String.format("userID=%d",userID));
+
+        try {
+            user.next();
+            firstName = user.getString("fName");
+            lastName = user.getString("lName");
+            pfpIndex = user.getInt("profilePic");
+            email = user.getString("email");
+        }
+        catch (NullPointerException | SQLException e) {
+            System.err.println("Error loading user data");
+        }
+    }
+
     /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-    /* * * * * * * * * * * * * * * * * * * * GETTERS AND SETTERS * * * * * * * * * * * * * * * * * * * * * * * * * * */
+    /* * * * * * * * * * * * * * * * * * * * * * * GETTERS * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
     /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
     /**
@@ -329,12 +352,75 @@ public class User {
     }
 
     /**
+     * Returns profile first name.
+     * @return First name
+     */
+    public static String getFirstName() {
+        return firstName;
+    }
+
+    /**
+     * Returns profile last name.
+     * @return Last name
+     */
+    public static String getLastName() {
+        return lastName;
+    }
+
+    /**
+     * Returns profile email.
+     * @return email
+     */
+    public static String getEmail() {
+        return email;
+    }
+
+    /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+    /* * * * * * * * * * * * * * * * * * * * * * * SETTERS * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+    /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+    /**
      * Sets profile picture index.
      * @param index index
      */
-    public static boolean setPfpIndex(int index) {
+    public static void setPfpIndex(int index) {
         pfpIndex = index;
         Query.update("user",String.format("userID=%d",userID),String.format("profilePic=%d",pfpIndex));
-        return true; // TODO ERROR CHECKING INDEX BOUNDS
+    }
+
+    /**
+     * Sets profile first name.
+     * @param name Name
+     */
+    public static void setFirstName(String name) {
+        firstName = name;
+        Query.update("user",String.format("userID=%d",userID),String.format("fName=\"%s\"",name));
+    }
+
+    /**
+     * Sets profile first name.
+     * @param name Name
+     */
+    public static void setLastName(String name) {
+        firstName = name;
+        Query.update("user",String.format("userID=%d",userID),String.format("lName=\"%s\"",name));
+    }
+
+    /**
+     * Sets profile email.
+     * @param mail Email
+     */
+    public static void setEmail(String mail) {
+        email = mail;
+        Query.update("user",String.format("userID=%d",userID),String.format("email=\"%s\"",mail));
+    }
+
+    /**
+     * Sets profile username.
+     * @param name Username
+     */
+    public static void setUsername(String name) {
+        username = name;
+        Query.update("user",String.format("userID=%d",userID),String.format("username=\"%s\"",name));
     }
 }
