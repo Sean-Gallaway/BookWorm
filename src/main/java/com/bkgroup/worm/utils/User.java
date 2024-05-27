@@ -71,7 +71,7 @@ public class User {
 
         try {
             while (books.next()) {
-                cart.add(new Book(books.getInt("bookID")));
+                wishlist.add(new Book(books.getInt("bookID")));
             }
         }
         catch (NullPointerException | SQLException e) {

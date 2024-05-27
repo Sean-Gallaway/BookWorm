@@ -172,11 +172,16 @@ public class OverlayController {
     public void handleAddToCart(ActionEvent event) {
         if (!User.isLoggedIn()) {
             User.LoginPrompt();
-        } else if (selectedBook != null) {
+        }
+        else if (User.ExistsInCart(selectedBook)) {
+            Tools.ShowPopup(1,"Cannot add duplicate","This book is already in your cart");
+        }
+        else if (selectedBook != null) {
             User.AddToCart(selectedBook);
             updateCartView(selectedBook); // Update the cart view immediately
-        } else {
-            Tools.ShowPopup(4, "Error", "No book selected to add to cart.");
+        }
+        else {
+            Tools.ShowPopup(0, "Error", "No book selected to add to cart.");
         }
     }
 
@@ -184,10 +189,15 @@ public class OverlayController {
     void handleAddToWishlist(ActionEvent event) {
         if (!User.isLoggedIn()) {
             User.LoginPrompt();
-        } else if (selectedBook != null) {
+        }
+        else if (User.ExistsInWishlist(selectedBook)) {
+            Tools.ShowPopup(1,"Cannot add duplicate","This book is already in your wishlist");
+        }
+        else if (selectedBook != null) {
             User.AddToWishlist(selectedBook);
-        } else {
-            Tools.ShowPopup(4, "Error", "No book selected to add to wishlist.");
+        }
+        else {
+            Tools.ShowPopup(0, "Error", "No book selected to add to wishlist.");
         }
     }
 
