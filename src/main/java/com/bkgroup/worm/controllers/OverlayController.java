@@ -18,7 +18,9 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -91,7 +93,7 @@ public class OverlayController {
         }
 
         // Set the author
-        viewerAuthor.setText("by " + content[4]);
+        viewerAuthor.setText(("by " + content[4]));
 
         // Set the genres
         ArrayList<String[]> genres = Query.resultSetToArrayList(Query.select("genre", "genre", Query.where("bookID", content[0])));
@@ -168,11 +170,11 @@ public class OverlayController {
     private String loadDescription(String title) {
         try {
             File file = new File("src/main/resources/Descriptions/" + title + ".txt");
-            Scanner sc = new Scanner(file);
-
+            Scanner sc = new Scanner(file, "utf-8");
             StringBuilder fileContent = new StringBuilder();
-            while (sc.hasNextLine())
+            while (sc.hasNextLine()) {
                 fileContent.append(sc.nextLine()).append(System.lineSeparator());
+            }
 
             return fileContent.toString();
         } catch (Exception e) {
