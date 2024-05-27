@@ -12,11 +12,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
-
-import static com.bkgroup.worm.utils.DatabaseConnection.db;
 
 public class DisplayCreator {
 
@@ -47,7 +43,7 @@ public class DisplayCreator {
     /**
      * Creates HBox with scroll bars for books to be displayed in.
      * @param box Vbox
-     * @return Hbox
+     * @return HBox
      */
     private static HBox createDisplayArea(VBox box)
     {
