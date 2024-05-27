@@ -11,25 +11,24 @@ public class SearchBuilder {
      */
     public String construct () {
         if (!constructed) {
-            StringBuilder result = new StringBuilder("""
+            query = """
                 SELECT SUM(num) as tNum,
                 r1.title,
                 r1.bookID
                 FROM (
-                    """);
-            result.append(query);
-            result.append("""
+                    """
+                + query +
+                """
                 \n) AS r1
                     JOIN book b2
                         ON r1.bookID = b2.bookID
-                WHERE length >\s""");
-            result.append(pgCount).append("\n");
-            result.append("""
+                WHERE length >\s""" +
+                pgCount + "\n" +
+                """
                 GROUP BY r1.title, r1.bookID
                 HAVING tNum >= 1
-                ORDER BY tnum DESC;
-                """);
-            query = result.toString();
+                ORDER BY tNum DESC;
+                """;
             constructed = true;
         }
         return query;
@@ -42,7 +41,7 @@ public class SearchBuilder {
      * @return this Builder object.
      */
     public SearchBuilder fullName (String[] nameSections) {
-        if (nameSections.length == 0 || nameSections[0].equals("")) {
+        if (nameSections.length == 0 || nameSections[0].isEmpty()) {
             return this;
         }
         StringBuilder full = new StringBuilder("""
@@ -60,7 +59,7 @@ public class SearchBuilder {
             }
         }
         full.append("\n\tGROUP BY bookID");
-        if (!query.equals("")) {
+        if (!query.isEmpty()) {
             query+="\nUNION ALL\n";
         }
         query += full.toString();
@@ -74,10 +73,10 @@ public class SearchBuilder {
      * @return this Builder object.
      */
     public SearchBuilder partialName (String pName) {
-        if (pName.equals("")) {
+        if (pName.isEmpty()) {
             return this;
         }
-        if (!query.equals("")) {
+        if (!query.isEmpty()) {
             query+="\nUNION ALL\n";
         }
         query += """
@@ -117,7 +116,7 @@ public class SearchBuilder {
             }
         }
         wantedGenre.append("\n\tGROUP BY a.bookID");
-        if (!query.equals("")) {
+        if (!query.isEmpty()) {
             query+="\nUNION ALL\n";
         }
         query += wantedGenre.toString();
@@ -132,7 +131,7 @@ public class SearchBuilder {
      * @return this Builder object.
      */
     public SearchBuilder publication (int yearMin, int yearMax) {
-        if (!query.equals("")) {
+        if (!query.isEmpty()) {
             query+="\nUNION ALL\n";
         }
         query += """
