@@ -150,6 +150,7 @@ public class AccountController {
         pane_account_creation.setVisible(true);
         pane_account_login.setVisible(false);
         pane_account_page.setVisible(false);
+        pane_account_settings_page.setVisible(false);
     }
 
     /**
@@ -160,6 +161,7 @@ public class AccountController {
         pane_account_creation.setVisible(false);
         pane_account_login.setVisible(true);
         pane_account_page.setVisible(false);
+        pane_account_settings_page.setVisible(false);
     }
 
     /**
@@ -170,6 +172,7 @@ public class AccountController {
         pane_account_creation.setVisible(false);
         pane_account_login.setVisible(false);
         pane_account_page.setVisible(true);
+        pane_account_settings_page.setVisible(false);
 
         //call updateProfileDisplay to reset values to current user information
         updateProfileDisplay();
@@ -185,10 +188,13 @@ public class AccountController {
         pane_account_page.setVisible(false);
         pane_account_settings_page.setVisible(true);
 
-
         //call updateProfileDisplay to reset values to current user information
         updateProfileDisplay();
     }
+
+    /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+    /* * * * * * * * * * * * * * * * * * * * * PROFILE FUNCTIONALITY * * * * * * * * * * * * * * * * * * * * * * * * */
+    /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
     /**
      * Method used to update the GUI to display the corresponding information to a specific user.
