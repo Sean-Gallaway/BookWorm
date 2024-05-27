@@ -1,6 +1,7 @@
 package com.bkgroup.worm.controllers;
 
 import com.bkgroup.worm.App;
+import com.bkgroup.worm.utils.DisplayCreator;
 import com.bkgroup.worm.utils.Query;
 import com.bkgroup.worm.utils.Tools;
 
@@ -13,8 +14,12 @@ import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import static com.bkgroup.worm.utils.DatabaseConnection.db;
 
 public class HomeController {
     private final static HashMap<String,ArrayList<String[]>> cache = new HashMap<>();
@@ -39,51 +44,39 @@ public class HomeController {
         App.oc.initializeViewerPane();
 
         // Populate local author section
-        createSection("PNW Local Author");
-        createBookList(cache.get("LOCAL_AUTHORS"));
+        DisplayCreator.createSection("PNW Local Author",sections);
+        DisplayCreator.createBookList(cache.get("LOCAL_AUTHORS"),sections);
 
         // Populate fiction section
-        createSection("Fiction");
-        createBookList(cache.get("FICTION"));
+        DisplayCreator.createSection("Fiction",sections);
+        DisplayCreator.createBookList(cache.get("FICTION"),sections);
 
         // Populate children's books section
-        createSection("Children");
-        createBookList(cache.get("CHILDREN"));
+        DisplayCreator.createSection("Children",sections);
+        DisplayCreator.createBookList(cache.get("CHILDREN"),sections);
 
         // Populate young adult book section
-        createSection("Young Adult");
-        createBookList(cache.get("YOUNG_ADULT"));
+        DisplayCreator.createSection("Young Adult",sections);
+        DisplayCreator.createBookList(cache.get("YOUNG_ADULT"),sections);
 
         // Populate fantasy book section
-        createSection("Fantasy");
-        createBookList(cache.get("FANTASY"));
+        DisplayCreator.createSection("Fantasy",sections);
+        DisplayCreator.createBookList(cache.get("FANTASY"),sections);
 
         // Populate science fiction book section
-        createSection("Science Fiction");
-        createBookList(cache.get("SCIENCE_FICTION"));
+        DisplayCreator.createSection("Science Fiction",sections);
+        DisplayCreator.createBookList(cache.get("SCIENCE_FICTION"),sections);
 
 
         // Populate Mystery book section
-        createSection("Mystery");
-        createBookList(cache.get("MYSTERY"));
+        DisplayCreator.createSection("Mystery",sections);
+        DisplayCreator.createBookList(cache.get("MYSTERY"),sections);
 
         // Populate thriller book section
-        createSection("Thriller");
-        createBookList(cache.get("THRILLER"));
+        DisplayCreator.createSection("Thriller",sections);
+        DisplayCreator.createBookList(cache.get("THRILLER"),sections);
 
         INITIALIZED = true;
-    }
-
-
-
-    /**
-     * Creates a new Label for a section title and adds it to the sections VBox
-     * @param sectionTitle title
-     */
-    private void createSection(String sectionTitle) {
-        Label l = new Label(" " + sectionTitle);
-        l.setFont(Font.font("Arial", FontWeight.BOLD, 28));
-        sections.getChildren().add(l);
     }
 
     /**
@@ -92,97 +85,28 @@ public class HomeController {
     private void populateSections()
     {
         cache.put("LOCAL_AUTHORS", Query.resultSetToArrayList(Query.select("book","*","author='Kristin Hannah'")));
-        cache.put("FICTION", Query.resultSetToArrayList(Tools.populateGenre("Fiction")));
-        cache.put("CHILDREN", Query.resultSetToArrayList(Tools.populateGenre("Children")));
-        cache.put("FANTASY", Query.resultSetToArrayList(Tools.populateGenre("Fantasy")));
-        cache.put("YOUNG_ADULT", Query.resultSetToArrayList(Tools.populateGenre("Young Adult")));
-        cache.put("SCIENCE_FICTION", Query.resultSetToArrayList(Tools.populateGenre("Science Fiction")));
-        cache.put("MYSTERY", Query.resultSetToArrayList(Tools.populateGenre("Mystery")));
-        cache.put("THRILLER", Query.resultSetToArrayList(Tools.populateGenre("Thriller")));
+        cache.put("FICTION", Query.resultSetToArrayList(populateGenre("Fiction")));
+        cache.put("CHILDREN", Query.resultSetToArrayList(populateGenre("Children")));
+        cache.put("FANTASY", Query.resultSetToArrayList(populateGenre("Fantasy")));
+        cache.put("YOUNG_ADULT", Query.resultSetToArrayList(populateGenre("Young Adult")));
+        cache.put("SCIENCE_FICTION", Query.resultSetToArrayList(populateGenre("Science Fiction")));
+        cache.put("MYSTERY", Query.resultSetToArrayList(populateGenre("Mystery")));
+        cache.put("THRILLER", Query.resultSetToArrayList(populateGenre("Thriller")));
     }
 
     /**
-     * Create a new HBox that displays the images of all books
-     * @param content The list of book content used to create the list
+     * Grabs all books from specified genre and returns ResultSet.
+     * @param genre genre to search for
+     * @return ResultSet of all books in specified genre
      */
-    private void createBookList(ArrayList<String[]> content) {
-        // Create content area
-        HBox hBox = createDisplayArea();
-
-        // Populate area with data
-        populateDisplayArea(content, hBox);
-    }
-
-    /**
-     * Creates HBox with scroll bars for books to be displayed in
-     * @return Hbox
-     */
-    private HBox createDisplayArea()
-    {
-        // Create display box
-        HBox hBox = new HBox();
-        hBox.setPrefHeight(316);
-        hBox.setMaxWidth(Double.MAX_VALUE);
-        HBox.setHgrow(hBox, Priority.ALWAYS);
-        hBox.setSpacing(16);
-
-        // Create scroll bar
-        createScrollPane(hBox);
-
-        return hBox;
-    }
-
-    /**
-     * Creates scroll bar for specified HBox
-     * @param hBox HBox
-     */
-    private void createScrollPane(HBox hBox) {
-        ScrollPane scrollPane = new ScrollPane();
-        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);//Never display a vertical scroll bar
-        scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);//Only display a horizontal scroll bar if it is needed
-        scrollPane.setVmax(0);//Make sure you can't scroll up and down
-        scrollPane.setFitToWidth(true);
-        scrollPane.prefWidthProperty().bind(sections.widthProperty());
-        scrollPane.setMaxWidth(Double.MAX_VALUE);
-        scrollPane.setStyle("-fx-background-color: transparent; -fx-padding: 0; -fx-background-insets: 0;");
-        scrollPane.setContent(hBox);
-        sections.getChildren().add(scrollPane);
-    }
-
-    /**
-     * Populates HBox with books and displays them for the user.
-     * @param content Book data
-     * @param hBox HBox section
-     */
-    private void populateDisplayArea(ArrayList<String[]> content, HBox hBox)
-    {
-        for(String[] i: content) {
-            try {
-                String title = i[1].replaceAll(" ","").replaceAll("'", "").replaceAll("-", "");
-
-                // Set book cover image
-                ImageView imageView = new ImageView();
-                Image image = new Image("BookCovers/" + title + ".jpg"); // Replace "path/to/your/image.jpg" with the actual path to your image file
-                imageView.setImage(image);
-
-                // Optionally, you can set additional properties such as fit width and fit height
-                double desiredHeight = BOOK_HEIGHT;
-                double scaleFactor = desiredHeight / image.getHeight();
-                double scaledWidth = image.getWidth() * scaleFactor;
-
-                // Set ImageView width and height
-                imageView.setFitWidth(scaledWidth);
-                imageView.setFitHeight(desiredHeight);
-
-                //Set the click listener for clicking on the book cover
-                imageView.setOnMouseClicked(event -> App.oc.clickBook(i, image, title));
-
-                // Add book image to hBox
-                hBox.getChildren().add(imageView);
-            }
-            catch (Exception e) {
-                System.out.printf("Error loading cover for \"%s\" : %s\n",i[0], e.getMessage());
-            }
+    public static ResultSet populateGenre(String genre) {
+        try {
+            String query = String.format("SELECT * FROM Book b JOIN Genre g ON b.bookID = g.bookID WHERE g.genre = '%s'", genre);
+            return db().createStatement().executeQuery(query);
+        }
+        catch (SQLException e) {
+            System.err.println("SQL ERROR IN \"populateGenre()\":\"Tools.java\"");
+            return null;
         }
     }
 }

@@ -29,7 +29,6 @@ public class App extends Application {
             FXMLLoader fxmlLoader2 = new FXMLLoader(App.class.getResource("/com/bkgroup/worm/controllers/Overlay.fxml"));
             g.getChildren().add(fxmlLoader2.load());
             oc = fxmlLoader2.getController();
-            DatabaseConnection.db();
             FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/com/bkgroup/worm/controllers/menu.fxml"));
             ap.getChildren().addAll(fxmlLoader.load(), g);
             Scene homeScene = new Scene(ap);
