@@ -149,7 +149,7 @@ public class AccountController {
         // Verify if user account was or was not created. Log user in if account was created
         if (accountCreated) {
             Tools.ShowPopup(2,"Account Created","Account Created Successfully.");
-            User.Login(AC_txt_username.getText(),accountID,AccountHelper.getPictureIndex(accountID));
+            User.Login(AC_txt_username.getText(),accountID);
             AccountHelper.ResetBackground(AC_textFields);
             AccountHelper.ClearText(AC_textFields);
             GotoProfilePage();
@@ -235,7 +235,7 @@ public class AccountController {
         }
 
         // Log in, go to profile page, and reset login page
-        User.Login(SI_txt_username.getText(),accountID,AccountHelper.getPictureIndex(accountID));
+        User.Login(SI_txt_username.getText(),accountID);
         AccountHelper.ResetBackground(SI_textFields);
         AccountHelper.ClearText(SI_textFields);
         GotoProfilePage();

@@ -21,14 +21,12 @@ public class User {
      * Assign data to user when logged in.
      * @param name Username
      * @param ID User ID
-     * @param pictureIndex Profile picture index
      */
-    public static void Login(String name, int ID, int pictureIndex) {
+    public static void Login(String name, int ID) {
         username = name;
-        pfpIndex = pictureIndex;
         userID = ID;
+        pfpIndex = getPfpIndex();
         loggedIn = true;
-        cart.clear();
         PopulateCart();
         PopulateWishlist();
         PopulatePreferences();
@@ -47,6 +45,10 @@ public class User {
         preferences.clear();
     }
 
+    /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+    /* * * * * * * * * * * * * * * * * * CART FUNCTIONALITY  * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+    /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
     /**
      * Populates the local cart using the database upon user login.
      */
@@ -64,38 +66,6 @@ public class User {
     }
 
     /**
-     * Populates the local wishlist using the database upon user login.
-     */
-    private static void PopulateWishlist() {
-        ResultSet books = Query.select("wishlist","bookID",String.format("userID=%s",userID));
-
-        try {
-            while (books.next()) {
-                wishlist.add(new Book(books.getInt("bookID")));
-            }
-        }
-        catch (NullPointerException | SQLException e) {
-            System.err.println("Error copying database cart to local");
-        }
-    }
-
-    /**
-     * Populates the local preference list using the database upon user login.
-     */
-    private static void PopulatePreferences() {
-        ResultSet books = Query.select("userpreferences","*",String.format("userID=%d",userID));
-
-        try {
-            while (books.next()) {
-                preferences.put(books.getInt("bookID"),books.getInt("preference"));
-            }
-        }
-        catch (NullPointerException | SQLException e) {
-            System.err.println("Error copying database preferences to local");
-        }
-    }
-
-    /**
      * Adds book to users cart for use in checkout or tells user book already exists in cart if it is found.
      * @param book Book
      */
@@ -107,43 +77,8 @@ public class User {
             Tools.ShowPopup(1, "Already In Cart", "The Selected Book Already Exists In Your Cart");
         }
         else {
-            cart.add(book); // Add to local cart
+            cart.add(book);
             Query.insert("cart","*",String.format("%d,%d",book.getID(),userID));
-        }
-    }
-
-    /**
-     * Adds book to users wishlist for use in checkout or tells user book already exists in checkout if it is found.
-     * @param book Book
-     */
-    public static void AddToWishlist(Book book) {
-        if (ExistsInWishlist(book)) {
-            Tools.ShowPopup(1, "Already In Wishlist", "The Selected Book Already Exists In Your Wishlist");
-        } else {
-            cart.add(book); // Add to local cart
-            Query.insert("wishlist","*",String.format("%d,%d", book.getID(),userID));
-        }
-    }
-
-    /**
-     * Adds book to preferences with a rating depending on argument.
-     * @param book Book to add
-     * @param isLiked True if book was liked; false otherwise
-     */
-    public static void AddToPreferences(Book book, boolean isLiked) {
-        preferences.put(book.getID(), isLiked ? 1 : 0);
-        Query.insert("userpreferences","*", String.format("%d,%d,%d",userID,book.getID(),isLiked ? 1 : 0)
-        );
-    }
-
-    /**
-     * Removes book from local and database preferences.
-     * @param book Book to remove
-     */
-    public static void RemoveFromPreferences(Book book) {
-        if (preferences.containsKey(book.getID())) {
-            preferences.remove(book.getID());
-            Query.delete("userpreferences",String.format("bookID=%d",book.getID()), String.format("userID=%d",userID));
         }
     }
 
@@ -176,16 +111,67 @@ public class User {
     }
 
     /**
-     * Returns preference of book or -1 if it is not in preferences.
-     * @param book Book
-     * @return -1: DNE, 0: Disliked, 1: Liked
+     * Returns cart which is an arraylist of book items.
+     * @return Arraylist cart
      */
-    public static int ExistsInPreferences(Book book) {
-        if (!preferences.containsKey(book.getID())) {
-            return -1;
-        }
+    public static ArrayList<Book> getCart() {
+        return cart;
+    }
 
-        return preferences.get(book.getID());
+    /**
+     * Clears user's local and database cart.
+     */
+    public static void clearCart() {
+        cart.clear();
+        Query.delete("cart",String.format("userID=%d",userID));
+    }
+
+    /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+    /* * * * * * * * * * * * * * * * * * WISHLIST FUNCTIONALITY  * * * * * * * * * * * * * * * * * * * * * * * * * * */
+    /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+    /**
+     * Populates the local wishlist using the database upon user login.
+     */
+    private static void PopulateWishlist() {
+        ResultSet books = Query.select("wishlist","bookID",String.format("userID=%s",userID));
+
+        try {
+            while (books.next()) {
+                wishlist.add(new Book(books.getInt("bookID")));
+            }
+        }
+        catch (NullPointerException | SQLException e) {
+            System.err.println("Error copying database wishlist to local");
+        }
+    }
+
+    /**
+     * Adds book to users wishlist for use in checkout or tells user book already exists in checkout if it is found.
+     * @param book Book
+     */
+    public static void AddToWishlist(Book book) {
+        if (book.getID() == -1) {
+            Tools.ShowPopup(0, "Error", "Error adding book to wishlist.");
+        }
+        else if (ExistsInWishlist(book)) {
+            Tools.ShowPopup(1, "Already In Wishlist", "The Selected Book Already Exists In Your Wishlist");
+        }
+        else {
+            wishlist.add(book);
+            Query.insert("wishlist","*",String.format("%d,%d", book.getID(),userID));
+        }
+    }
+
+    /**
+     * Removes book from local wishlist and database.
+     * @param book Book to remove
+     */
+    public static void RemoveFromWishlist(Book book) {
+        if (ExistsInWishlist(book)) {
+            wishlist.remove(book); // Remove from local cart
+            Query.delete("wishlist",String.format("bookID=%d",book.getID()), String.format("userID=%d",userID));
+        }
     }
 
     /**
@@ -206,18 +192,74 @@ public class User {
     }
 
     /**
-     * Creates popup that informs user they must log in to complete action.
+     * Returns wishlist which is an arraylist of book items.
+     * @return Arraylist wishlist
      */
-    public static void LoginPrompt() {
-        Tools.ShowPopup(1,"Login","Please log in to complete this action");
+    public static ArrayList<Book> getWishlist() {
+        return wishlist;
     }
 
     /**
-     * Returns cart which is an arraylist of book items.
-     * @return Arraylist cart
+     * Clears user's local and database wishlist.
      */
-    public static ArrayList<Book> getCart() {
-        return cart;
+    public static void clearWishlist() {
+        cart.clear();
+        Query.delete("wishlist",String.format("userID=%d",userID));
+    }
+
+    /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+    /* * * * * * * * * * * * * * * * * * PREFERENCES FUNCTIONALITY * * * * * * * * * * * * * * * * * * * * * * * * * */
+    /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+    /**
+     * Populates the local preference list using the database upon user login.
+     */
+    private static void PopulatePreferences() {
+        ResultSet books = Query.select("userpreferences","*",String.format("userID=%d",userID));
+
+        try {
+            while (books.next()) {
+                preferences.put(books.getInt("bookID"),books.getInt("preference"));
+            }
+        }
+        catch (NullPointerException | SQLException e) {
+            System.err.println("Error copying database preferences to local");
+        }
+    }
+
+    /**
+     * Adds book to preferences with a rating depending on argument.
+     * @param book Book to add
+     * @param isLiked True if book was liked; false otherwise
+     */
+    public static void AddToPreferences(Book book, boolean isLiked) {
+        preferences.put(book.getID(), isLiked ? 1 : 0);
+        Query.insert("userpreferences","*", String.format("%d,%d,%d",userID,book.getID(),isLiked ? 1 : 0)
+        );
+    }
+
+    /**
+     * Removes book from local and database preferences.
+     * @param book Book to remove
+     */
+    public static void RemoveFromPreferences(Book book) {
+        if (preferences.containsKey(book.getID())) {
+            preferences.remove(book.getID());
+            Query.delete("userpreferences",String.format("bookID=%d",book.getID()), String.format("userID=%d",userID));
+        }
+    }
+
+    /**
+     * Returns preference of book or -1 if it is not in preferences.
+     * @param book Book
+     * @return -1: DNE, 0: Disliked, 1: Liked
+     */
+    public static int ExistsInPreferences(Book book) {
+        if (!preferences.containsKey(book.getID())) {
+            return -1;
+        }
+
+        return preferences.get(book.getID());
     }
 
     /**
@@ -237,6 +279,25 @@ public class User {
 
         }
         return list;
+    }
+
+    /**
+     * Clears user's local and database preferences.
+     */
+    public static void clearPreferences() {
+        preferences.clear();
+        Query.delete("userpreferences",String.format("userID=%d",userID));
+    }
+
+    /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+    /* * * * * * * * * * * * * * * * * * * * HELPER FUNCTIONALITY  * * * * * * * * * * * * * * * * * * * * * * * * * */
+    /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+    /**
+     * Creates popup that informs user they must log in to complete action.
+     */
+    public static void LoginPrompt() {
+        Tools.ShowPopup(1,"Login","Please log in to complete this action");
     }
 
     /**
@@ -271,13 +332,5 @@ public class User {
     public static boolean setPfpIndex(int index) {
         pfpIndex = index;
         return true; // TODO ERROR CHECKING INDEX BOUNDS
-    }
-
-    /**
-     * Clears user's local and database cart.
-     */
-    public static void clearCart() {
-        cart.clear();
-        Query.delete("cart",String.format("userID=%d",userID));
     }
 }
