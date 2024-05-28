@@ -70,6 +70,30 @@ public class Tools {
     }
 
     /**
+     * Gets book data for use in display creator class.
+     * @param book Book
+     * @return Book data String array
+     */
+    public static String[] getBookData(Book book) {
+        ResultSet result = Query.select("book","*",String.format("bookID=%d",book.getID()));
+        String[] data = new String[5];
+
+        try {
+            result.next();
+            data[0] = result.getString("bookID");
+            data[1] = result.getString("title");
+            data[2] = result.getString("series");
+            data[3] = result.getString("seriesNum");
+            data[4] = result.getString("author");
+        }
+        catch (NullPointerException | SQLException e) {
+            System.err.println("ERROR IN getBookData() : Tools.java");
+        }
+
+        return data;
+    }
+
+    /**
      * Grabs all books from specified genre and returns ResultSet.
      * @param genre genre to search for
      * @return ResultSet of all books in specified genre

@@ -21,9 +21,9 @@ public class DisplayCreator {
      * @param sectionTitle Title
      * @param box Vbox
      */
-    public static void createSection(String sectionTitle, VBox box) {
+    public static void createSection(String sectionTitle, VBox box, double scale) {
         Label label = new Label(" " + sectionTitle);
-        label.setFont(Font.font("Arial Rounded MT Bold", FontWeight.BOLD, 28));
+        label.setFont(Font.font("Arial Rounded MT Bold", FontWeight.BOLD, 28 * scale));
         box.getChildren().add(label);
     }
 
@@ -32,12 +32,12 @@ public class DisplayCreator {
      * @param content The list of book content used to create the list
      * @param box VBox
      */
-    public static void createBookList(ArrayList<String[]> content, VBox box) {
+    public static void createBookList(ArrayList<String[]> content, VBox box, double scale) {
         // Create content area
         HBox hBox = createDisplayArea(box);
 
         // Populate area with data
-        populateDisplayArea(content, hBox);
+        populateDisplayArea(content, hBox, scale);
     }
 
     /**
@@ -83,7 +83,7 @@ public class DisplayCreator {
      * @param content Book data
      * @param hBox HBox section
      */
-    private static void populateDisplayArea(ArrayList<String[]> content, HBox hBox)
+    private static void populateDisplayArea(ArrayList<String[]> content, HBox hBox, double scale)
     {
         for(String[] i: content) {
             try {
@@ -95,7 +95,7 @@ public class DisplayCreator {
                 imageView.setImage(image);
 
                 // Optionally, you can set additional properties such as fit width and fit height
-                double desiredHeight = HomeController.BOOK_HEIGHT;
+                double desiredHeight = HomeController.BOOK_HEIGHT * scale;
                 double scaleFactor = desiredHeight / image.getHeight();
                 double scaledWidth = image.getWidth() * scaleFactor;
 

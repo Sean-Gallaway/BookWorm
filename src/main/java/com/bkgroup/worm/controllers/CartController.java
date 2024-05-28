@@ -42,8 +42,8 @@ public class CartController {
         }
 
         // Load items from the user's wishlist
-        for (Book book : User.getWishlist()) {
-            addWishlistItem(book);
+        for (String[] book : User.getWishlist()) {
+            addWishlistItem(new Book(Integer.parseInt(book[0])));
         }
 
         // Set actions for the buttons
