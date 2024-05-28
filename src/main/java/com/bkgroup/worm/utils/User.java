@@ -437,4 +437,13 @@ public class User {
         username = name;
         Query.update("user",String.format("userID=%d",userID),String.format("username=\"%s\"",name));
     }
+
+    /**
+     * Sets profile password.
+     * @param name password
+     */
+    public static void setPassword(String name) {
+        username = name;
+        Query.update("user",String.format("userID=%d",userID),String.format("password=\"%s\"",name));
+    }
 }

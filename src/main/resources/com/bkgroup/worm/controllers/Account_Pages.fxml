@@ -245,7 +245,7 @@
             <Pane id="FavoriteBooks" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2" />
          </children>
       </GridPane>
-      <GridPane fx:id="pane_account_settings_page" alignment="CENTER" maxWidth="900.0" minWidth="900.0" prefWidth="900.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <GridPane fx:id="pane_account_settings_page" alignment="CENTER" maxWidth="900.0" minWidth="900.0" prefWidth="900.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="234.33543395996094" minWidth="10.0" prefWidth="176.0264129638672" />
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="234.33543395996094" minWidth="10.0" prefWidth="176.0264129638672" />
@@ -347,9 +347,18 @@
                   </Pane>
                </children>
             </GridPane>
+            <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
+               <children>
+                  <Button fx:id="saveChanges" contentDisplay="CENTER" layoutX="-55.0" layoutY="29.0" mnemonicParsing="false" onAction="#saveChanges" prefHeight="26.0" prefWidth="104.0" text="Save Changes" textFill="#3f3c35">
+                     <font>
+                        <Font name="Arial Rounded MT Bold" size="12.0" />
+                     </font>
+                  </Button>
+               </children>
+            </Pane>
          </children>
       </GridPane>
-      <AnchorPane fx:id="pane_account_page" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <AnchorPane fx:id="pane_account_page" prefHeight="200.0" prefWidth="200.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <GridPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
               <columnConstraints>

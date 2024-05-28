@@ -112,6 +112,9 @@ public class AccountController {
     TextField[] SI_textFields;
     // Account creation page text fields
     TextField[] AC_textFields;
+    // Settings page text fields
+    TextField[] S_textFields;
+
     boolean initialized = false;
 
     /**
@@ -133,6 +136,8 @@ public class AccountController {
             SI_textFields = new TextField[] { SI_txt_username, SI_txt_password };
             AC_textFields = new TextField[] { AC_txt_email, AC_txt_password, AC_txt_password_confirm,
                     AC_txt_name_first, AC_txt_name_last, AC_txt_username };
+            S_textFields = new TextField[] { emailText, pwText,
+                    fNameText, lNameText, uNameText };
 
             // Assign css to text fields
             for (TextField t : SI_textFields)
@@ -140,6 +145,10 @@ public class AccountController {
                 t.getStylesheets().add("/CSS/RedTextField.css");
             }
             for (TextField t : AC_textFields)
+            {
+                t.getStylesheets().add("/CSS/RedTextField.css");
+            }
+            for (TextField t : S_textFields)
             {
                 t.getStylesheets().add("/CSS/RedTextField.css");
             }
@@ -261,6 +270,25 @@ public class AccountController {
         pwText.setText(User.getPassword());
     }
 
+    /**
+     * Method used to update user's information that they would've changed in the settings page.
+     */
+    @FXML
+    private void saveChanges() {
+
+        //check if user input is valid by calling helper function that does just that
+        if(S_VerifyInputs()) {
+            User.setUsername(uNameText.getText()); //set new username
+            User.setFirstName(fNameText.getText()); //set new firstname
+            User.setLastName(lNameText.getText()); //set new lastname
+            User.setEmail(emailText.getText()); //set new email
+            User.setPassword(pwText.getText()); //set new password
+        }
+        else { //else display popup
+            Tools.ShowPopup(1, "Warning", "Invalid Input!");
+        }
+    }
+
     /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
     /* * * * * * * * * * * * * * * * ACCOUNT CREATION FUNCTIONALITY  * * * * * * * * * * * * * * * * * * * * * * * * */
     /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -345,6 +373,46 @@ public class AccountController {
         {
             valid = false;
             AC_txt_name_last.getStyleClass().add("error");
+        }
+
+        return valid;
+    }
+
+    /**
+     * Verifies user inputs and returns boolean True if all inputs are valid or false otherwise.
+     * @return True if valid inputs; false otherwise
+     */
+    private boolean S_VerifyInputs()
+    {
+        // Reset background color
+        AccountHelper.ResetBackground(S_textFields);
+
+        // Set text field background to red and set validity to false if invalid input is found
+        boolean valid = true;
+        if (uNameText.getText().isBlank())
+        {
+            valid = false;
+            uNameText.getStyleClass().add("error");
+        }
+        if (emailText.getText().isBlank() || !AccountHelper.ValidateEmail(emailText.getText()))
+        {
+            valid = false;
+            emailText.getStyleClass().add("error");
+        }
+        if (pwText.getText().isBlank())
+        {
+            valid = false;
+            pwText.getStyleClass().add("error");
+        }
+        if (fNameText.getText().isBlank())
+        {
+            valid = false;
+            fNameText.getStyleClass().add("error");
+        }
+        if (lNameText.getText().isBlank())
+        {
+            valid = false;
+            lNameText.getStyleClass().add("error");
         }
 
         return valid;
