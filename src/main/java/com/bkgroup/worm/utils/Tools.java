@@ -100,7 +100,7 @@ public class Tools {
      */
     public static ResultSet populateGenre(String genre) {
         try {
-            String query = String.format("SELECT * FROM Book b JOIN Genre g ON b.bookID = g.bookID WHERE g.genre = '%s' LIMIT 12", genre);
+            String query = String.format("SELECT * FROM Book b JOIN Genre g ON b.bookID = g.bookID WHERE g.genre = '%s' LIMIT 10", genre);
             return db().createStatement().executeQuery(query);
         }
         catch (SQLException e) {
