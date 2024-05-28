@@ -63,7 +63,7 @@ public class AccountController {
     private Label emailProfile;
 
     @FXML
-    private Label emailProfile1;
+    private Label emailSettings;
 
     @FXML
     private TextField emailText;
@@ -78,7 +78,7 @@ public class AccountController {
     private Label nameProfile;
 
     @FXML
-    private Label nameProfile1;
+    private Label nameSettings;
 
     @FXML
     private GridPane pane_account_creation;
@@ -190,6 +190,9 @@ public class AccountController {
 
         //call updateProfileDisplay to reset values to current user information
         updateProfileDisplay();
+
+        //call updateSettingsDisplay to reset values to current user information
+        updateSettingsDisplay();
     }
 
     /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -197,7 +200,7 @@ public class AccountController {
     /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
     /**
-     * Method used to update the GUI to display the corresponding information to a specific user.
+     * Method used to update the Profile's GUI to display the corresponding information to a specific user.
      */
     private void updateProfileDisplay() {
 
@@ -212,6 +215,24 @@ public class AccountController {
 
         //set label to a string holding the user's email pulled from the database
         emailProfile.setText(User.getEmail());
+    }
+
+    /**
+     * Method used to update the Setting's GUI to display the corresponding information to a specific user.
+     */
+    private void updateSettingsDisplay() {
+
+        //declare String Builder Object to append the first and last name to
+        StringBuilder fullName = new StringBuilder();
+
+        //retrieve first and last name of current user from database and append to the newly declared String Builder
+        fullName.append(User.getFirstName()).append(" ").append(User.getLastName());
+
+        //set label to a converted String Builder Object to display the user's name
+        nameSettings.setText(fullName.toString());
+
+        //set label to a string holding the user's email pulled from the database
+        emailSettings.setText(User.getEmail());
     }
 
     /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
