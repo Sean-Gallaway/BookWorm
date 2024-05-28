@@ -196,8 +196,6 @@ public class AccountController {
     }
 
     private void populateWishlistBooks() {
-        System.out.println("Reload");
-
         wishlistPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);//Never display a vertical scroll bar
         wishlistPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);//Only display a horizontal scroll bar if it is needed
         wishlistPane.setVmax(0);//Make sure you can't scroll up and down

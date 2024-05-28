@@ -27,9 +27,6 @@ public class HomeController {
             populateSections();
         }
 
-        // Add CSS in the hackiest way possible
-        //sections.setStyle("-fx-background-color: #c0bfbc");
-
         // Initialize book viewer icons
         App.oc.initializeViewerPane();
 
