@@ -72,8 +72,8 @@ public class OverlayController {
     public void clickBook(String[] content, Image bookCover, String title) {
         // Make visible and set size
         bookViewer.setVisible(true);
-        bookViewer.setPrefWidth(App.stage.getWidth()-35);
-        bookViewer.setPrefHeight(App.stage.getHeight()-35);
+        bookViewer.setPrefWidth(App.stage.getWidth());
+        bookViewer.setPrefHeight(App.stage.getHeight());
 
         // Set the book cover
         viewerCover.setImage(bookCover);

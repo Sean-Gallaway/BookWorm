@@ -23,7 +23,7 @@ public class DisplayCreator {
      */
     public static void createSection(String sectionTitle, VBox box) {
         Label label = new Label(" " + sectionTitle);
-        label.setFont(Font.font("Arial", FontWeight.BOLD, 28));
+        label.setFont(Font.font("Arial Rounded MT Bold", FontWeight.BOLD, 28));
         box.getChildren().add(label);
     }
 
