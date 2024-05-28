@@ -94,13 +94,13 @@ public class Tools {
     }
 
     /**
-     * Grabs all books from specified genre and returns ResultSet.
+     * Grabs first 12 books from specified genre and returns ResultSet.
      * @param genre genre to search for
      * @return ResultSet of all books in specified genre
      */
     public static ResultSet populateGenre(String genre) {
         try {
-            String query = String.format("SELECT * FROM Book b JOIN Genre g ON b.bookID = g.bookID WHERE g.genre = '%s'", genre);
+            String query = String.format("SELECT * FROM Book b JOIN Genre g ON b.bookID = g.bookID WHERE g.genre = '%s' LIMIT 12", genre);
             return db().createStatement().executeQuery(query);
         }
         catch (SQLException e) {
