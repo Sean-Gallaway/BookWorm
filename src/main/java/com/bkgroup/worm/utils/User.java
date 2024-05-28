@@ -200,8 +200,12 @@ public class User {
      * Returns wishlist which is an arraylist of book items.
      * @return Arraylist wishlist
      */
-    public static ArrayList<Book> getWishlist() {
-        return wishlist;
+    public static ArrayList<String[]> getWishlist() {
+        ArrayList<String[]> books = new ArrayList<>();
+        for (Book b : wishlist) {
+            books.add(Tools.getBookData(b));
+        }
+        return books;
     }
 
     /**
@@ -272,14 +276,14 @@ public class User {
      * @param liked True grabs liked books; False grabs disliked books
      * @return Book arraylist
      */
-    public static ArrayList<Book> getPreferences(boolean liked) {
-        ArrayList<Book> list = new ArrayList<>();
+    public static ArrayList<String[]> getPreferences(boolean liked) {
+        ArrayList<String[]> list = new ArrayList<>();
         for (Map.Entry<Integer,Integer> book : preferences.entrySet()) {
             if (liked && book.getValue() == 1) {
-                list.add(new Book(book.getKey()));
+                list.add(Tools.getBookData(new Book(book.getKey())));
             }
             else if (!liked && book.getValue() == 0) {
-                list.add(new Book(book.getKey()));
+                list.add(Tools.getBookData(new Book(book.getKey())));
             }
 
         }

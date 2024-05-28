@@ -1,10 +1,7 @@
 package com.bkgroup.worm.controllers;
 
 import com.bkgroup.worm.App;
-import com.bkgroup.worm.utils.Query;
-import com.bkgroup.worm.utils.User;
-import com.bkgroup.worm.utils.AccountHelper;
-import com.bkgroup.worm.utils.Tools;
+import com.bkgroup.worm.utils.*;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -108,18 +105,8 @@ public class AccountController {
 
     @FXML
     private TextField uNameText;
-
     @FXML
-    private ScrollPane favoriteBooksPane;
-
-    @FXML
-    private HBox favoriteBooksBox;
-
-    @FXML
-    private ScrollPane wishlistPane;
-
-    @FXML
-    private HBox wishlistBox;
+    private VBox vbox_profile_displays;
 
     // Sign in page text fields
     TextField[] SI_textFields;
@@ -155,77 +142,6 @@ public class AccountController {
             for (TextField t : AC_textFields)
             {
                 t.getStylesheets().add("/CSS/RedTextField.css");
-            }
-        }
-    }
-
-    private void populateFavoriteBooks() {
-
-        favoriteBooksPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);//Never display a vertical scroll bar
-        favoriteBooksPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);//Only display a horizontal scroll bar if it is needed
-        favoriteBooksPane.setVmax(0);//Make sure you can't scroll up and down
-        favoriteBooksPane.setStyle("-fx-background-color: transparent; -fx-padding: 0; -fx-background-insets: 0;");
-
-        ArrayList<String[]> results = Query.resultSetToArrayList(Query.select("Book b JOIN userPreferences u ON b.bookID = u.bookID", "*", "preference=1"));
-
-        for(String[] i: results) {
-            try {
-                String title = i[1].replaceAll(" ","").replaceAll("'", "").replaceAll("-", "");
-
-                // Set book cover image
-                ImageView imageView = new ImageView();
-                Image image = new Image("BookCovers/" + title + ".jpg"); // Replace "path/to/your/image.jpg" with the actual path to your image file
-                imageView.setImage(image);
-
-                // Optionally, you can set additional properties such as fit width and fit height
-                double desiredHeight = 175;
-                double scaleFactor = desiredHeight / image.getHeight();
-                double scaledWidth = image.getWidth() * scaleFactor;
-
-                // Set ImageView width and height
-                imageView.setFitWidth(scaledWidth);
-                imageView.setFitHeight(desiredHeight);
-
-                // Add book image to hBox
-                favoriteBooksBox.getChildren().add(imageView);
-            }
-            catch (Exception e) {
-                System.out.printf("Error loading cover for \"%s\" : %s\n",i[0], e.getMessage());
-            }
-        }
-    }
-
-    private void populateWishlistBooks() {
-        wishlistPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);//Never display a vertical scroll bar
-        wishlistPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);//Only display a horizontal scroll bar if it is needed
-        wishlistPane.setVmax(0);//Make sure you can't scroll up and down
-        wishlistPane.setStyle("-fx-background-color: transparent; -fx-padding: 0; -fx-background-insets: 0;");
-
-        ArrayList<String[]> results = Query.resultSetToArrayList(Query.select("Book b JOIN wishlist w ON b.bookID = w.bookID", "*"));
-
-        for(String[] i: results) {
-            try {
-                String title = i[1].replaceAll(" ","").replaceAll("'", "").replaceAll("-", "");
-
-                // Set book cover image
-                ImageView imageView = new ImageView();
-                Image image = new Image("BookCovers/" + title + ".jpg"); // Replace "path/to/your/image.jpg" with the actual path to your image file
-                imageView.setImage(image);
-
-                // Optionally, you can set additional properties such as fit width and fit height
-                double desiredHeight = 175;
-                double scaleFactor = desiredHeight / image.getHeight();
-                double scaledWidth = image.getWidth() * scaleFactor;
-
-                // Set ImageView width and height
-                imageView.setFitWidth(scaledWidth);
-                imageView.setFitHeight(desiredHeight);
-
-                // Add book image to hBox
-                wishlistBox.getChildren().add(imageView);
-            }
-            catch (Exception e) {
-                System.out.printf("Error loading cover for \"%s\" : %s\n",i[0], e.getMessage());
             }
         }
     }
@@ -304,8 +220,11 @@ public class AccountController {
         //set label to a string holding the user's email pulled from the database
         emailProfile.setText(User.getEmail());
 
-        populateFavoriteBooks();
-        populateWishlistBooks();
+        DisplayCreator.createSection("Favorite Books",vbox_profile_displays,0.8);
+        DisplayCreator.createBookList(User.getPreferences(true),vbox_profile_displays,0.5);
+
+        DisplayCreator.createSection("Wishlist",vbox_profile_displays,0.8);
+        DisplayCreator.createBookList(User.getWishlist(),vbox_profile_displays,0.5);
 
     }
 
