@@ -10,11 +10,11 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 
-<BorderPane minHeight="600" minWidth="600" prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bkgroup.worm.controllers.MenuController" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
+<BorderPane minHeight="600" minWidth="600" prefHeight="800.0" prefWidth="1000.0" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bkgroup.worm.controllers.MenuController">
    <top>
       <AnchorPane maxHeight="200.0" minHeight="40.0" prefHeight="80.0" style="-fx-background-color: b9bede;" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0" BorderPane.alignment="CENTER">
          <children>
-            <StackPane prefHeight="80.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+            <StackPane layoutX="-11.0" layoutY="-10.0" prefHeight="90.0" prefWidth="1018.0" style="-fx-border-color: #3f3c35; -fx-border-width: 2;" AnchorPane.leftAnchor="-11.0" AnchorPane.rightAnchor="-7.0">
                <children>
                   <ImageView fitHeight="139.0" fitWidth="528.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -32,7 +32,7 @@
    <bottom>
       <AnchorPane prefHeight="80.0" style="-fx-background-color: b9bede;" BorderPane.alignment="CENTER">
          <children>
-            <HBox alignment="CENTER" prefWidth="202.0" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <HBox alignment="CENTER" layoutX="-10.0" prefHeight="92.0" prefWidth="1020.0" spacing="20.0" style="-fx-border-color: #3f3c35; -fx-border-width: 2;" AnchorPane.bottomAnchor="-12.0" AnchorPane.leftAnchor="-10.0" AnchorPane.rightAnchor="-10.0" AnchorPane.topAnchor="0.0">
                <children>
                   <Button id="Home" fx:id="btnHome" contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" onAction="#clickHome" style="-fx-background-color: b9bede;" text="Home" />
                   <Button id="Search" fx:id="btnSearch" contentDisplay="GRAPHIC_ONLY" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#clickSearch" style="-fx-background-color: b9bede;" text="Home" />
