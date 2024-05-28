@@ -197,6 +197,9 @@ public class AccountController {
 
         //call updateSettingsDisplay to reset values to current user information
         updateSettingsDisplay();
+
+        //fill user info into text fields
+        fillUserFields();
     }
 
     /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -244,6 +247,18 @@ public class AccountController {
 
         //set label to a string holding the user's email pulled from the database
         emailSettings.setText(User.getEmail());
+    }
+
+    /**
+     * Method used to fill the fields storing the user's corresponding information to a specific user.
+     */
+    private void fillUserFields() {
+
+        uNameText.setText(User.getUsername());
+        fNameText.setText(User.getFirstName());
+        lNameText.setText(User.getLastName());
+        emailText.setText(User.getEmail());
+        pwText.setText(User.getPassword());
     }
 
     /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

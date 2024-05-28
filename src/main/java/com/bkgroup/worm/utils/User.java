@@ -8,6 +8,7 @@ import java.util.Map;
 
 public class User {
     private static boolean loggedIn = false;
+    private static String password;
     private static String email;
     private static String username;
     private static String firstName;
@@ -329,6 +330,7 @@ public class User {
             lastName = user.getString("lName");
             pfpIndex = user.getInt("profilePic");
             email = user.getString("email");
+            password = user.getString("password");
         }
         catch (NullPointerException | SQLException e) {
             System.err.println("Error loading user data");
@@ -377,6 +379,14 @@ public class User {
      */
     public static String getEmail() {
         return email;
+    }
+
+    /**
+     * Returns profile password.
+     * @return password
+     */
+    public static String getPassword() {
+        return password;
     }
 
     /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
