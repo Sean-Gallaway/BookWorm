@@ -121,7 +121,7 @@ public class OverlayController {
 
         // Assign button correct text and action
         if (User.isLoggedIn() && User.ExistsInWishlist(selectedBook)) {
-            btn_wishlist.setText("Remove Wishlist");
+            btn_wishlist.setText("Remove From Wishlist");
             addToWishlist = false;
         }
         else {
