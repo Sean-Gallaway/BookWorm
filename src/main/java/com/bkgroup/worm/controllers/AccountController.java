@@ -22,92 +22,35 @@ import java.util.ArrayList;
  */
 public class AccountController {
 
-    @FXML
-    private Button AC_btn_createAccount;
-
-    @FXML
-    private Button AC_btn_login;
-
-    @FXML
-    private TextField AC_txt_email;
-
-    @FXML
-    private TextField AC_txt_name_first;
-
-    @FXML
-    private TextField AC_txt_name_last;
-
-    @FXML
-    private PasswordField AC_txt_password;
-
-    @FXML
-    private PasswordField AC_txt_password_confirm;
-
-    @FXML
-    private TextField AC_txt_username;
-
-    @FXML
-    private Button LogOutBtn;
-
-    @FXML
-    private Button SI_btn_create_account;
-
-    @FXML
-    private Button SI_btn_login;
-
-    @FXML
-    private PasswordField SI_txt_password;
-
-    @FXML
-    private TextField SI_txt_username;
-
-    @FXML
-    private Label emailProfile;
-
-    @FXML
-    private Label emailSettings;
-
-    @FXML
-    private TextField emailText;
-
-    @FXML
-    private TextField fNameText;
-
-    @FXML
-    private TextField lNameText;
-
-    @FXML
-    private Label nameProfile;
-
-    @FXML
-    private Label nameSettings;
-
-    @FXML
-    private GridPane pane_account_creation;
-
-    @FXML
-    private GridPane pane_account_login;
-
-    @FXML
-    private AnchorPane pane_account_page;
-
-    @FXML
-    private GridPane pane_account_settings_page;
-
-    @FXML
-    private ImageView profileIcon;
-
-    @FXML
-    private ImageView settingIcon;
-
-    @FXML
-    private TextField pwText;
-
-    @FXML
-    private TextField uNameText;
-
-    @FXML
-    private VBox vbox_profile_displays;
+    @FXML Button AC_btn_createAccount;
+    @FXML Button AC_btn_login;
+    @FXML TextField AC_txt_email;
+    @FXML TextField AC_txt_name_first;
+    @FXML TextField AC_txt_name_last;
+    @FXML PasswordField AC_txt_password;
+    @FXML PasswordField AC_txt_password_confirm;
+    @FXML TextField AC_txt_username;
+    @FXML Button LogOutBtn;
+    @FXML Button SI_btn_create_account;
+    @FXML Button SI_btn_login;
+    @FXML PasswordField SI_txt_password;
+    @FXML TextField SI_txt_username;
+    @FXML Label emailProfile;
+    @FXML Label emailSettings;
+    @FXML TextField emailText;
+    @FXML TextField fNameText;
+    @FXML TextField lNameText;
+    @FXML Label nameProfile;
+    @FXML Label nameSettings;
+    @FXML GridPane pane_account_creation;
+    @FXML GridPane pane_account_login;
+    @FXML AnchorPane pane_account_page;
+    @FXML GridPane pane_account_settings_page;
+    @FXML ImageView profileIcon;
+    @FXML ImageView settingIcon;
+    @FXML TextField pwText;
+    @FXML TextField uNameText;
+    @FXML VBox vbox_profile_displays;
 
     // Sign in page text fields
     TextField[] SI_textFields;
@@ -119,7 +62,7 @@ public class AccountController {
     String[] worms = {"0.png", "1.png", "2.png", "3.png", "4.png", "5.png", "6.png", "7.png"};
     //global int to refer to when switching worms
     int currWorm;
-
+    boolean profile_initialized = false;
     boolean initialized = false;
 
     /**
@@ -249,13 +192,17 @@ public class AccountController {
         //set label to the newly declared image object to display the proper profile icon
         profileIcon.setImage(profilePic);
 
-        //displays the favorite books
-        DisplayCreator.createSection("Favorite Books",vbox_profile_displays,0.8);
-        DisplayCreator.createBookList(User.getPreferences(true),vbox_profile_displays,0.5);
+        // Only create sections if they have not been created already
+        if (!profile_initialized) {
+            //displays the favorite books
+            DisplayCreator.createSection("Favorite Books",vbox_profile_displays,0.8);
+            DisplayCreator.createBookList(User.getPreferences(true),vbox_profile_displays,0.5);
 
-        //displays the wishlist
-        DisplayCreator.createSection("Wishlist",vbox_profile_displays,0.8);
-        DisplayCreator.createBookList(User.getWishlist(),vbox_profile_displays,0.5);
+            //displays the wishlist
+            DisplayCreator.createSection("Wishlist",vbox_profile_displays,0.8);
+            DisplayCreator.createBookList(User.getWishlist(),vbox_profile_displays,0.5);
+            profile_initialized = true;
+        }
     }
 
     /**
