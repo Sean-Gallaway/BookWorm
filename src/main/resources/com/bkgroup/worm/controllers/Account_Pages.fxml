@@ -245,7 +245,7 @@
             <Pane id="FavoriteBooks" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2" />
          </children>
       </GridPane>
-      <GridPane fx:id="pane_account_settings_page" alignment="CENTER" maxWidth="900.0" minWidth="900.0" prefWidth="900.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <GridPane fx:id="pane_account_settings_page" alignment="CENTER" maxWidth="900.0" minWidth="900.0" prefWidth="900.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="234.33543395996094" minWidth="10.0" prefWidth="176.0264129638672" />
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="234.33543395996094" minWidth="10.0" prefWidth="176.0264129638672" />
@@ -260,25 +260,27 @@
          <children>
             <Pane prefHeight="200.0" prefWidth="200.0">
                <children>
-                  <Circle fill="#625086" layoutX="69.0" layoutY="126.0" radius="68.0" stroke="#3f3c35" strokeType="INSIDE" strokeWidth="3.0" />
-                  <ImageView fx:id="profileIcon1" fitHeight="186.0" fitWidth="179.0" layoutX="-8.0" layoutY="32.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../../../images/Mr._Worm.png" />
-                     </image>
-                  </ImageView>
-                  <Label fx:id="nameSettings" alignment="TOP_CENTER" layoutX="151.0" layoutY="90.0" text="Name" textFill="#3f3c35">
+                  <Label fx:id="nameSettings" alignment="TOP_CENTER" layoutX="151.0" layoutY="90.0" text="Name" textFill="#3f3c35" visible="false">
                      <font>
                         <Font name="Arial Rounded MT Bold" size="36.0" />
                      </font>
                   </Label>
-                  <Label fx:id="emailSettings" layoutX="151.0" layoutY="136.0" text="Email" textFill="#3f3c35">
+                  <Label fx:id="emailSettings" layoutX="151.0" layoutY="136.0" text="Email" textFill="#3f3c35" visible="false">
                      <font>
                         <Font name="Arial Rounded MT Bold" size="24.0" />
                      </font>
                   </Label>
                </children>
             </Pane>
-            <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" />
+            <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
+               <children>
+                  <Circle fill="#625086" layoutX="228.0" layoutY="127.0" radius="68.0" stroke="#3f3c35" strokeType="INSIDE" strokeWidth="3.0" />
+                  <ImageView fx:id="profileIcon1" fitHeight="186.0" fitWidth="179.0" layoutX="154.0" layoutY="33.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../WormImages/7.png" />
+                     </image>
+                  </ImageView>
+               </children></Pane>
             <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" />
             <GridPane GridPane.columnIndex="3">
                <columnConstraints>
@@ -358,7 +360,7 @@
             </Pane>
          </children>
       </GridPane>
-      <AnchorPane fx:id="pane_account_page" prefHeight="200.0" prefWidth="200.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <AnchorPane fx:id="pane_account_page" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <GridPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
               <columnConstraints>
@@ -369,29 +371,34 @@
                 <RowConstraints maxHeight="444.0" minHeight="10.0" prefHeight="303.0" vgrow="ALWAYS" />
               </rowConstraints>
                <children>
-                  <Pane prefHeight="200.0" prefWidth="900.0" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
+                  <Pane prefHeight="200.0" prefWidth="1200.0" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
                      <children>
-                        <Circle fill="#625086" layoutX="69.0" layoutY="126.0" radius="68.0" stroke="#3f3c35" strokeType="INSIDE" strokeWidth="3.0" />
-                        <ImageView fx:id="profileIcon" fitHeight="186.0" fitWidth="179.0" layoutX="-8.0" layoutY="32.0" pickOnBounds="true" preserveRatio="true">
+                        <Circle fill="#625086" layoutX="88.0" layoutY="88.0" radius="68.0" stroke="#3f3c35" strokeType="INSIDE" strokeWidth="3.0" />
+                        <ImageView fx:id="profileIcon" fitHeight="186.0" fitWidth="179.0" layoutX="13.0" layoutY="-6.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../../../images/Mr._Worm.png" />
+                              <Image url="@../../../../WormImages/7.png" />
                            </image>
                         </ImageView>
-                        <Label fx:id="nameProfile" alignment="TOP_CENTER" layoutX="151.0" layoutY="90.0" text="Name" textFill="#3f3c35">
+                        <Label fx:id="nameProfile" alignment="TOP_CENTER" layoutX="170.0" layoutY="52.0" text="Name" textFill="#3f3c35">
                            <font>
                               <Font name="Arial Rounded MT Bold" size="36.0" />
                            </font>
                         </Label>
-                        <Label fx:id="emailProfile" layoutX="151.0" layoutY="136.0" text="Email" textFill="#3f3c35">
+                        <Label fx:id="emailProfile" layoutX="170.0" layoutY="98.0" text="Email" textFill="#3f3c35">
                            <font>
                               <Font name="Arial Rounded MT Bold" size="24.0" />
                            </font>
                         </Label>
-                        <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="817.0" layoutY="32.0" onMouseClicked="#GotoSettingsPage" text="Settings" textFill="#3f3c35">
+                        <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="833.0" layoutY="64.0" onMouseClicked="#GotoSettingsPage" text="Settings" textFill="#3f3c35">
                            <font>
                               <Font name="Arial Rounded MT Bold" size="14.0" />
                            </font>
                         </Label>
+                        <ImageView fitHeight="43.0" fitWidth="29.0" layoutX="809.0" layoutY="55.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../../images/settings.png" />
+                           </image>
+                        </ImageView>
                      </children>
                   </Pane>
                   <StackPane GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">

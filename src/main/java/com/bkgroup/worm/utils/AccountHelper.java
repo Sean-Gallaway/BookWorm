@@ -4,6 +4,7 @@ import javafx.scene.control.TextField;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collections;
+import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -74,12 +75,18 @@ public final class AccountHelper {
      */
     public static boolean CreateAccountInDatabase(String user, String pass, String fName, String lName, String email)
     {
+        //create random object to use when generating random number for profile pic
+        Random rand = new Random();
+
+        //generate random number between 0 and 7
+        int randNum = rand.nextInt(8);
+
         // Try to create the new account up to 5 times
         boolean account_created = false;
         for (int i = 0; i < 5; ++i)
         {
             account_created = Query.insert("user","username,password,fName,lName,email,profilePic",
-                    String.format("'%s','%s','%s','%s','%s',0",user,pass,fName,lName,email));
+                    String.format("'%s','%s','%s','%s','%s',%d",user,pass,fName,lName,email,randNum));
 
             if (account_created) { return account_created; }
         }

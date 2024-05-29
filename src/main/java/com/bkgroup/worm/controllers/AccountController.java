@@ -105,6 +105,7 @@ public class AccountController {
 
     @FXML
     private TextField uNameText;
+
     @FXML
     private VBox vbox_profile_displays;
 
@@ -114,6 +115,8 @@ public class AccountController {
     TextField[] AC_textFields;
     // Settings page text fields
     TextField[] S_textFields;
+    //array to hold titles for worm pngs
+    String[] worms = {"0.png", "1.png", "2.png", "3.png", "4.png", "5.png", "6.png", "7.png"};
 
     boolean initialized = false;
 
@@ -201,9 +204,6 @@ public class AccountController {
         pane_account_page.setVisible(false);
         pane_account_settings_page.setVisible(true);
 
-        //call updateProfileDisplay to reset values to current user information
-        updateProfileDisplay();
-
         //call updateSettingsDisplay to reset values to current user information
         updateSettingsDisplay();
 
@@ -232,9 +232,26 @@ public class AccountController {
         //set label to a string holding the user's email pulled from the database
         emailProfile.setText(User.getEmail());
 
+        //declare String Builder Object to append path to the profile pic together
+        StringBuilder profilePath = new StringBuilder();
+
+        //retrieve PfpIndex from user and append it to the end of the path
+        profilePath.append("/src/main/resources/WormImages/").append(worms[User.getPfpIndex()]);
+
+        //print statement to check if path is correct
+        System.out.println(profilePath.toString());
+
+        //create new image with proper path
+        Image profilePic = new Image(profilePath.toString());
+
+        //set label to the newly declared image object to display the proper profile icon
+        profileIcon.setImage(profilePic);
+
+        //displays the favorite books
         DisplayCreator.createSection("Favorite Books",vbox_profile_displays,0.8);
         DisplayCreator.createBookList(User.getPreferences(true),vbox_profile_displays,0.5);
 
+        //displays the wishlist
         DisplayCreator.createSection("Wishlist",vbox_profile_displays,0.8);
         DisplayCreator.createBookList(User.getWishlist(),vbox_profile_displays,0.5);
 
@@ -283,10 +300,53 @@ public class AccountController {
             User.setLastName(lNameText.getText()); //set new lastname
             User.setEmail(emailText.getText()); //set new email
             User.setPassword(pwText.getText()); //set new password
+
+            //then update the display for the user
+            updateSettingsDisplay();
         }
         else { //else display popup
             Tools.ShowPopup(1, "Warning", "Invalid Input!");
         }
+    }
+
+    /**
+     * Verifies user inputs and returns boolean True if all inputs are valid or false otherwise.
+     * @return True if valid inputs; false otherwise
+     */
+    private boolean S_VerifyInputs()
+    {
+        // Reset background color
+        AccountHelper.ResetBackground(S_textFields);
+
+        // Set text field background to red and set validity to false if invalid input is found
+        boolean valid = true;
+        if (uNameText.getText().isBlank())
+        {
+            valid = false;
+            uNameText.getStyleClass().add("error");
+        }
+        if (emailText.getText().isBlank() || !AccountHelper.ValidateEmail(emailText.getText()))
+        {
+            valid = false;
+            emailText.getStyleClass().add("error");
+        }
+        if (pwText.getText().isBlank())
+        {
+            valid = false;
+            pwText.getStyleClass().add("error");
+        }
+        if (fNameText.getText().isBlank())
+        {
+            valid = false;
+            fNameText.getStyleClass().add("error");
+        }
+        if (lNameText.getText().isBlank())
+        {
+            valid = false;
+            lNameText.getStyleClass().add("error");
+        }
+
+        return valid;
     }
 
     /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -373,46 +433,6 @@ public class AccountController {
         {
             valid = false;
             AC_txt_name_last.getStyleClass().add("error");
-        }
-
-        return valid;
-    }
-
-    /**
-     * Verifies user inputs and returns boolean True if all inputs are valid or false otherwise.
-     * @return True if valid inputs; false otherwise
-     */
-    private boolean S_VerifyInputs()
-    {
-        // Reset background color
-        AccountHelper.ResetBackground(S_textFields);
-
-        // Set text field background to red and set validity to false if invalid input is found
-        boolean valid = true;
-        if (uNameText.getText().isBlank())
-        {
-            valid = false;
-            uNameText.getStyleClass().add("error");
-        }
-        if (emailText.getText().isBlank() || !AccountHelper.ValidateEmail(emailText.getText()))
-        {
-            valid = false;
-            emailText.getStyleClass().add("error");
-        }
-        if (pwText.getText().isBlank())
-        {
-            valid = false;
-            pwText.getStyleClass().add("error");
-        }
-        if (fNameText.getText().isBlank())
-        {
-            valid = false;
-            fNameText.getStyleClass().add("error");
-        }
-        if (lNameText.getText().isBlank())
-        {
-            valid = false;
-            lNameText.getStyleClass().add("error");
         }
 
         return valid;

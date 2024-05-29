@@ -416,7 +416,7 @@ public class User {
      * @param name Name
      */
     public static void setLastName(String name) {
-        firstName = name;
+        lastName = name;
         Query.update("user",String.format("userID=%d",userID),String.format("lName=\"%s\"",name));
     }
 
@@ -443,7 +443,7 @@ public class User {
      * @param name password
      */
     public static void setPassword(String name) {
-        username = name;
+        password = name;
         Query.update("user",String.format("userID=%d",userID),String.format("password=\"%s\"",name));
     }
 }
