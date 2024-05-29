@@ -117,6 +117,8 @@ public class AccountController {
     TextField[] S_textFields;
     //array to hold titles for worm pngs
     String[] worms = {"0.png", "1.png", "2.png", "3.png", "4.png", "5.png", "6.png", "7.png"};
+    //global int to refer to when switching worms
+    int currWorm;
 
     boolean initialized = false;
 
@@ -204,6 +206,9 @@ public class AccountController {
         pane_account_page.setVisible(false);
         pane_account_settings_page.setVisible(true);
 
+        //set global variable to the current pfpIndex
+        currWorm = User.getPfpIndex();
+
         //call updateSettingsDisplay to reset values to current user information
         updateSettingsDisplay();
 
@@ -238,9 +243,6 @@ public class AccountController {
         //retrieve PfpIndex from user and append it to the end of the path
         profilePath.append("WormImages/").append(worms[User.getPfpIndex()]);
 
-        //print statement to check if path is correct
-        System.out.println(profilePath.toString());
-
         //create new image with proper path
         Image profilePic = new Image(profilePath.toString());
 
@@ -273,20 +275,8 @@ public class AccountController {
         //set label to a string holding the user's email pulled from the database
         emailSettings.setText(User.getEmail());
 
-        //declare String Builder Object to append path to the profile pic together
-        StringBuilder profilePath = new StringBuilder();
-
-        //retrieve PfpIndex from user and append it to the end of the path
-        profilePath.append("WormImages/").append(worms[User.getPfpIndex()]);
-
-        //print statement to check if path is correct
-        System.out.println(profilePath.toString());
-
-        //create new image with proper path
-        Image profilePic = new Image(profilePath.toString());
-
-        //set label to the newly declared image object to display the proper profile icon
-        settingIcon.setImage(profilePic);
+        //call helper function to update the profile pic in real time
+        updateProfilePic();
     }
 
     /**
@@ -314,6 +304,7 @@ public class AccountController {
             User.setLastName(lNameText.getText()); //set new lastname
             User.setEmail(emailText.getText()); //set new email
             User.setPassword(pwText.getText()); //set new password
+            User.setPfpIndex(currWorm); //set new PfpIndex (profile picture)
 
             //then update the display for the user
             updateSettingsDisplay();
@@ -324,10 +315,66 @@ public class AccountController {
     }
 
     /**
+     * Method used to traverse the array of Worms going to the left.
+     * Handles out of bounds by checking the curr index first and relocates accordingly.
+     */
+    @FXML
+    private void prevWorm() {
+        //check if currWorm is at 0 or the first index of the array
+        if (currWorm == 0) {
+            currWorm = 7; //set to 7 or the end of the array
+        }
+        else { //else meaning it is 1-7 then you can traverse to the prev worm
+            currWorm--;
+        }
+
+        //call helper function to update the profile pic in real time
+        updateProfilePic();
+    }
+
+    /**
+     * Method used to traverse the array of Worms going to the right.
+     * Handles out of bounds by checking the curr index first and relocates accordingly.
+     */
+    @FXML
+    private void nextWorm() {
+
+        //check if currWorm is at 7 or the last index of the array
+        if (currWorm == 7) {
+           currWorm = 0; //set to 0 or the beginning of the array
+        }
+        else { //else meaning it is 0-6 then you can traverse to the next worm
+            currWorm++;
+        }
+
+        //call helper function to update the profile pic in real time
+        updateProfilePic();
+    }
+
+    /**
+     * Method used to update the profile pic with the new worm icon.
+     */
+    @FXML
+    private void updateProfilePic() {
+
+        //declare String Builder Object to append path to the profile pic together
+        StringBuilder profilePath = new StringBuilder();
+
+        //retrieve PfpIndex from user and append it to the end of the path
+        profilePath.append("WormImages/").append(worms[currWorm]);
+
+        //create new image with proper path
+        Image profilePic = new Image(profilePath.toString());
+
+        //set label to the newly declared image object to display the proper profile icon
+        settingIcon.setImage(profilePic);
+    }
+
+    /**
      * Logs user out of account and returns to login page.
      */
     @FXML
-    void logout() {
+    private void logout() {
         User.Logout();
         GotoAccountLoginPage();
     }

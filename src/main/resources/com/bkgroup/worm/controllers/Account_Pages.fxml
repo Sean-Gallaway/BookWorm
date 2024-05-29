@@ -17,7 +17,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="480.0" prefWidth="635.0" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0" xmlns="http://javafx.com/javafx/20" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bkgroup.worm.controllers.AccountController">
+<AnchorPane prefHeight="480.0" prefWidth="635.0" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bkgroup.worm.controllers.AccountController">
    <children>
       <GridPane fx:id="pane_account_creation" alignment="CENTER" layoutX="-26.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <columnConstraints>
@@ -214,7 +214,7 @@
                </GridPane.margin></Button>
          </children>
       </GridPane>
-      <GridPane fx:id="pane_account_settings_page" alignment="CENTER" maxWidth="900.0" minWidth="900.0" prefWidth="900.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <GridPane fx:id="pane_account_settings_page" alignment="CENTER" maxWidth="900.0" minWidth="900.0" prefWidth="900.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="234.33543395996094" minWidth="10.0" prefWidth="176.0264129638672" />
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="234.33543395996094" minWidth="10.0" prefWidth="176.0264129638672" />
@@ -241,15 +241,6 @@
                   </Label>
                </children>
             </Pane>
-            <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
-               <children>
-                  <Circle fill="#625086" layoutX="228.0" layoutY="127.0" radius="68.0" stroke="#3f3c35" strokeType="INSIDE" strokeWidth="3.0" />
-                  <ImageView fx:id="settingIcon" fitHeight="186.0" fitWidth="179.0" layoutX="154.0" layoutY="33.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../../../WormImages/7.png" />
-                     </image>
-                  </ImageView>
-               </children></Pane>
             <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" />
             <GridPane GridPane.columnIndex="3">
                <columnConstraints>
@@ -327,9 +318,28 @@
                   </Button>
                </children>
             </Pane>
+            <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
+               <children>
+                  <Circle fill="#625086" layoutX="228.0" layoutY="127.0" radius="68.0" stroke="#3f3c35" strokeType="INSIDE" strokeWidth="3.0" />
+                  <ImageView fx:id="settingIcon" fitHeight="186.0" fitWidth="179.0" layoutX="154.0" layoutY="33.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../WormImages/7.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="96.0" fitWidth="72.0" layoutX="83.0" layoutY="82.0" onMouseClicked="#prevWorm" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../images/leftArrow.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="96.0" fitWidth="72.0" layoutX="301.0" layoutY="82.0" onMouseClicked="#nextWorm" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../images/rightArrow.png" />
+                     </image>
+                  </ImageView>
+               </children></Pane>
          </children>
       </GridPane>
-      <AnchorPane fx:id="pane_account_page" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <AnchorPane fx:id="pane_account_page" prefHeight="200.0" prefWidth="200.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <GridPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
               <columnConstraints>
@@ -340,21 +350,7 @@
                 <RowConstraints maxHeight="444.0" minHeight="10.0" prefHeight="303.0" vgrow="ALWAYS" />
               </rowConstraints>
                <children>
-                  <AnchorPane mouseTransparent="true" pickOnBounds="false" prefHeight="200.0" prefWidth="583.0">
-                     <children>
-                        <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" onMouseClicked="#GotoSettingsPage" prefHeight="20.0" prefWidth="54.0" text="Settings" textFill="#3f3c35" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="8.0">
-                           <font>
-                              <Font name="Arial Rounded MT Bold" size="14.0" />
-                           </font>
-                        </Label>
-                        <ImageView fitHeight="43.0" fitWidth="29.0" onMouseClicked="#GotoSettingsPage" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="52.0" AnchorPane.topAnchor="0.0">
-                           <image>
-                              <Image url="@../../../../images/settings.png" />
-                           </image>
-                        </ImageView>
-                     </children>
-                  </AnchorPane>
-                  <Pane mouseTransparent="true" prefHeight="200.0" prefWidth="1200.0" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
+                  <Pane prefHeight="200.0" prefWidth="1200.0" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
                      <children>
                         <Circle fill="#625086" layoutX="88.0" layoutY="88.0" radius="68.0" stroke="#3f3c35" strokeType="INSIDE" strokeWidth="3.0" />
                         <ImageView fx:id="profileIcon" fitHeight="186.0" fitWidth="179.0" layoutX="13.0" layoutY="-6.0" pickOnBounds="true" preserveRatio="true">
@@ -377,6 +373,20 @@
                   <AnchorPane GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
                      <children>
                         <VBox fx:id="vbox_profile_displays" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane prefHeight="200.0" prefWidth="583.0">
+                     <children>
+                        <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="791.0" layoutY="71.0" onMouseClicked="#GotoSettingsPage" prefHeight="20.0" prefWidth="60.0" text="Settings" textFill="#3f3c35" AnchorPane.rightAnchor="49.0" AnchorPane.topAnchor="71.0">
+                           <font>
+                              <Font name="Arial Rounded MT Bold" size="14.0" />
+                           </font>
+                        </Label>
+                        <ImageView fitHeight="43.0" fitWidth="29.0" layoutX="770.0" layoutY="63.0" onMouseClicked="#GotoSettingsPage" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="101.0" AnchorPane.topAnchor="63.0">
+                           <image>
+                              <Image url="@../../../../images/settings.png" />
+                           </image>
+                        </ImageView>
                      </children>
                   </AnchorPane>
                </children>
