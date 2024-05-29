@@ -98,7 +98,7 @@ public class AccountController {
     private ImageView profileIcon;
 
     @FXML
-    private ImageView profileIcon1;
+    private ImageView settingIcon;
 
     @FXML
     private TextField pwText;
@@ -273,6 +273,21 @@ public class AccountController {
 
         //set label to a string holding the user's email pulled from the database
         emailSettings.setText(User.getEmail());
+
+        //declare String Builder Object to append path to the profile pic together
+        StringBuilder profilePath = new StringBuilder();
+
+        //retrieve PfpIndex from user and append it to the end of the path
+        profilePath.append("WormImages/").append(worms[User.getPfpIndex()]);
+
+        //print statement to check if path is correct
+        System.out.println(profilePath.toString());
+
+        //create new image with proper path
+        Image profilePic = new Image(profilePath.toString());
+
+        //set label to the newly declared image object to display the proper profile icon
+        settingIcon.setImage(profilePic);
     }
 
     /**
@@ -474,6 +489,13 @@ public class AccountController {
         AccountHelper.ResetBackground(SI_textFields);
         AccountHelper.ClearText(SI_textFields);
         GotoProfilePage();
+    }
+
+
+    //for Garrett
+    @FXML
+    void logout() {
+
     }
 
     /**
