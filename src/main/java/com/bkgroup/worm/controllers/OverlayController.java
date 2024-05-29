@@ -51,6 +51,8 @@ public class OverlayController {
     @FXML Button likeButton;
     @FXML Button dislikeButton;
     @FXML Button closeButton;
+    @FXML Button btn_wishlist;
+    boolean addToWishlist = true;
 
     @FXML
     private ListView<GridPane> cartListView;
@@ -114,6 +116,16 @@ public class OverlayController {
         selectedBook = new Book(Integer.parseInt(content[Query.BookAttributes.bookID.ordinal()]));
 
         setLikeStatus(selectedBook);//Set the current like status to the like status of the book.
+
+        // Assign button correct text and action
+        if (User.isLoggedIn() && User.ExistsInWishlist(selectedBook)) {
+            btn_wishlist.setText("Remove From Wishlist");
+            addToWishlist = false;
+        }
+        else {
+            btn_wishlist.setText("Add Book To Wishlist");
+            addToWishlist = true;
+        }
     }
 
     /**
@@ -211,16 +223,23 @@ public class OverlayController {
      * @param event This event runs when "Add to Wishlist" button is pressed.
      */
     @FXML
-    void handleAddToWishlist(ActionEvent event) {
+    void handleWishlist(ActionEvent event) {
         if (!User.isLoggedIn()) {
             User.LoginPrompt();
         }
-        else if (User.ExistsInWishlist(selectedBook)) {
+        else if (User.ExistsInWishlist(selectedBook) && addToWishlist) {
             Tools.ShowPopup(1,"Cannot add duplicate","This book is already in your wishlist");
         }
-        else if (selectedBook != null) {
+        else if (selectedBook != null && addToWishlist) {
             User.AddToWishlist(selectedBook);
             updateWishlistView(selectedBook); // Update the wishlist view immediately
+            btn_wishlist.setText("Remove From Wishlist");
+            addToWishlist = false;
+        }
+        else if (!addToWishlist) {
+            User.RemoveFromWishlist(selectedBook);
+            btn_wishlist.setText("Add Book To Wishlist");
+            addToWishlist = true;
         }
         else {
             Tools.ShowPopup(0, "Error", "No book selected to add to wishlist.");

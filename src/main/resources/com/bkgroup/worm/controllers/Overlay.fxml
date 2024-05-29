@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="Book Viewer" fx:id="bookViewer" prefHeight="661.0" prefWidth="826.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bkgroup.worm.controllers.OverlayController">
+<AnchorPane id="Book Viewer" fx:id="bookViewer" prefHeight="661.0" prefWidth="826.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bkgroup.worm.controllers.OverlayController">
    <AnchorPane style="-fx-background-color: #999999; -fx-opacity: 0.8;" AnchorPane.bottomAnchor="-5.0" AnchorPane.leftAnchor="-5.0" AnchorPane.rightAnchor="-5.0" AnchorPane.topAnchor="-5.0" />
    <StackPane fx:id="viewerPane" AnchorPane.bottomAnchor="75.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="75.0">
       <AnchorPane maxHeight="500.0" maxWidth="600.0" minHeight="500.0" minWidth="600.0" style="-fx-background-color: #ffffff;" StackPane.alignment="CENTER" />
@@ -57,7 +57,7 @@
                   <font>
                      <Font name="Arial Rounded MT Bold" size="13.0" />
                   </font></Button>
-               <Button id="AddToWishlist" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#handleAddToWishlist" text="Add to Wishlist">
+               <Button id="AddToWishlist" fx:id="btn_wishlist" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#handleWishlist" text="Add to Wishlist">
                   <font>
                      <Font name="Arial Rounded MT Bold" size="13.0" />
                   </font></Button>
