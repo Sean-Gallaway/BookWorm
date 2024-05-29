@@ -383,7 +383,7 @@ public class AccountController {
         // Verify if user account was or was not created. Log user in if account was created
         if (accountCreated) {
             Tools.ShowPopup(2,"Account Created","Account Created Successfully.");
-            User.Login(AC_txt_username.getText(),accountID);
+            User.Login(AC_txt_username.getText(),AccountHelper.CheckAccountExistence(AC_txt_username.getText()));
             AccountHelper.ResetBackground(AC_textFields);
             AccountHelper.ClearText(AC_textFields);
             GotoProfilePage();

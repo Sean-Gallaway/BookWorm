@@ -75,11 +75,8 @@ public final class AccountHelper {
      */
     public static boolean CreateAccountInDatabase(String user, String pass, String fName, String lName, String email)
     {
-        //create random object to use when generating random number for profile pic
-        Random rand = new Random();
-
-        //generate random number between 0 and 7
-        int randNum = rand.nextInt(8);
+        //generate random number between 0 and 7 for profile picture
+        int randNum = new Random().nextInt(8);
 
         // Try to create the new account up to 5 times
         boolean account_created = false;
