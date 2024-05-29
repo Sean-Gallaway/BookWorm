@@ -100,6 +100,7 @@ public class CartController {
      */
     private void checkout() {
         Tools.ShowPopup(4, "Checkout", "Proceeding to checkout...");
+        clearCart(true);
     }
 
     /**
