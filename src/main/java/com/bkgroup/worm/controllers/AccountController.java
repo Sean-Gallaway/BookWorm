@@ -254,7 +254,6 @@ public class AccountController {
         //displays the wishlist
         DisplayCreator.createSection("Wishlist",vbox_profile_displays,0.8);
         DisplayCreator.createBookList(User.getWishlist(),vbox_profile_displays,0.5);
-
     }
 
     /**
@@ -322,6 +321,15 @@ public class AccountController {
         else { //else display popup
             Tools.ShowPopup(1, "Warning", "Invalid Input!");
         }
+    }
+
+    /**
+     * Logs user out of account and returns to login page.
+     */
+    @FXML
+    void logout() {
+        User.Logout();
+        GotoAccountLoginPage();
     }
 
     /**
@@ -489,13 +497,6 @@ public class AccountController {
         AccountHelper.ResetBackground(SI_textFields);
         AccountHelper.ClearText(SI_textFields);
         GotoProfilePage();
-    }
-
-
-    //for Garrett
-    @FXML
-    void logout() {
-
     }
 
     /**

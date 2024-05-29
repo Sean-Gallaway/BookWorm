@@ -43,7 +43,9 @@ public class User {
         username = "";
         firstName = "";
         lastName = "";
-        pfpIndex = 0;
+        password = "";
+        email = "";
+        pfpIndex = -1;
         userID = -1;
         cart.clear();
         wishlist.clear();
