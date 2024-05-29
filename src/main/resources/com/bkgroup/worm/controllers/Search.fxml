@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="base" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bkgroup.worm.controllers.SearchController">
+<AnchorPane fx:id="base" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bkgroup.worm.controllers.SearchController">
    <HBox maxHeight="400.0" prefHeight="400.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
       <AnchorPane style="-fx-background-color: #432432;">
          <padding>
@@ -22,14 +22,17 @@
             <AnchorPane prefHeight="44.0" prefWidth="193.0" style="-fx-border-color: #ffffff; -fx-border-style: hidden hidden solid;">
                <Label alignment="CENTER" layoutX="6.0" layoutY="6.0" text="Filters" textAlignment="CENTER" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                   <font>
-                     <Font size="24.0" />
+                     <Font name="Arial Rounded MT Bold" size="24.0" />
                   </font>
                </Label>
             </AnchorPane>
             <AnchorPane maxHeight="125.0" prefHeight="27.0" prefWidth="193.0" style="-fx-border-style: hidden hidden solid; -fx-border-color: #ffffff;">
                <Accordion maxHeight="125.0" prefHeight="26.0" prefWidth="193.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                   <panes>
-                     <TitledPane fx:id="genres" animated="false" prefHeight="45.0" prefWidth="193.0" text="Genres" />
+                     <TitledPane fx:id="genres" animated="false" prefHeight="45.0" prefWidth="193.0" text="Genres">
+                        <font>
+                           <Font name="Arial Rounded MT Bold" size="13.0" />
+                        </font></TitledPane>
                   </panes>
                </Accordion>
             </AnchorPane>
@@ -37,7 +40,7 @@
                <VBox layoutY="-86.0" prefHeight="200.0" prefWidth="138.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="0.0">
                   <Label alignment="CENTER" prefHeight="26.0" prefWidth="191.0" text="Min Page Count" textAlignment="CENTER" textFill="WHITE">
                      <font>
-                        <Font size="18.0" />
+                        <Font name="Arial Rounded MT Bold" size="18.0" />
                      </font>
                   </Label>
                   <Slider fx:id="pageCount" majorTickUnit="250.0" max="1000.0" showTickLabels="true" showTickMarks="true" />
@@ -47,12 +50,18 @@
                <VBox prefHeight="200.0" prefWidth="138.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="0.0">
                   <Label alignment="CENTER" prefHeight="26.0" prefWidth="191.0" text="Year" textAlignment="CENTER" textFill="WHITE">
                      <font>
-                        <Font size="20.0" />
+                        <Font name="Arial Rounded MT Bold" size="18.0" />
                      </font>
                   </Label>
-                  <Label alignment="CENTER" prefHeight="26.0" prefWidth="191.0" text="Min" textAlignment="CENTER" textFill="WHITE" />
+                  <Label alignment="CENTER" prefHeight="26.0" prefWidth="191.0" text="Min" textAlignment="CENTER" textFill="WHITE">
+                     <font>
+                        <Font name="Arial Rounded MT Bold" size="13.0" />
+                     </font></Label>
                   <Slider fx:id="yearMin" majorTickUnit="50.0" max="2024.0" min="1900.0" minorTickCount="5" prefHeight="38.0" prefWidth="172.0" showTickLabels="true" showTickMarks="true" VBox.vgrow="ALWAYS" />
-                  <Label alignment="CENTER" prefHeight="26.0" prefWidth="191.0" text="Max" textAlignment="CENTER" textFill="WHITE" />
+                  <Label alignment="CENTER" prefHeight="26.0" prefWidth="191.0" text="Max" textAlignment="CENTER" textFill="WHITE">
+                     <font>
+                        <Font name="Arial Rounded MT Bold" size="13.0" />
+                     </font></Label>
                   <Slider fx:id="yearMax" majorTickUnit="50.0" max="2024.0" min="1900.0" minorTickCount="5" prefHeight="38.0" prefWidth="172.0" showTickLabels="true" showTickMarks="true" value="2024.0" />
                </VBox>
             </AnchorPane>
@@ -65,10 +74,13 @@
             </padding>
             <Label fx:id="searchButton" alignment="CENTER" minWidth="75.0" prefHeight="40.0" prefWidth="75.0" style="-fx-border-color: #ffffff; -fx-border-radius: 3;" text="Search" textAlignment="CENTER" textFill="WHITE">
                <font>
-                  <Font size="20.0" />
+                  <Font name="Arial Rounded MT Bold" size="18.0" />
                </font>
             </Label>
-            <TextField fx:id="searchField" alignment="CENTER" prefHeight="44.0" prefWidth="474.0" HBox.hgrow="ALWAYS" />
+            <TextField fx:id="searchField" alignment="CENTER" prefHeight="44.0" prefWidth="474.0" HBox.hgrow="ALWAYS">
+               <font>
+                  <Font name="Arial Rounded MT Bold" size="13.0" />
+               </font></TextField>
          </HBox>
          <ScrollPane fx:id="output" hbarPolicy="NEVER" prefHeight="350.0" prefWidth="600.0" style="-fx-font-size: 20; -fx-focus-traversable: false;-fx-background-color: -fx-box-border, -fx-control-inner-background;" vbarPolicy="ALWAYS" VBox.vgrow="ALWAYS">
          </ScrollPane>
