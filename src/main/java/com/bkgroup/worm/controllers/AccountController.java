@@ -236,7 +236,7 @@ public class AccountController {
         StringBuilder profilePath = new StringBuilder();
 
         //retrieve PfpIndex from user and append it to the end of the path
-        profilePath.append("/src/main/resources/WormImages/").append(worms[User.getPfpIndex()]);
+        profilePath.append("WormImages/").append(worms[User.getPfpIndex()]);
 
         //print statement to check if path is correct
         System.out.println(profilePath.toString());
