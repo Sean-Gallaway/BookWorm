@@ -53,7 +53,7 @@
                </Label>
             </ScrollPane>
             <HBox id="Buttons" prefHeight="39.0" prefWidth="222.0" spacing="5.0">
-               <Button id="AddToCart" mnemonicParsing="false" onAction="#handleAddToCart" text="Add to Cart">
+               <Button id="AddToCart" fx:id="btn_cart" mnemonicParsing="false" onAction="#handleCart" text="Add to Cart">
                   <font>
                      <Font name="Arial Rounded MT Bold" size="13.0" />
                   </font></Button>

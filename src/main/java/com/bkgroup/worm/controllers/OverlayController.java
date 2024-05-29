@@ -52,7 +52,9 @@ public class OverlayController {
     @FXML Button dislikeButton;
     @FXML Button closeButton;
     @FXML Button btn_wishlist;
+    @FXML Button btn_cart;
     boolean addToWishlist = true;
+    boolean addToCart = true;
 
     @FXML
     private ListView<GridPane> cartListView;
@@ -119,12 +121,22 @@ public class OverlayController {
 
         // Assign button correct text and action
         if (User.isLoggedIn() && User.ExistsInWishlist(selectedBook)) {
-            btn_wishlist.setText("Remove From Wishlist");
+            btn_wishlist.setText("Remove Wishlist");
             addToWishlist = false;
         }
         else {
-            btn_wishlist.setText("Add Book To Wishlist");
+            btn_wishlist.setText("Add To Wishlist");
             addToWishlist = true;
+        }
+
+        // Assign button correct text and action
+        if (User.isLoggedIn() && User.ExistsInCart(selectedBook)) {
+            btn_cart.setText("Remove From Cart");
+            addToCart = false;
+        }
+        else {
+            btn_cart.setText("Add To Cart");
+            addToCart = true;
         }
     }
 
@@ -202,16 +214,23 @@ public class OverlayController {
      * @param event This event runs when "Add to Cart" button is pressed.
      */
     @FXML
-    public void handleAddToCart(ActionEvent event) {
+    public void handleCart(ActionEvent event) {
         if (!User.isLoggedIn()) {
             User.LoginPrompt();
         }
-        else if (User.ExistsInCart(selectedBook)) {
+        else if (User.ExistsInCart(selectedBook) && addToCart) {
             Tools.ShowPopup(1,"Cannot add duplicate","This book is already in your cart");
         }
-        else if (selectedBook != null) {
+        else if (selectedBook != null && addToCart) {
             User.AddToCart(selectedBook);
             updateCartView(selectedBook); // Update the cart view immediately
+            btn_cart.setText("Remove From Cart");
+            addToCart = false;
+        }
+        else if (!addToCart) {
+            User.RemoveFromCart(selectedBook);
+            btn_cart.setText("Add To Cart");
+            addToCart = true;
         }
         else {
             Tools.ShowPopup(0, "Error", "No book selected to add to cart.");
@@ -238,7 +257,7 @@ public class OverlayController {
         }
         else if (!addToWishlist) {
             User.RemoveFromWishlist(selectedBook);
-            btn_wishlist.setText("Add Book To Wishlist");
+            btn_wishlist.setText("Add To Wishlist");
             addToWishlist = true;
         }
         else {

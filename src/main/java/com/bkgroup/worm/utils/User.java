@@ -96,7 +96,7 @@ public class User {
      */
     public static void RemoveFromCart(Book book) {
         if (ExistsInCart(book)) {
-            cart.remove(book); // Remove from local cart
+            cart.removeIf(b -> b.getID() == book.getID());
             Query.delete("cart",String.format("bookID=%d",book.getID()), String.format("userID=%d",userID));
         }
     }
@@ -177,7 +177,7 @@ public class User {
      */
     public static void RemoveFromWishlist(Book book) {
         if (ExistsInWishlist(book)) {
-            wishlist.remove(book); // Remove from local cart
+            wishlist.removeIf(b -> b.getID() == book.getID());
             Query.delete("wishlist",String.format("bookID=%d",book.getID()), String.format("userID=%d",userID));
         }
     }
