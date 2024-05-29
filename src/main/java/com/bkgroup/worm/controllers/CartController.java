@@ -99,7 +99,7 @@ public class CartController {
      * Handles checkout process.
      */
     private void checkout() {
-        Tools.ShowPopup(4, "Checkout", "Proceeding to checkout...");
+        Tools.ShowPopup(4, "Checkout", "Checked out! Thank you for using BookWorm!");
         clearCart(true);
     }
 
