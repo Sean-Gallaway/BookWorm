@@ -6,6 +6,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
@@ -28,9 +29,12 @@ public class App extends Application {
      */
     @Override
     public void start(Stage stage) {
+        // Initialize application variables
         Group g = new Group();
+        stage.getIcons().add(new Image("images/logo.png"));
         this.stage = stage;
         AnchorPane ap = new AnchorPane();
+
         //Load the home screen
         try {
             FXMLLoader fxmlLoader2 = new FXMLLoader(App.class.getResource("/com/bkgroup/worm/controllers/Overlay.fxml"));
