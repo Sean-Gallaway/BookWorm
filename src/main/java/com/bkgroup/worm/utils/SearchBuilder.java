@@ -147,6 +147,11 @@ public class SearchBuilder {
         return this;
     }
 
+    /**
+     * Set page count minimum to query.
+     * @param pgCount Minimum page count
+     * @return SearchBuilder
+     */
     public SearchBuilder pageCount (int pgCount) {
         this.pgCount = pgCount;
         return this;

@@ -63,6 +63,7 @@ public class User {
     private static void PopulateCart() {
         ResultSet books = Query.select("cart","bookID",String.format("userID=%s",userID));
 
+        // Adds all books in cart under user's account into local cart 
         try {
             while (books.next()) {
                 cart.add(new Book(books.getInt("bookID")));
@@ -144,6 +145,7 @@ public class User {
     private static void PopulateWishlist() {
         ResultSet books = Query.select("wishlist","bookID",String.format("userID=%s",userID));
 
+        // Adds all books in wishlist under user's profile to local wishlist
         try {
             while (books.next()) {
                 wishlist.add(new Book(books.getInt("bookID")));
@@ -229,6 +231,7 @@ public class User {
     private static void PopulatePreferences() {
         ResultSet books = Query.select("userpreferences","*",String.format("userID=%d",userID));
 
+        // Adds all books with preference under user's profile to local map
         try {
             while (books.next()) {
                 preferences.put(books.getInt("bookID"),books.getInt("preference"));
@@ -280,15 +283,17 @@ public class User {
      * @return Book arraylist
      */
     public static ArrayList<String[]> getPreferences(boolean liked) {
+        // Iterates through all books with preference
         ArrayList<String[]> list = new ArrayList<>();
         for (Map.Entry<Integer,Integer> book : preferences.entrySet()) {
+            // Returns liked books
             if (liked && book.getValue() == 1) {
                 list.add(Tools.getBookData(new Book(book.getKey())));
             }
+            // Returns disliked books
             else if (!liked && book.getValue() == 0) {
                 list.add(Tools.getBookData(new Book(book.getKey())));
             }
-
         }
         return list;
     }
